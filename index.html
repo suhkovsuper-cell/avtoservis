@@ -186,6 +186,11 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             border: 1px solid #edf2f7;
         }
+        .filter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
         .search-box input {
             width: 100%;
             padding: 14px 15px;
@@ -242,7 +247,26 @@
             margin-left: 5px;
             vertical-align: middle;
         }
-        /* Таблица - адаптация с горизонтальным скроллом */
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .date-filter select {
+            flex: 1 1 120px;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%234a5568%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
         .table-wrapper {
             overflow-x: auto;
             border-radius: 15px;
@@ -409,8 +433,12 @@
                 justify-content: flex-end;
             }
             .filter-bar {
+                flex-direction: column;
+            }
+            .filter-row {
                 flex-direction: row;
                 flex-wrap: wrap;
+                align-items: flex-end;
             }
             .search-box {
                 flex: 2 1 300px;
@@ -421,6 +449,9 @@
             .checkbox-item {
                 flex: 0 1 auto;
                 min-width: auto;
+            }
+            .date-filter {
+                flex-wrap: nowrap;
             }
             .table-wrapper {
                 margin: 0;
@@ -528,42 +559,71 @@
 
     <!-- Фильтрация -->
     <div class="filter-bar">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Поиск...">
-        </div>
-        
-        <!-- Фильтр по статусам -->
-        <div class="filter-section">
-            <label>Фильтр по статусам:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-item">
-                    <input type="checkbox" class="status-checkbox" value="waiting" checked> Ожидаем
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" class="status-checkbox" value="done" checked> Выполнено
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" class="status-checkbox" value="notcome" checked> Не приедет
-                </label>
+        <div class="filter-row">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск...">
+            </div>
+            
+            <!-- Фильтр по году и месяцу -->
+            <div class="filter-section">
+                <label>Фильтр по дате приезда:</label>
+                <div class="date-filter">
+                    <select id="yearFilter">
+                        <option value="all">Все года</option>
+                    </select>
+                    <select id="monthFilter">
+                        <option value="all">Все месяцы</option>
+                        <option value="1">Январь</option>
+                        <option value="2">Февраль</option>
+                        <option value="3">Март</option>
+                        <option value="4">Апрель</option>
+                        <option value="5">Май</option>
+                        <option value="6">Июнь</option>
+                        <option value="7">Июль</option>
+                        <option value="8">Август</option>
+                        <option value="9">Сентябрь</option>
+                        <option value="10">Октябрь</option>
+                        <option value="11">Ноябрь</option>
+                        <option value="12">Декабрь</option>
+                    </select>
+                </div>
             </div>
         </div>
+        
+        <div class="filter-row">
+            <!-- Фильтр по статусам -->
+            <div class="filter-section">
+                <label>Фильтр по статусам:</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" class="status-checkbox" value="waiting" checked> Ожидаем
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" class="status-checkbox" value="done" checked> Выполнено
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" class="status-checkbox" value="notcome" checked> Не приедет
+                    </label>
+                </div>
+            </div>
 
-        <!-- Фильтр по замене масла -->
-        <div class="filter-section">
-            <label>Фильтр по замене масла <span class="info-badge">330 дней</span>:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-item">
-                    <input type="checkbox" id="oilYes" checked> Да
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" id="oilNo" checked> Нет
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" id="oilSoon"> Скоро замена
-                </label>
+            <!-- Фильтр по замене масла -->
+            <div class="filter-section">
+                <label>Фильтр по замене масла <span class="info-badge">330 дней</span>:</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="oilYes" checked> Да
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="oilNo" checked> Нет
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="oilSoon"> Скоро замена
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -782,13 +842,60 @@
             }, 0);
         }
 
+        function updateYearFilter() {
+            const yearSelect = document.getElementById('yearFilter');
+            const years = new Set();
+            
+            records.forEach(record => {
+                if (record.visitDate) {
+                    const year = new Date(record.visitDate).getFullYear();
+                    years.add(year);
+                }
+            });
+            
+            const sortedYears = Array.from(years).sort((a, b) => b - a); // по убыванию (сначала новые)
+            
+            // Сохраняем текущее выбранное значение
+            const currentValue = yearSelect.value;
+            
+            yearSelect.innerHTML = '<option value="all">Все года</option>';
+            sortedYears.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+            
+            // Восстанавливаем выбранное значение, если оно есть
+            if (currentValue && currentValue !== 'all') {
+                if (sortedYears.includes(parseInt(currentValue))) {
+                    yearSelect.value = currentValue;
+                } else {
+                    yearSelect.value = 'all';
+                }
+            }
+        }
+
+        function getSelectedYear() {
+            const yearValue = document.getElementById('yearFilter').value;
+            return yearValue === 'all' ? null : parseInt(yearValue);
+        }
+
+        function getSelectedMonth() {
+            const monthValue = document.getElementById('monthFilter').value;
+            return monthValue === 'all' ? null : parseInt(monthValue);
+        }
+
         function renderTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             const selectedStatuses = getSelectedStatuses();
             const selectedOilValues = getSelectedOilValues();
             const oilSoonChecked = document.getElementById('oilSoon').checked;
+            const selectedYear = getSelectedYear();
+            const selectedMonth = getSelectedMonth();
 
             const filtered = records.filter(record => {
+                // Поиск по тексту
                 const matchesSearch = 
                     record.id.toLowerCase().includes(searchTerm) ||
                     record.name.toLowerCase().includes(searchTerm) ||
@@ -798,10 +905,12 @@
 
                 if (!matchesSearch) return false;
 
+                // Фильтр по статусам
                 if (selectedStatuses.length > 0 && !selectedStatuses.includes(record.status)) {
                     return false;
                 }
 
+                // Фильтр по замене масла
                 const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
                 
                 if (oilSoonChecked) {
@@ -810,6 +919,24 @@
                     if (selectedOilValues.length > 0 && !selectedOilValues.includes(record.oilChange || 'Нет')) {
                         return false;
                     }
+                }
+
+                // Фильтр по дате (год и месяц)
+                if (record.visitDate) {
+                    const visitDate = new Date(record.visitDate);
+                    const visitYear = visitDate.getFullYear();
+                    const visitMonth = visitDate.getMonth() + 1; // getMonth() возвращает 0-11
+                    
+                    if (selectedYear && visitYear !== selectedYear) {
+                        return false;
+                    }
+                    
+                    if (selectedMonth && visitMonth !== selectedMonth) {
+                        return false;
+                    }
+                } else {
+                    // Если даты нет, то показываем только если не выбраны фильтры по дате
+                    if (selectedYear || selectedMonth) return false;
                 }
 
                 return true;
@@ -940,6 +1067,7 @@
 
             records.push(newRecord);
             saveToStorage();
+            updateYearFilter(); // Обновляем список годов
             clearForm();
             renderTable();
         }
@@ -988,6 +1116,7 @@
             };
 
             saveToStorage();
+            updateYearFilter(); // Обновляем список годов
             clearForm();
             renderTable();
         }
@@ -996,6 +1125,7 @@
             if (confirm('Удалить запись?')) {
                 records = records.filter(r => r.id !== id);
                 saveToStorage();
+                updateYearFilter(); // Обновляем список годов
                 if (editingId === id) clearForm();
                 renderTable();
             }
@@ -1004,6 +1134,7 @@
         function init() {
             loadFromStorage();
             document.getElementById('clientId').value = generateNewId();
+            updateYearFilter(); // Заполняем список годов
             renderTable();
 
             document.getElementById('addBtn').addEventListener('click', addRecord);
@@ -1012,14 +1143,20 @@
             
             document.getElementById('searchInput').addEventListener('input', renderTable);
             
+            // Фильтры по статусам
             const statusCheckboxes = document.querySelectorAll('.status-checkbox');
             statusCheckboxes.forEach(cb => {
                 cb.addEventListener('change', renderTable);
             });
 
+            // Фильтры по замене масла
             document.getElementById('oilYes').addEventListener('change', renderTable);
             document.getElementById('oilNo').addEventListener('change', renderTable);
             document.getElementById('oilSoon').addEventListener('change', renderTable);
+            
+            // Фильтры по дате
+            document.getElementById('yearFilter').addEventListener('change', renderTable);
+            document.getElementById('monthFilter').addEventListener('change', renderTable);
 
             document.getElementById('tableBody').addEventListener('click', (e) => {
                 const target = e.target.closest('button');
