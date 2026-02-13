@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Учет - Автосервис</title>
     <style>
         * {
@@ -12,9 +12,10 @@
         body {
             background: #f4f7fc;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
         }
         .container {
             max-width: 1400px;
@@ -22,84 +23,87 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 25px;
+            padding: 15px;
         }
         h1 {
             color: #2c3e50;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 600;
-            font-size: 2rem;
+            font-size: 1.8rem;
+            text-align: center;
         }
+        /* Отчет - адаптация */
         .report-panel {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-around;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
         .report-item {
             text-align: center;
-            flex: 1 1 200px;
         }
         .report-item span {
             display: block;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             line-height: 1.2;
         }
         .report-item label {
-            font-size: 1rem;
+            font-size: 0.8rem;
             opacity: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
+            word-break: break-word;
         }
+        /* Форма - адаптация */
         .form-section {
             background: #f8fafd;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
+            padding: 15px;
+            margin-bottom: 20px;
             border: 1px solid #e2e8f0;
         }
         .form-section h3 {
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #2d3748;
             font-weight: 600;
+            font-size: 1.2rem;
         }
         .form-row {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: flex-end;
+            flex-direction: column;
+            gap: 12px;
         }
         .form-group {
-            flex: 1 1 180px;
-            min-width: 150px;
+            width: 100%;
         }
         .form-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #4a5568;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px;
             border: 1px solid #cbd5e0;
             border-radius: 10px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: 0.2s;
             background: white;
             font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
         }
         .form-group textarea {
             min-height: 80px;
@@ -120,69 +124,70 @@
             background: #667eea;
             color: white;
             border: none;
-            padding: 11px 25px;
+            padding: 14px 20px;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
             border: 1px solid transparent;
-            font-size: 0.95rem;
-            margin-right: 8px;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 8px;
+            -webkit-tap-highlight-color: transparent;
         }
         .btn:hover {
             background: #5a67d8;
-            transform: translateY(-1px);
+        }
+        .btn:active {
+            transform: scale(0.98);
         }
         .btn-secondary {
             background: #48bb78;
         }
-        .btn-secondary:hover {
+        .btn-secondary:active {
             background: #38a169;
         }
         .btn-danger {
             background: #f56565;
         }
-        .btn-danger:hover {
+        .btn-danger:active {
             background: #e53e3e;
         }
         .clear-btn {
             background: #cbd5e0;
             color: #2d3748;
         }
-        .clear-btn:hover {
+        .clear-btn:active {
             background: #a0aec0;
         }
         .form-actions {
             display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
         }
+        /* Фильтры - адаптация */
         .filter-bar {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 15px;
-            margin: 25px 0 20px;
-            align-items: flex-start;
+            margin: 20px 0;
             background: white;
             padding: 15px;
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             border: 1px solid #edf2f7;
         }
-        .search-box {
-            flex: 2 1 300px;
-        }
         .search-box input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 15px;
             border: 1px solid #e2e8f0;
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            -webkit-appearance: none;
         }
         .filter-section {
-            flex: 1 1 300px;
-            min-width: 250px;
+            width: 100%;
         }
         .filter-section label {
             display: block;
@@ -195,10 +200,10 @@
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             background: #f8fafd;
-            padding: 12px 15px;
-            border-radius: 30px;
+            padding: 12px;
+            border-radius: 15px;
             border: 1px solid #e2e8f0;
         }
         .checkbox-item {
@@ -208,10 +213,13 @@
             cursor: pointer;
             font-size: 0.9rem;
             color: #2d3748;
+            flex: 1 1 calc(50% - 12px);
+            min-width: 120px;
+            -webkit-tap-highlight-color: transparent;
         }
         .checkbox-item input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: #667eea;
         }
@@ -224,53 +232,62 @@
             background: #667eea;
             color: white;
             margin-left: 5px;
+            vertical-align: middle;
         }
+        /* Таблица - адаптация с горизонтальным скроллом */
         .table-wrapper {
             overflow-x: auto;
             border-radius: 15px;
             border: 1px solid #e2e8f0;
             background: white;
+            margin: 0 -5px;
+            -webkit-overflow-scrolling: touch;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1400px;
+            min-width: 1200px;
         }
         th {
             background: #f7fafc;
             color: #2d3748;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            padding: 16px 12px;
+            padding: 12px 8px;
             text-align: left;
             border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
         }
         td {
-            padding: 14px 12px;
+            padding: 10px 8px;
             border-bottom: 1px solid #edf2f7;
             color: #2d3748;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             vertical-align: top;
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:hover td {
-            background-color: #fafbff;
+            white-space: nowrap;
         }
         .comment-cell {
-            max-width: 200px;
+            max-width: 150px;
             white-space: normal;
             word-wrap: break-word;
+            min-width: 120px;
         }
         .status-badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 4px 8px;
             border-radius: 30px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-align: center;
+            white-space: nowrap;
+        }
+        .oil-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
             white-space: nowrap;
         }
         .status-done {
@@ -289,13 +306,6 @@
             background: #fefcbf;
             color: #744210;
         }
-        .oil-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
         .oil-yes {
             background: #c6f6d5;
             color: #22543d;
@@ -307,12 +317,6 @@
         .oil-soon {
             background: #fefcbf;
             color: #744210;
-            position: relative;
-        }
-        .oil-soon::after {
-            content: "⚠️";
-            margin-left: 4px;
-            font-size: 0.7rem;
         }
         .actions {
             display: flex;
@@ -322,28 +326,97 @@
             border: none;
             background: none;
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 4px;
+            font-size: 1.2rem;
+            padding: 6px;
             border-radius: 6px;
             transition: 0.1s;
+            -webkit-tap-highlight-color: transparent;
         }
         .edit-btn {
             color: #4299e1;
         }
-        .edit-btn:hover {
+        .edit-btn:active {
             background: #ebf8ff;
         }
         .delete-btn {
             color: #f56565;
         }
-        .delete-btn:hover {
+        .delete-btn:active {
             background: #fff5f5;
         }
         .footer-note {
-            margin-top: 20px;
-            font-size: 0.85rem;
+            margin-top: 15px;
+            font-size: 0.75rem;
             color: #718096;
-            text-align: right;
+            text-align: center;
+        }
+        
+        /* Медиа-запросы для разных размеров экрана */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2rem;
+                text-align: left;
+            }
+            .report-panel {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 20px;
+            }
+            .report-item span {
+                font-size: 2.2rem;
+            }
+            .form-row {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .form-group {
+                flex: 1 1 180px;
+                min-width: 150px;
+            }
+            .btn {
+                width: auto;
+                margin-bottom: 0;
+            }
+            .form-actions {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+            .filter-bar {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .search-box {
+                flex: 2 1 300px;
+            }
+            .filter-section {
+                flex: 1 1 300px;
+            }
+            .checkbox-item {
+                flex: 0 1 auto;
+                min-width: auto;
+            }
+            .table-wrapper {
+                margin: 0;
+            }
+            .footer-note {
+                text-align: right;
+            }
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-width: 380px) {
+            .checkbox-item {
+                flex: 1 1 100%;
+            }
+            .report-panel {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -419,12 +492,12 @@
                     <option value="notcome">Не приедет</option>
                 </select>
             </div>
-            <div class="form-group" style="flex: 2 1 300px;">
+            <div class="form-group">
                 <label>Комментарий</label>
                 <textarea id="comment" placeholder="Дополнительная информация..."></textarea>
             </div>
         </div>
-        <!-- Кнопки действий перенесены вправо -->
+        <!-- Кнопки действий -->
         <div class="form-actions">
             <button class="btn" id="addBtn">➕ Добавить</button>
             <button class="btn-secondary" id="updateBtn" style="display: none;">✅ Обновить</button>
@@ -435,7 +508,7 @@
     <!-- Фильтрация -->
     <div class="filter-bar">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Поиск по ID, имени, телефону, марке авто, комментарию...">
+            <input type="text" id="searchInput" placeholder="🔍 Поиск...">
         </div>
         
         <!-- Фильтр по статусам -->
@@ -468,7 +541,7 @@
                     <input type="checkbox" id="oilNo" checked> Нет
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" id="oilSoon"> Скоро замена масла
+                    <input type="checkbox" id="oilSoon"> Скоро замена
                 </label>
             </div>
         </div>
@@ -483,10 +556,10 @@
                     <th>Клиент</th>
                     <th>Телефон</th>
                     <th>Марка авто</th>
-                    <th>Дата приезда</th>
+                    <th>Дата</th>
                     <th>Время</th>
-                    <th>Замена масла</th>
-                    <th>Тип оплаты</th>
+                    <th>Масло</th>
+                    <th>Оплата</th>
                     <th>Статус</th>
                     <th>Комментарий</th>
                     <th>Действия</th>
@@ -498,14 +571,14 @@
         </table>
     </div>
     <div class="footer-note">
-        * ID генерируется автоматически в формате K-. "Скоро замена масла" - 330 дней от даты приезда.
+        * ID в формате K-. "Скоро замена" - 330 дней от даты приезда
     </div>
 </div>
 
 <script>
     (function() {
         const STORAGE_KEY = 'autoserviceData';
-        const OIL_CHANGE_DAYS = 330; // 11 месяцев (примерно)
+        const OIL_CHANGE_DAYS = 330;
         let editingId = null;
         let records = [];
 
@@ -537,7 +610,7 @@
                         name: 'Иван Петров', 
                         phone: '+7 999 111-22-33', 
                         carModel: 'Toyota Camry',
-                        visitDate: formatDate(threeMonthsAgo), // 3 месяца назад (скоро замена)
+                        visitDate: formatDate(threeMonthsAgo),
                         visitTime: '10:30',
                         oilChange: 'Да',
                         paymentType: 'Карта',
@@ -561,7 +634,7 @@
                         name: 'Петр Сидоров', 
                         phone: '+7 999 333-44-55', 
                         carModel: 'BMW X5',
-                        visitDate: formatDate(elevenMonthsAgo), // 11 месяцев назад (скоро замена)
+                        visitDate: formatDate(elevenMonthsAgo),
                         visitTime: '09:15',
                         oilChange: 'Да',
                         paymentType: 'Карта',
@@ -584,12 +657,10 @@
             }
         }
 
-        // Сохранение
         function saveToStorage() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
         }
 
-        // Сегодня
         function getTodayString() {
             const d = new Date();
             const year = d.getFullYear();
@@ -598,22 +669,18 @@
             return `${year}-${month}-${day}`;
         }
 
-        // Проверка, нужно ли скоро менять масло (330 дней от даты приезда)
         function isOilChangeSoon(visitDate, oilChange) {
             if (oilChange !== 'Да' || !visitDate) return false;
             
             const visit = new Date(visitDate);
             const today = new Date();
             
-            // Разница в днях
             const diffTime = today - visit;
             const diffDays = diffTime / (1000 * 60 * 60 * 24);
             
-            // Если прошло больше 330 дней, то скоро нужно менять масло
             return diffDays >= OIL_CHANGE_DAYS;
         }
 
-        // Генерация нового ID
         function generateNewId() {
             if (records.length === 0) return 'K-1001';
             
@@ -626,7 +693,6 @@
             return `K-${maxNum + 1}`;
         }
 
-        // Отчет по статусам
         function updateReport() {
             const total = records.length;
             let waiting = 0, late = 0, done = 0, notcome = 0;
@@ -644,7 +710,6 @@
             document.getElementById('doneCount').innerText = done;
         }
 
-        // Экранирование
         function escapeHtml(unsafe) {
             if (!unsafe) return '';
             return String(unsafe)
@@ -655,7 +720,6 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // Получение текста статуса и класса
         function getStatusInfo(status) {
             switch(status) {
                 case 'done': return { text: 'Выполнено', class: 'status-done' };
@@ -666,7 +730,6 @@
             }
         }
 
-        // Получение выбранных статусов из чекбоксов
         function getSelectedStatuses() {
             const checkboxes = document.querySelectorAll('.status-checkbox');
             const selected = [];
@@ -678,7 +741,6 @@
             return selected;
         }
 
-        // Получение выбранных значений замены масла
         function getSelectedOilValues() {
             const selected = [];
             if (document.getElementById('oilYes').checked) selected.push('Да');
@@ -686,7 +748,6 @@
             return selected;
         }
 
-        // Отрисовка
         function renderTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             const selectedStatuses = getSelectedStatuses();
@@ -694,7 +755,6 @@
             const oilSoonChecked = document.getElementById('oilSoon').checked;
 
             const filtered = records.filter(record => {
-                // Поиск по тексту
                 const matchesSearch = 
                     record.id.toLowerCase().includes(searchTerm) ||
                     record.name.toLowerCase().includes(searchTerm) ||
@@ -704,20 +764,15 @@
 
                 if (!matchesSearch) return false;
 
-                // Фильтр по статусам (если ничего не выбрано - показываем все)
                 if (selectedStatuses.length > 0 && !selectedStatuses.includes(record.status)) {
                     return false;
                 }
 
-                // Фильтр по замене масла
                 const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
                 
-                // Если выбран фильтр "скоро замена масла"
                 if (oilSoonChecked) {
-                    // Показываем только те записи, где скоро менять масло
                     if (!oilSoon) return false;
                 } else {
-                    // Иначе фильтруем по обычным чекбоксам Да/Нет
                     if (selectedOilValues.length > 0 && !selectedOilValues.includes(record.oilChange || 'Нет')) {
                         return false;
                     }
@@ -741,7 +796,7 @@
                     
                     if (oilSoon) {
                         oilClass = 'oil-soon';
-                        oilText = 'Скоро замена';
+                        oilText = 'Скоро';
                     }
 
                     const row = document.createElement('tr');
@@ -757,8 +812,8 @@
                         <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
                         <td class="comment-cell">${escapeHtml(record.comment || '')}</td>
                         <td class="actions">
-                            <button class="edit-btn" data-id="${escapeHtml(record.id)}" title="Редактировать">✏️</button>
-                            <button class="delete-btn" data-id="${escapeHtml(record.id)}" title="Удалить">🗑️</button>
+                            <button class="edit-btn" data-id="${escapeHtml(record.id)}" title="Ред.">✏️</button>
+                            <button class="delete-btn" data-id="${escapeHtml(record.id)}" title="Уд.">🗑️</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -767,7 +822,6 @@
             updateReport();
         }
 
-        // Очистка формы
         function clearForm() {
             document.getElementById('clientId').value = generateNewId();
             document.getElementById('userName').value = '';
@@ -785,7 +839,6 @@
             document.getElementById('cancelEdit').style.display = 'none';
         }
 
-        // Заполнение для редактирования
         function fillFormForEdit(record) {
             document.getElementById('clientId').value = record.id;
             document.getElementById('userName').value = record.name || '';
@@ -803,7 +856,6 @@
             document.getElementById('cancelEdit').style.display = 'inline-block';
         }
 
-        // Добавление
         function addRecord() {
             const clientId = document.getElementById('clientId').value.trim();
             const name = document.getElementById('userName').value.trim();
@@ -846,7 +898,6 @@
             renderTable();
         }
 
-        // Обновление
         function updateRecord() {
             const clientId = document.getElementById('clientId').value.trim();
             const name = document.getElementById('userName').value.trim();
@@ -895,7 +946,6 @@
             renderTable();
         }
 
-        // Удаление
         function deleteRecord(id) {
             if (confirm('Удалить запись?')) {
                 records = records.filter(r => r.id !== id);
@@ -905,32 +955,26 @@
             }
         }
 
-        // Инициализация
         function init() {
             loadFromStorage();
             document.getElementById('clientId').value = generateNewId();
             renderTable();
 
-            // Кнопки
             document.getElementById('addBtn').addEventListener('click', addRecord);
             document.getElementById('updateBtn').addEventListener('click', updateRecord);
             document.getElementById('cancelEdit').addEventListener('click', clearForm);
             
-            // Поиск
             document.getElementById('searchInput').addEventListener('input', renderTable);
             
-            // Чекбоксы статусов
             const statusCheckboxes = document.querySelectorAll('.status-checkbox');
             statusCheckboxes.forEach(cb => {
                 cb.addEventListener('change', renderTable);
             });
 
-            // Чекбоксы замены масла
             document.getElementById('oilYes').addEventListener('change', renderTable);
             document.getElementById('oilNo').addEventListener('change', renderTable);
             document.getElementById('oilSoon').addEventListener('change', renderTable);
 
-            // Обработка кликов по таблице
             document.getElementById('tableBody').addEventListener('click', (e) => {
                 const target = e.target.closest('button');
                 if (!target) return;
