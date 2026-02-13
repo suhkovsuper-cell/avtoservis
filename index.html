@@ -105,6 +105,14 @@
             -webkit-appearance: none;
             appearance: none;
         }
+        .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
         .form-group textarea {
             min-height: 80px;
             resize: vertical;
@@ -246,7 +254,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            min-width: 1300px;
         }
         th {
             background: #f7fafc;
@@ -266,6 +274,15 @@
             font-size: 0.85rem;
             vertical-align: top;
             white-space: nowrap;
+        }
+        .total-row {
+            background: #f0f4f8;
+            font-weight: 700;
+            border-top: 2px solid #667eea;
+        }
+        .total-row td {
+            padding: 12px 8px;
+            background: #f0f4f8;
         }
         .comment-cell {
             max-width: 150px;
@@ -289,6 +306,10 @@
             font-size: 0.7rem;
             font-weight: 600;
             white-space: nowrap;
+        }
+        .payment-cell {
+            text-align: right;
+            font-weight: 500;
         }
         .status-done {
             background: #c6f6d5;
@@ -480,8 +501,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Тип оплаты</label>
-                <input type="text" id="paymentType" placeholder="Наличные/Карта" autocomplete="off">
+                <label>Оплата (₽)</label>
+                <input type="number" id="payment" placeholder="5000" min="0" step="1" value="0">
             </div>
             <div class="form-group">
                 <label>Статус</label>
@@ -559,7 +580,7 @@
                     <th>Дата</th>
                     <th>Время</th>
                     <th>Масло</th>
-                    <th>Оплата</th>
+                    <th>Оплата (₽)</th>
                     <th>Статус</th>
                     <th>Комментарий</th>
                     <th>Действия</th>
@@ -613,7 +634,7 @@
                         visitDate: formatDate(threeMonthsAgo),
                         visitTime: '10:30',
                         oilChange: 'Да',
-                        paymentType: 'Карта',
+                        payment: 5000,
                         status: 'waiting',
                         comment: 'Просил проверить кондиционер'
                     },
@@ -625,7 +646,7 @@
                         visitDate: '2026-02-13',
                         visitTime: '14:00',
                         oilChange: 'Нет',
-                        paymentType: 'Наличные',
+                        payment: 3500,
                         status: 'done',
                         comment: 'Замена тормозных колодок'
                     },
@@ -637,7 +658,7 @@
                         visitDate: formatDate(elevenMonthsAgo),
                         visitTime: '09:15',
                         oilChange: 'Да',
-                        paymentType: 'Карта',
+                        payment: 12000,
                         status: 'late',
                         comment: 'Срочно, звонил уже 2 раза'
                     },
@@ -649,7 +670,7 @@
                         visitDate: '2026-02-14',
                         visitTime: '16:45',
                         oilChange: 'Да',
-                        paymentType: 'Карта',
+                        payment: 4500,
                         status: 'notcome',
                         comment: 'Перенесла на следующую неделю'
                     }
@@ -748,6 +769,19 @@
             return selected;
         }
 
+        function formatPayment(amount) {
+            if (amount === undefined || amount === null || amount === '') return '0';
+            const num = Number(amount);
+            return num.toLocaleString('ru-RU');
+        }
+
+        function calculateTotal(filteredRecords) {
+            return filteredRecords.reduce((sum, record) => {
+                const payment = Number(record.payment) || 0;
+                return sum + payment;
+            }, 0);
+        }
+
         function renderTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             const selectedStatuses = getSelectedStatuses();
@@ -781,6 +815,8 @@
                 return true;
             });
 
+            const totalSum = calculateTotal(filtered);
+
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
 
@@ -808,7 +844,7 @@
                         <td>${escapeHtml(record.visitDate || '')}</td>
                         <td>${escapeHtml(record.visitTime || '')}</td>
                         <td><span class="oil-badge ${oilClass}">${escapeHtml(oilText)}</span></td>
-                        <td>${escapeHtml(record.paymentType || '')}</td>
+                        <td class="payment-cell">${formatPayment(record.payment)} ₽</td>
                         <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
                         <td class="comment-cell">${escapeHtml(record.comment || '')}</td>
                         <td class="actions">
@@ -818,6 +854,16 @@
                     `;
                     tbody.appendChild(row);
                 });
+                
+                // Строка с итогом
+                const totalRow = document.createElement('tr');
+                totalRow.className = 'total-row';
+                totalRow.innerHTML = `
+                    <td colspan="7" style="text-align: right; font-weight: 700;">ИТОГО:</td>
+                    <td class="payment-cell" style="font-weight: 700;">${formatPayment(totalSum)} ₽</td>
+                    <td colspan="3"></td>
+                `;
+                tbody.appendChild(totalRow);
             }
             updateReport();
         }
@@ -830,7 +876,7 @@
             document.getElementById('visitDate').value = '';
             document.getElementById('visitTime').value = '';
             document.getElementById('oilChange').value = 'Нет';
-            document.getElementById('paymentType').value = '';
+            document.getElementById('payment').value = '0';
             document.getElementById('statusSelect').value = 'waiting';
             document.getElementById('comment').value = '';
             editingId = null;
@@ -847,7 +893,7 @@
             document.getElementById('visitDate').value = record.visitDate || '';
             document.getElementById('visitTime').value = record.visitTime || '';
             document.getElementById('oilChange').value = record.oilChange || 'Нет';
-            document.getElementById('paymentType').value = record.paymentType || '';
+            document.getElementById('payment').value = record.payment || 0;
             document.getElementById('statusSelect').value = record.status || 'waiting';
             document.getElementById('comment').value = record.comment || '';
             editingId = record.id;
@@ -864,7 +910,7 @@
             const visitDate = document.getElementById('visitDate').value;
             const visitTime = document.getElementById('visitTime').value;
             const oilChange = document.getElementById('oilChange').value;
-            const paymentType = document.getElementById('paymentType').value.trim();
+            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
             const status = document.getElementById('statusSelect').value;
             const comment = document.getElementById('comment').value.trim();
 
@@ -887,7 +933,7 @@
                 visitDate,
                 visitTime,
                 oilChange,
-                paymentType,
+                payment,
                 status,
                 comment
             };
@@ -906,7 +952,7 @@
             const visitDate = document.getElementById('visitDate').value;
             const visitTime = document.getElementById('visitTime').value;
             const oilChange = document.getElementById('oilChange').value;
-            const paymentType = document.getElementById('paymentType').value.trim();
+            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
             const status = document.getElementById('statusSelect').value;
             const comment = document.getElementById('comment').value.trim();
 
@@ -936,7 +982,7 @@
                 visitDate,
                 visitTime,
                 oilChange,
-                paymentType,
+                payment,
                 status,
                 comment
             };
