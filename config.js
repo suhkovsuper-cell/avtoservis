@@ -14,7 +14,7 @@ const TELEGRAM_CONFIG = {
 const AUTH_CONFIG = {
     USERS: [
         { username: 'admin', password: 'admin', role: 'admin' },
-        { username: 'евгений', password: '1233', role: 'user' },
+        { username: 'serg', password: '1233', role: 'user' },
         { username: 'мастер', password: '1234', role: 'user' },
         { username: 'менеджер', password: '1235', role: 'user' },
         { username: 'директор', password: '1236', role: 'user' },
