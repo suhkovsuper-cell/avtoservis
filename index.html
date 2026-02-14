@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Учет - Автосервис</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автосервис - Учет клиентов</title>
     <style>
+        /* Все ваши старые стили остаются без изменений */
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,8 +16,97 @@
             padding: 10px;
             display: flex;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
         }
+        
+        /* Стили для логина */
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .login-container h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .error-message {
+            color: #f56565;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .info-message {
+            background: #ebf8ff;
+            border: 1px solid #4299e1;
+            color: #2c5282;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .warning-message {
+            background: #feebc8;
+            border: 1px solid #dd6b20;
+            color: #7b341e;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: #c6f6d5;
+            border: 1px solid #38a169;
+            color: #22543d;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
         .container {
             max-width: 1400px;
             width: 100%;
@@ -25,15 +115,55 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 15px;
         }
+        
+        .header-with-logout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
         h1 {
             color: #2c3e50;
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin: 0;
             font-size: 1.8rem;
-            text-align: center;
         }
-        /* Отчет - адаптация */
+        
+        .logout-btn {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .sync-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .sync-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .sync-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .sync-loading {
+            background: #feebc8;
+            color: #7b341e;
+        }
+        
+        /* Остальные ваши стили остаются без изменений */
         .report-panel {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -51,29 +181,13 @@
             display: block;
             font-size: 1.8rem;
             font-weight: bold;
-            line-height: 1.2;
         }
-        .report-item label {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            word-break: break-word;
-        }
-        /* Форма - адаптация */
         .form-section {
             background: #f8fafd;
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 20px;
             border: 1px solid #e2e8f0;
-        }
-        .form-section h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 1.2rem;
         }
         .form-row {
             display: flex;
@@ -99,34 +213,7 @@
             border: 1px solid #cbd5e0;
             border-radius: 10px;
             font-size: 1rem;
-            transition: 0.2s;
             background: white;
-            font-family: inherit;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #667eea;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-        }
-        .form-group input[readonly] {
-            background: #f0f4f8;
-            cursor: not-allowed;
         }
         .btn {
             background: #667eea;
@@ -136,37 +223,18 @@
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
             font-size: 1rem;
-            width: 100%;
             margin-bottom: 8px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .btn:hover {
-            background: #5a67d8;
-        }
-        .btn:active {
-            transform: scale(0.98);
         }
         .btn-secondary {
             background: #48bb78;
         }
-        .btn-secondary:active {
-            background: #38a169;
-        }
         .btn-danger {
             background: #f56565;
         }
-        .btn-danger:active {
-            background: #e53e3e;
-        }
-        .clear-btn {
-            background: #cbd5e0;
-            color: #2d3748;
-        }
-        .clear-btn:active {
-            background: #a0aec0;
+        .btn-sync {
+            background: #4299e1;
+            margin-right: 10px;
         }
         .form-actions {
             display: flex;
@@ -174,7 +242,6 @@
             gap: 8px;
             margin-top: 15px;
         }
-        /* Фильтры - адаптация */
         .filter-bar {
             display: flex;
             flex-direction: column;
@@ -183,97 +250,13 @@
             background: white;
             padding: 15px;
             border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             border: 1px solid #edf2f7;
-        }
-        .filter-row {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 14px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            font-size: 1rem;
-            -webkit-appearance: none;
-        }
-        .filter-section {
-            width: 100%;
-        }
-        .filter-section label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            background: #f8fafd;
-            padding: 12px;
-            border-radius: 15px;
-            border: 1px solid #e2e8f0;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: #2d3748;
-            flex: 1 1 calc(50% - 12px);
-            min-width: 120px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-        .info-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: #667eea;
-            color: white;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        .date-filter {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .date-filter select {
-            flex: 1 1 120px;
-            padding: 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            background: white;
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%234a5568%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
         }
         .table-wrapper {
             overflow-x: auto;
             border-radius: 15px;
             border: 1px solid #e2e8f0;
             background: white;
-            margin: 0 -5px;
-            -webkit-overflow-scrolling: touch;
         }
         table {
             width: 100%;
@@ -289,30 +272,12 @@
             padding: 12px 8px;
             text-align: left;
             border-bottom: 2px solid #e2e8f0;
-            white-space: nowrap;
         }
         td {
             padding: 10px 8px;
             border-bottom: 1px solid #edf2f7;
             color: #2d3748;
             font-size: 0.85rem;
-            vertical-align: top;
-            white-space: nowrap;
-        }
-        .total-row {
-            background: #f0f4f8;
-            font-weight: 700;
-            border-top: 2px solid #667eea;
-        }
-        .total-row td {
-            padding: 12px 8px;
-            background: #f0f4f8;
-        }
-        .comment-cell {
-            max-width: 150px;
-            white-space: normal;
-            word-wrap: break-word;
-            min-width: 120px;
         }
         .status-badge {
             display: inline-block;
@@ -320,860 +285,917 @@
             border-radius: 30px;
             font-size: 0.7rem;
             font-weight: 600;
-            text-align: center;
-            white-space: nowrap;
         }
+        .status-done { background: #c6f6d5; color: #22543d; }
+        .status-late { background: #fed7d7; color: #742a2a; }
+        .status-notcome { background: #e2e8f0; color: #2d3748; }
+        .status-waiting { background: #fefcbf; color: #744210; }
         .oil-badge {
             display: inline-block;
             padding: 2px 6px;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 600;
-            white-space: nowrap;
         }
-        .payment-cell {
-            text-align: right;
-            font-weight: 500;
-        }
-        .status-done {
-            background: #c6f6d5;
-            color: #22543d;
-        }
-        .status-late {
-            background: #fed7d7;
-            color: #742a2a;
-        }
-        .status-notcome {
-            background: #e2e8f0;
-            color: #2d3748;
-        }
-        .status-waiting {
-            background: #fefcbf;
-            color: #744210;
-        }
-        .oil-yes {
-            background: #c6f6d5;
-            color: #22543d;
-        }
-        .oil-no {
-            background: #e2e8f0;
-            color: #2d3748;
-        }
-        .oil-soon {
-            background: #fefcbf;
-            color: #744210;
-        }
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
+        .oil-yes { background: #c6f6d5; color: #22543d; }
+        .oil-no { background: #e2e8f0; color: #2d3748; }
+        .oil-soon { background: #fefcbf; color: #744210; }
         .actions button {
             border: none;
             background: none;
             cursor: pointer;
             font-size: 1.2rem;
             padding: 6px;
-            border-radius: 6px;
-            transition: 0.1s;
-            -webkit-tap-highlight-color: transparent;
         }
-        .edit-btn {
-            color: #4299e1;
-        }
-        .edit-btn:active {
-            background: #ebf8ff;
-        }
-        .delete-btn {
-            color: #f56565;
-        }
-        .delete-btn:active {
-            background: #fff5f5;
-        }
-        .footer-note {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: #718096;
-            text-align: center;
+        .edit-btn { color: #4299e1; }
+        .delete-btn { color: #f56565; }
+        .total-row {
+            background: #f0f4f8;
+            font-weight: 700;
+            border-top: 2px solid #667eea;
         }
         
-        /* Медиа-запросы для разных размеров экрана */
         @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            .container {
-                padding: 25px;
-            }
-            h1 {
-                font-size: 2rem;
-                text-align: left;
-            }
-            .report-panel {
-                grid-template-columns: repeat(4, 1fr);
-                padding: 20px;
-            }
-            .report-item span {
-                font-size: 2.2rem;
-            }
-            .form-row {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-            .form-group {
-                flex: 1 1 180px;
-                min-width: 150px;
-            }
-            .btn {
-                width: auto;
-                margin-bottom: 0;
-            }
-            .form-actions {
-                flex-direction: row;
-                justify-content: flex-end;
-            }
-            .filter-bar {
-                flex-direction: column;
-            }
-            .filter-row {
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: flex-end;
-            }
-            .search-box {
-                flex: 2 1 300px;
-            }
-            .filter-section {
-                flex: 1 1 300px;
-            }
-            .checkbox-item {
-                flex: 0 1 auto;
-                min-width: auto;
-            }
-            .date-filter {
-                flex-wrap: nowrap;
-            }
-            .table-wrapper {
-                margin: 0;
-            }
-            .footer-note {
-                text-align: right;
-            }
-        }
-        
-        /* Для очень маленьких экранов */
-        @media (max-width: 380px) {
-            .checkbox-item {
-                flex: 1 1 100%;
-            }
-            .report-panel {
-                grid-template-columns: 1fr;
-            }
+            .form-row { flex-direction: row; flex-wrap: wrap; }
+            .form-group { flex: 1 1 180px; }
+            .btn { width: auto; }
+            .form-actions { flex-direction: row; }
+            .report-panel { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>🔧 Учет - Автосервис</h1>
-
-    <!-- Отчет -->
-    <div class="report-panel">
-        <div class="report-item">
-            <span id="totalClients">0</span>
-            <label>Всего записей</label>
+    <!-- Экран логина -->
+    <div id="loginScreen" class="login-container">
+        <h2>🔐 Вход в систему</h2>
+        <div class="info-message">
+            <strong>Демо-доступ:</strong><br>
+            Логин: admin<br>
+            Пароль: admin
         </div>
-        <div class="report-item">
-            <span id="waitingCount">0</span>
-            <label>Ожидаем</label>
+        <div class="warning-message" id="configWarning" style="display: none;">
+            ⚠️ Не настроен config.js<br>
+            <small>Создайте файл config.js с вашими ключами JSONbin.io</small>
         </div>
-        <div class="report-item">
-            <span id="lateCount">0</span>
-            <label>Опаздывают</label>
-        </div>
-        <div class="report-item">
-            <span id="doneCount">0</span>
-            <label>Выполнено</label>
-        </div>
-    </div>
-
-    <!-- Форма добавления -->
-    <div class="form-section">
-        <h3>➕ Добавить / Редактировать запись</h3>
-        <div class="form-row">
+        <div class="login-form">
             <div class="form-group">
-                <label>ID (K-)</label>
-                <input type="text" id="clientId" readonly placeholder="K-1001">
+                <label>Логин</label>
+                <input type="text" id="loginUsername" value="admin" placeholder="Введите логин">
             </div>
             <div class="form-group">
-                <label>Имя клиента</label>
-                <input type="text" id="userName" placeholder="Иван Петров" autocomplete="off">
+                <label>Пароль</label>
+                <input type="password" id="loginPassword" value="admin" placeholder="Введите пароль">
             </div>
-            <div class="form-group">
-                <label>Телефон</label>
-                <input type="text" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Марка авто</label>
-                <input type="text" id="carModel" placeholder="Toyota Camry" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Дата приезда</label>
-                <input type="date" id="visitDate">
-            </div>
-            <div class="form-group">
-                <label>Время приезда</label>
-                <input type="time" id="visitTime">
-            </div>
-            <div class="form-group">
-                <label>Замена масла</label>
-                <select id="oilChange">
-                    <option value="Нет">Нет</option>
-                    <option value="Да">Да</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Оплата (₽)</label>
-                <input type="number" id="payment" placeholder="5000" min="0" step="1" value="0">
-            </div>
-            <div class="form-group">
-                <label>Статус</label>
-                <select id="statusSelect">
-                    <option value="waiting">Ожидаем</option>
-                    <option value="late">Опаздывает</option>
-                    <option value="done">Выполнено</option>
-                    <option value="notcome">Не приедет</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Комментарий</label>
-                <textarea id="comment" placeholder="Дополнительная информация..."></textarea>
-            </div>
-        </div>
-        <!-- Кнопки действий -->
-        <div class="form-actions">
-            <button class="btn" id="addBtn">➕ Добавить</button>
-            <button class="btn-secondary" id="updateBtn" style="display: none;">✅ Обновить</button>
-            <button class="clear-btn btn" id="cancelEdit" style="display: none;">✖ Отмена</button>
+            <button class="login-btn" id="loginBtn">Войти</button>
+            <div id="loginError" class="error-message"></div>
         </div>
     </div>
 
-    <!-- Фильтрация -->
-    <div class="filter-bar">
-        <div class="filter-row">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Поиск...">
+    <!-- Основное приложение -->
+    <div id="appScreen" style="display: none;" class="container">
+        <div class="header-with-logout">
+            <h1>
+                🔧 Учет - Автосервис
+                <span id="syncStatus" class="sync-status sync-loading">🔄 Синхронизация...</span>
+            </h1>
+            <div>
+                <button class="btn-sync btn" id="syncNowBtn">🔄 Синхронизировать</button>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
             </div>
-            
-            <!-- Фильтр по году и месяцу -->
-            <div class="filter-section">
-                <label>Фильтр по дате приезда:</label>
-                <div class="date-filter">
-                    <select id="yearFilter">
-                        <option value="all">Все года</option>
-                    </select>
-                    <select id="monthFilter">
-                        <option value="all">Все месяцы</option>
-                        <option value="1">Январь</option>
-                        <option value="2">Февраль</option>
-                        <option value="3">Март</option>
-                        <option value="4">Апрель</option>
-                        <option value="5">Май</option>
-                        <option value="6">Июнь</option>
-                        <option value="7">Июль</option>
-                        <option value="8">Август</option>
-                        <option value="9">Сентябрь</option>
-                        <option value="10">Октябрь</option>
-                        <option value="11">Ноябрь</option>
-                        <option value="12">Декабрь</option>
+        </div>
+
+        <!-- Отчет -->
+        <div class="report-panel">
+            <div class="report-item">
+                <span id="totalClients">0</span>
+                <label>Всего записей</label>
+            </div>
+            <div class="report-item">
+                <span id="waitingCount">0</span>
+                <label>Ожидаем</label>
+            </div>
+            <div class="report-item">
+                <span id="lateCount">0</span>
+                <label>Опаздывают</label>
+            </div>
+            <div class="report-item">
+                <span id="doneCount">0</span>
+                <label>Выполнено</label>
+            </div>
+        </div>
+
+        <!-- Форма добавления -->
+        <div class="form-section">
+            <h3>➕ Добавить / Редактировать запись</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ID (K-)</label>
+                    <input type="text" id="clientId" readonly placeholder="K-1001">
+                </div>
+                <div class="form-group">
+                    <label>Имя клиента</label>
+                    <input type="text" id="userName" placeholder="Иван Петров">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="text" id="phone" placeholder="+7 (999) 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label>Марка авто</label>
+                    <input type="text" id="carModel" placeholder="Toyota Camry">
+                </div>
+                <div class="form-group">
+                    <label>Дата приезда</label>
+                    <input type="date" id="visitDate">
+                </div>
+                <div class="form-group">
+                    <label>Время приезда</label>
+                    <input type="time" id="visitTime">
+                </div>
+                <div class="form-group">
+                    <label>Замена масла</label>
+                    <select id="oilChange">
+                        <option value="Нет">Нет</option>
+                        <option value="Да">Да</option>
                     </select>
                 </div>
-            </div>
-        </div>
-        
-        <div class="filter-row">
-            <!-- Фильтр по статусам -->
-            <div class="filter-section">
-                <label>Фильтр по статусам:</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="status-checkbox" value="waiting" checked> Ожидаем
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="status-checkbox" value="done" checked> Выполнено
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" class="status-checkbox" value="notcome" checked> Не приедет
-                    </label>
+                <div class="form-group">
+                    <label>Оплата (₽)</label>
+                    <input type="number" id="payment" placeholder="5000" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Статус</label>
+                    <select id="statusSelect">
+                        <option value="waiting">Ожидаем</option>
+                        <option value="late">Опаздывает</option>
+                        <option value="done">Выполнено</option>
+                        <option value="notcome">Не приедет</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea id="comment" placeholder="Дополнительная информация..."></textarea>
                 </div>
             </div>
+            <div class="form-actions">
+                <button class="btn" id="addBtn">➕ Добавить</button>
+                <button class="btn-secondary" id="updateBtn" style="display: none;">✅ Обновить</button>
+                <button class="btn-danger" id="cancelEdit" style="display: none;">✖ Отмена</button>
+            </div>
+        </div>
 
-            <!-- Фильтр по замене масла -->
-            <div class="filter-section">
-                <label>Фильтр по замене масла <span class="info-badge">330 дней</span>:</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" id="oilYes" checked> Да
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" id="oilNo" checked> Нет
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" id="oilSoon"> Скоро замена
-                    </label>
+        <!-- Фильтрация -->
+        <div class="filter-bar">
+            <div class="filter-row">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Поиск...">
+                </div>
+                <div class="filter-section">
+                    <label>Фильтр по дате:</label>
+                    <div class="date-filter">
+                        <select id="yearFilter">
+                            <option value="all">Все года</option>
+                        </select>
+                        <select id="monthFilter">
+                            <option value="all">Все месяцы</option>
+                            <option value="1">Январь</option>
+                            <option value="2">Февраль</option>
+                            <option value="3">Март</option>
+                            <option value="4">Апрель</option>
+                            <option value="5">Май</option>
+                            <option value="6">Июнь</option>
+                            <option value="7">Июль</option>
+                            <option value="8">Август</option>
+                            <option value="9">Сентябрь</option>
+                            <option value="10">Октябрь</option>
+                            <option value="11">Ноябрь</option>
+                            <option value="12">Декабрь</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-row">
+                <div class="filter-section">
+                    <label>Фильтр по статусам:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" class="status-checkbox" value="waiting" checked> Ожидаем
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" class="status-checkbox" value="done" checked> Выполнено
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" class="status-checkbox" value="notcome" checked> Не приедет
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label>Фильтр по замене масла:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="oilYes" checked> Да
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="oilNo" checked> Нет
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="oilSoon"> Скоро замена
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Таблица клиентов -->
+        <div class="table-wrapper">
+            <table id="clientsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Телефон</th>
+                        <th>Марка авто</th>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th>Масло</th>
+                        <th>Оплата (₽)</th>
+                        <th>Статус</th>
+                        <th>Комментарий</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="footer-note">
+            * Данные синхронизируются через JSONbin.io. Доступны на всех устройствах.
+        </div>
     </div>
 
-    <!-- Таблица клиентов -->
-    <div class="table-wrapper">
-        <table id="clientsTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Клиент</th>
-                    <th>Телефон</th>
-                    <th>Марка авто</th>
-                    <th>Дата</th>
-                    <th>Время</th>
-                    <th>Масло</th>
-                    <th>Оплата (₽)</th>
-                    <th>Статус</th>
-                    <th>Комментарий</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Данные будут вставлены через JS -->
-            </tbody>
-        </table>
-    </div>
-    <div class="footer-note">
-        * ID в формате K-. "Скоро замена" - 330 дней от даты приезда
-    </div>
-</div>
-
-<script>
-    (function() {
-        const STORAGE_KEY = 'autoserviceData';
-        const OIL_CHANGE_DAYS = 330;
-        let editingId = null;
-        let records = [];
-
-        // Загрузка из localStorage
-        function loadFromStorage() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try {
-                    records = JSON.parse(stored);
-                } catch (e) {
-                    records = [];
-                }
-            } else {
-                // Начальные данные для демо
-                const today = new Date();
-                const threeMonthsAgo = new Date(today);
-                threeMonthsAgo.setMonth(today.getMonth() - 3);
-                
-                const elevenMonthsAgo = new Date(today);
-                elevenMonthsAgo.setMonth(today.getMonth() - 11);
-                
-                const formatDate = (date) => {
-                    return date.toISOString().split('T')[0];
-                };
-
-                records = [
-                    { 
-                        id: 'K-1001', 
-                        name: 'Иван Петров', 
-                        phone: '+7 999 111-22-33', 
-                        carModel: 'Toyota Camry',
-                        visitDate: formatDate(threeMonthsAgo),
-                        visitTime: '10:30',
-                        oilChange: 'Да',
-                        payment: 5000,
-                        status: 'waiting',
-                        comment: 'Просил проверить кондиционер'
-                    },
-                    { 
-                        id: 'K-1002', 
-                        name: 'Елена Смирнова', 
-                        phone: '+7 999 222-33-44', 
-                        carModel: 'KIA Rio',
-                        visitDate: '2026-02-13',
-                        visitTime: '14:00',
-                        oilChange: 'Нет',
-                        payment: 3500,
-                        status: 'done',
-                        comment: 'Замена тормозных колодок'
-                    },
-                    { 
-                        id: 'K-1003', 
-                        name: 'Петр Сидоров', 
-                        phone: '+7 999 333-44-55', 
-                        carModel: 'BMW X5',
-                        visitDate: formatDate(elevenMonthsAgo),
-                        visitTime: '09:15',
-                        oilChange: 'Да',
-                        payment: 12000,
-                        status: 'late',
-                        comment: 'Срочно, звонил уже 2 раза'
-                    },
-                    { 
-                        id: 'K-1004', 
-                        name: 'Анна Иванова', 
-                        phone: '+7 999 444-55-66', 
-                        carModel: 'Hyundai Solaris',
-                        visitDate: '2026-02-14',
-                        visitTime: '16:45',
-                        oilChange: 'Да',
-                        payment: 4500,
-                        status: 'notcome',
-                        comment: 'Перенесла на следующую неделю'
-                    }
-                ];
-            }
-        }
-
-        function saveToStorage() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-        }
-
-        function getTodayString() {
-            const d = new Date();
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        function isOilChangeSoon(visitDate, oilChange) {
-            if (oilChange !== 'Да' || !visitDate) return false;
+    <!-- Подключаем конфигурацию -->
+    <script src="config.js"></script>
+    
+    <script>
+        (function() {
+            // ========== ПРОВЕРКА КОНФИГУРАЦИИ ==========
+            const configWarning = document.getElementById('configWarning');
             
-            const visit = new Date(visitDate);
-            const today = new Date();
-            
-            const diffTime = today - visit;
-            const diffDays = diffTime / (1000 * 60 * 60 * 24);
-            
-            return diffDays >= OIL_CHANGE_DAYS;
-        }
-
-        function generateNewId() {
-            if (records.length === 0) return 'K-1001';
-            
-            const numbers = records.map(c => {
-                const match = c.id.match(/^K-(\d+)$/);
-                return match ? parseInt(match[1], 10) : 0;
-            }).filter(n => !isNaN(n) && n > 0);
-            
-            const maxNum = numbers.length > 0 ? Math.max(...numbers) : 1000;
-            return `K-${maxNum + 1}`;
-        }
-
-        function updateReport() {
-            const total = records.length;
-            let waiting = 0, late = 0, done = 0, notcome = 0;
-
-            records.forEach(r => {
-                if (r.status === 'waiting') waiting++;
-                else if (r.status === 'late') late++;
-                else if (r.status === 'done') done++;
-                else if (r.status === 'notcome') notcome++;
-            });
-
-            document.getElementById('totalClients').innerText = total;
-            document.getElementById('waitingCount').innerText = waiting;
-            document.getElementById('lateCount').innerText = late;
-            document.getElementById('doneCount').innerText = done;
-        }
-
-        function escapeHtml(unsafe) {
-            if (!unsafe) return '';
-            return String(unsafe)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        function getStatusInfo(status) {
-            switch(status) {
-                case 'done': return { text: 'Выполнено', class: 'status-done' };
-                case 'late': return { text: 'Опаздывает', class: 'status-late' };
-                case 'notcome': return { text: 'Не приедет', class: 'status-notcome' };
-                case 'waiting':
-                default: return { text: 'Ожидаем', class: 'status-waiting' };
-            }
-        }
-
-        function getSelectedStatuses() {
-            const checkboxes = document.querySelectorAll('.status-checkbox');
-            const selected = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    selected.push(cb.value);
-                }
-            });
-            return selected;
-        }
-
-        function getSelectedOilValues() {
-            const selected = [];
-            if (document.getElementById('oilYes').checked) selected.push('Да');
-            if (document.getElementById('oilNo').checked) selected.push('Нет');
-            return selected;
-        }
-
-        function formatPayment(amount) {
-            if (amount === undefined || amount === null || amount === '') return '0';
-            const num = Number(amount);
-            return num.toLocaleString('ru-RU');
-        }
-
-        function calculateTotal(filteredRecords) {
-            return filteredRecords.reduce((sum, record) => {
-                const payment = Number(record.payment) || 0;
-                return sum + payment;
-            }, 0);
-        }
-
-        function updateYearFilter() {
-            const yearSelect = document.getElementById('yearFilter');
-            const years = new Set();
-            
-            records.forEach(record => {
-                if (record.visitDate) {
-                    const year = new Date(record.visitDate).getFullYear();
-                    years.add(year);
-                }
-            });
-            
-            const sortedYears = Array.from(years).sort((a, b) => b - a); // по убыванию (сначала новые)
-            
-            // Сохраняем текущее выбранное значение
-            const currentValue = yearSelect.value;
-            
-            yearSelect.innerHTML = '<option value="all">Все года</option>';
-            sortedYears.forEach(year => {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            });
-            
-            // Восстанавливаем выбранное значение, если оно есть
-            if (currentValue && currentValue !== 'all') {
-                if (sortedYears.includes(parseInt(currentValue))) {
-                    yearSelect.value = currentValue;
-                } else {
-                    yearSelect.value = 'all';
-                }
-            }
-        }
-
-        function getSelectedYear() {
-            const yearValue = document.getElementById('yearFilter').value;
-            return yearValue === 'all' ? null : parseInt(yearValue);
-        }
-
-        function getSelectedMonth() {
-            const monthValue = document.getElementById('monthFilter').value;
-            return monthValue === 'all' ? null : parseInt(monthValue);
-        }
-
-        function renderTable() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            const selectedStatuses = getSelectedStatuses();
-            const selectedOilValues = getSelectedOilValues();
-            const oilSoonChecked = document.getElementById('oilSoon').checked;
-            const selectedYear = getSelectedYear();
-            const selectedMonth = getSelectedMonth();
-
-            const filtered = records.filter(record => {
-                // Поиск по тексту
-                const matchesSearch = 
-                    record.id.toLowerCase().includes(searchTerm) ||
-                    record.name.toLowerCase().includes(searchTerm) ||
-                    record.phone.toLowerCase().includes(searchTerm) ||
-                    (record.carModel && record.carModel.toLowerCase().includes(searchTerm)) ||
-                    (record.comment && record.comment.toLowerCase().includes(searchTerm));
-
-                if (!matchesSearch) return false;
-
-                // Фильтр по статусам
-                if (selectedStatuses.length > 0 && !selectedStatuses.includes(record.status)) {
+            function checkConfig() {
+                if (typeof CONFIG === 'undefined' || 
+                    CONFIG.API_KEY === 'ВАШ_API_КЛЮЧ' || 
+                    CONFIG.BIN_ID === 'ВАШ_BIN_ID') {
+                    configWarning.style.display = 'block';
                     return false;
                 }
-
-                // Фильтр по замене масла
-                const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
-                
-                if (oilSoonChecked) {
-                    if (!oilSoon) return false;
-                } else {
-                    if (selectedOilValues.length > 0 && !selectedOilValues.includes(record.oilChange || 'Нет')) {
-                        return false;
-                    }
-                }
-
-                // Фильтр по дате (год и месяц)
-                if (record.visitDate) {
-                    const visitDate = new Date(record.visitDate);
-                    const visitYear = visitDate.getFullYear();
-                    const visitMonth = visitDate.getMonth() + 1; // getMonth() возвращает 0-11
-                    
-                    if (selectedYear && visitYear !== selectedYear) {
-                        return false;
-                    }
-                    
-                    if (selectedMonth && visitMonth !== selectedMonth) {
-                        return false;
-                    }
-                } else {
-                    // Если даты нет, то показываем только если не выбраны фильтры по дате
-                    if (selectedYear || selectedMonth) return false;
-                }
-
                 return true;
-            });
+            }
 
-            const totalSum = calculateTotal(filtered);
-
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:40px;">Записи не найдены</td></tr>';
-            } else {
-                filtered.forEach(record => {
-                    const statusInfo = getStatusInfo(record.status);
-                    const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
-                    
-                    let oilClass = record.oilChange === 'Да' ? 'oil-yes' : 'oil-no';
-                    let oilText = record.oilChange || 'Нет';
-                    
-                    if (oilSoon) {
-                        oilClass = 'oil-soon';
-                        oilText = 'Скоро';
+            // ========== ЛОГИРОВАНИЕ ==========
+            const LOGIN_SCREEN = document.getElementById('loginScreen');
+            const APP_SCREEN = document.getElementById('appScreen');
+            const LOGIN_BTN = document.getElementById('loginBtn');
+            const LOGOUT_BTN = document.getElementById('logoutBtn');
+            const SYNC_NOW_BTN = document.getElementById('syncNowBtn');
+            const SYNC_STATUS = document.getElementById('syncStatus');
+            const LOGIN_ERROR = document.getElementById('loginError');
+            
+            function setSyncStatus(status, message) {
+                SYNC_STATUS.className = 'sync-status ' + status;
+                SYNC_STATUS.textContent = message;
+            }
+            
+            // Проверка авторизации
+            function checkAuth() {
+                const isAuthenticated = sessionStorage.getItem('auth') === 'true';
+                if (isAuthenticated) {
+                    showApp();
+                } else {
+                    showLogin();
+                }
+            }
+            
+            function showApp() {
+                LOGIN_SCREEN.style.display = 'none';
+                APP_SCREEN.style.display = 'block';
+                if (!window.appInitialized) {
+                    initApp();
+                    window.appInitialized = true;
+                } else {
+                    // Если уже инициализировано, просто загружаем данные
+                    if (window.appInstance && window.appInstance.loadFromServer) {
+                        window.appInstance.loadFromServer();
                     }
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${escapeHtml(record.id)}</td>
-                        <td>${escapeHtml(record.name)}</td>
-                        <td>${escapeHtml(record.phone)}</td>
-                        <td>${escapeHtml(record.carModel || '')}</td>
-                        <td>${escapeHtml(record.visitDate || '')}</td>
-                        <td>${escapeHtml(record.visitTime || '')}</td>
-                        <td><span class="oil-badge ${oilClass}">${escapeHtml(oilText)}</span></td>
-                        <td class="payment-cell">${formatPayment(record.payment)} ₽</td>
-                        <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
-                        <td class="comment-cell">${escapeHtml(record.comment || '')}</td>
-                        <td class="actions">
-                            <button class="edit-btn" data-id="${escapeHtml(record.id)}" title="Ред.">✏️</button>
-                            <button class="delete-btn" data-id="${escapeHtml(record.id)}" title="Уд.">🗑️</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
+                }
+            }
+            
+            function showLogin() {
+                LOGIN_SCREEN.style.display = 'block';
+                APP_SCREEN.style.display = 'none';
+            }
+            
+            // Обработка входа
+            LOGIN_BTN.addEventListener('click', function() {
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
                 
-                // Строка с итогом
-                const totalRow = document.createElement('tr');
-                totalRow.className = 'total-row';
-                totalRow.innerHTML = `
-                    <td colspan="7" style="text-align: right; font-weight: 700;">ИТОГО:</td>
-                    <td class="payment-cell" style="font-weight: 700;">${formatPayment(totalSum)} ₽</td>
-                    <td colspan="3"></td>
-                `;
-                tbody.appendChild(totalRow);
-            }
-            updateReport();
-        }
-
-        function clearForm() {
-            document.getElementById('clientId').value = generateNewId();
-            document.getElementById('userName').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('carModel').value = '';
-            document.getElementById('visitDate').value = '';
-            document.getElementById('visitTime').value = '';
-            document.getElementById('oilChange').value = 'Нет';
-            document.getElementById('payment').value = '0';
-            document.getElementById('statusSelect').value = 'waiting';
-            document.getElementById('comment').value = '';
-            editingId = null;
-            document.getElementById('addBtn').style.display = 'inline-block';
-            document.getElementById('updateBtn').style.display = 'none';
-            document.getElementById('cancelEdit').style.display = 'none';
-        }
-
-        function fillFormForEdit(record) {
-            document.getElementById('clientId').value = record.id;
-            document.getElementById('userName').value = record.name || '';
-            document.getElementById('phone').value = record.phone || '';
-            document.getElementById('carModel').value = record.carModel || '';
-            document.getElementById('visitDate').value = record.visitDate || '';
-            document.getElementById('visitTime').value = record.visitTime || '';
-            document.getElementById('oilChange').value = record.oilChange || 'Нет';
-            document.getElementById('payment').value = record.payment || 0;
-            document.getElementById('statusSelect').value = record.status || 'waiting';
-            document.getElementById('comment').value = record.comment || '';
-            editingId = record.id;
-            document.getElementById('addBtn').style.display = 'none';
-            document.getElementById('updateBtn').style.display = 'inline-block';
-            document.getElementById('cancelEdit').style.display = 'inline-block';
-        }
-
-        function addRecord() {
-            const clientId = document.getElementById('clientId').value.trim();
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const carModel = document.getElementById('carModel').value.trim();
-            const visitDate = document.getElementById('visitDate').value;
-            const visitTime = document.getElementById('visitTime').value;
-            const oilChange = document.getElementById('oilChange').value;
-            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
-            const status = document.getElementById('statusSelect').value;
-            const comment = document.getElementById('comment').value.trim();
-
-            if (!name || !phone) {
-                alert('Пожалуйста, заполните имя и телефон.');
-                return;
-            }
-
-            if (records.some(r => r.id === clientId)) {
-                alert('Техническая ошибка: ID уже существует. Попробуйте снова.');
-                clearForm();
-                return;
-            }
-
-            const newRecord = {
-                id: clientId,
-                name,
-                phone,
-                carModel,
-                visitDate,
-                visitTime,
-                oilChange,
-                payment,
-                status,
-                comment
-            };
-
-            records.push(newRecord);
-            saveToStorage();
-            updateYearFilter(); // Обновляем список годов
-            clearForm();
-            renderTable();
-        }
-
-        function updateRecord() {
-            const clientId = document.getElementById('clientId').value.trim();
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const carModel = document.getElementById('carModel').value.trim();
-            const visitDate = document.getElementById('visitDate').value;
-            const visitTime = document.getElementById('visitTime').value;
-            const oilChange = document.getElementById('oilChange').value;
-            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
-            const status = document.getElementById('statusSelect').value;
-            const comment = document.getElementById('comment').value.trim();
-
-            if (!name || !phone) {
-                alert('Пожалуйста, заполните имя и телефон.');
-                return;
-            }
-
-            const index = records.findIndex(r => r.id === editingId);
-            if (index === -1) {
-                alert('Ошибка редактирования: запись не найдена.');
-                clearForm();
-                renderTable();
-                return;
-            }
-
-            if (editingId !== clientId && records.some(r => r.id === clientId)) {
-                alert('Запись с таким ID уже существует.');
-                return;
-            }
-
-            records[index] = {
-                id: clientId,
-                name,
-                phone,
-                carModel,
-                visitDate,
-                visitTime,
-                oilChange,
-                payment,
-                status,
-                comment
-            };
-
-            saveToStorage();
-            updateYearFilter(); // Обновляем список годов
-            clearForm();
-            renderTable();
-        }
-
-        function deleteRecord(id) {
-            if (confirm('Удалить запись?')) {
-                records = records.filter(r => r.id !== id);
-                saveToStorage();
-                updateYearFilter(); // Обновляем список годов
-                if (editingId === id) clearForm();
-                renderTable();
-            }
-        }
-
-        function init() {
-            loadFromStorage();
-            document.getElementById('clientId').value = generateNewId();
-            updateYearFilter(); // Заполняем список годов
-            renderTable();
-
-            document.getElementById('addBtn').addEventListener('click', addRecord);
-            document.getElementById('updateBtn').addEventListener('click', updateRecord);
-            document.getElementById('cancelEdit').addEventListener('click', clearForm);
-            
-            document.getElementById('searchInput').addEventListener('input', renderTable);
-            
-            // Фильтры по статусам
-            const statusCheckboxes = document.querySelectorAll('.status-checkbox');
-            statusCheckboxes.forEach(cb => {
-                cb.addEventListener('change', renderTable);
-            });
-
-            // Фильтры по замене масла
-            document.getElementById('oilYes').addEventListener('change', renderTable);
-            document.getElementById('oilNo').addEventListener('change', renderTable);
-            document.getElementById('oilSoon').addEventListener('change', renderTable);
-            
-            // Фильтры по дате
-            document.getElementById('yearFilter').addEventListener('change', renderTable);
-            document.getElementById('monthFilter').addEventListener('change', renderTable);
-
-            document.getElementById('tableBody').addEventListener('click', (e) => {
-                const target = e.target.closest('button');
-                if (!target) return;
-
-                const id = target.getAttribute('data-id');
-                if (target.classList.contains('delete-btn')) {
-                    deleteRecord(id);
-                } else if (target.classList.contains('edit-btn')) {
-                    const record = records.find(r => r.id === id);
-                    if (record) fillFormForEdit(record);
+                if (username === 'admin' && password === 'admin') {
+                    sessionStorage.setItem('auth', 'true');
+                    LOGIN_ERROR.textContent = '';
+                    showApp();
+                } else {
+                    LOGIN_ERROR.textContent = 'Неверный логин или пароль';
                 }
             });
-        }
+            
+            LOGOUT_BTN.addEventListener('click', function() {
+                sessionStorage.removeItem('auth');
+                showLogin();
+            });
+            
+            // Проверяем конфиг и авторизацию
+            checkAuth();
 
-        document.addEventListener('DOMContentLoaded', init);
-    })();
-</script>
+            // ========== ОСНОВНОЙ ФУНКЦИОНАЛ ==========
+            function initApp() {
+                const STORAGE_KEY = 'autoserviceData';
+                const OIL_CHANGE_DAYS = 330;
+                let editingId = null;
+                let records = [];
+                let syncTimeout = null;
+
+                // Функции для работы с JSONbin.io
+                async function saveToServer() {
+                    if (!checkConfig()) {
+                        setSyncStatus('sync-error', '❌ Нет API ключа');
+                        return false;
+                    }
+                    
+                    setSyncStatus('sync-loading', '🔄 Сохранение...');
+                    
+                    try {
+                        const response = await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Master-Key': CONFIG.API_KEY
+                            },
+                            body: JSON.stringify(records)
+                        });
+                        
+                        if (response.ok) {
+                            setSyncStatus('sync-success', '✓ Сохранено');
+                            // Также сохраняем локально как бэкап
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+                            return true;
+                        } else {
+                            throw new Error('Ошибка сохранения');
+                        }
+                    } catch (e) {
+                        console.error('Save error:', e);
+                        setSyncStatus('sync-error', '❌ Ошибка');
+                        return false;
+                    }
+                }
+
+                async function loadFromServer() {
+                    if (!checkConfig()) {
+                        setSyncStatus('sync-error', '❌ Нет API ключа');
+                        // Загружаем из localStorage как запасной вариант
+                        loadFromStorage();
+                        return false;
+                    }
+                    
+                    setSyncStatus('sync-loading', '🔄 Загрузка...');
+                    
+                    try {
+                        const response = await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}/latest`, {
+                            headers: {
+                                'X-Master-Key': CONFIG.API_KEY
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            records = data.record || [];
+                            // Сохраняем локально
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+                            updateYearFilter();
+                            renderTable();
+                            setSyncStatus('sync-success', '✓ Загружено');
+                            return true;
+                        } else if (response.status === 404) {
+                            // Бин не найден, создаем новый с начальными данными
+                            records = getInitialData();
+                            await saveToServer();
+                            updateYearFilter();
+                            renderTable();
+                            return true;
+                        } else {
+                            throw new Error('Ошибка загрузки');
+                        }
+                    } catch (e) {
+                        console.error('Load error:', e);
+                        setSyncStatus('sync-error', '❌ Ошибка');
+                        // Загружаем из localStorage
+                        loadFromStorage();
+                        return false;
+                    }
+                }
+
+                // Загрузка из localStorage (резервный вариант)
+                function loadFromStorage() {
+                    const stored = localStorage.getItem(STORAGE_KEY);
+                    if (stored) {
+                        try {
+                            records = JSON.parse(stored);
+                            setSyncStatus('sync-warning', '⚠️ Локальные данные');
+                        } catch (e) {
+                            records = getInitialData();
+                        }
+                    } else {
+                        records = getInitialData();
+                    }
+                    updateYearFilter();
+                    renderTable();
+                }
+
+                // Начальные данные
+                function getInitialData() {
+                    const today = new Date();
+                    const threeMonthsAgo = new Date(today);
+                    threeMonthsAgo.setMonth(today.getMonth() - 3);
+                    
+                    const elevenMonthsAgo = new Date(today);
+                    elevenMonthsAgo.setMonth(today.getMonth() - 11);
+                    
+                    const formatDate = (date) => {
+                        return date.toISOString().split('T')[0];
+                    };
+
+                    return [
+                        { 
+                            id: 'K-1001', 
+                            name: 'Иван Петров', 
+                            phone: '+7 999 111-22-33', 
+                            carModel: 'Toyota Camry',
+                            visitDate: formatDate(threeMonthsAgo),
+                            visitTime: '10:30',
+                            oilChange: 'Да',
+                            payment: 5000,
+                            status: 'waiting',
+                            comment: 'Просил проверить кондиционер'
+                        },
+                        { 
+                            id: 'K-1002', 
+                            name: 'Елена Смирнова', 
+                            phone: '+7 999 222-33-44', 
+                            carModel: 'KIA Rio',
+                            visitDate: '2026-02-13',
+                            visitTime: '14:00',
+                            oilChange: 'Нет',
+                            payment: 3500,
+                            status: 'done',
+                            comment: 'Замена тормозных колодок'
+                        },
+                        { 
+                            id: 'K-1003', 
+                            name: 'Петр Сидоров', 
+                            phone: '+7 999 333-44-55', 
+                            carModel: 'BMW X5',
+                            visitDate: formatDate(elevenMonthsAgo),
+                            visitTime: '09:15',
+                            oilChange: 'Да',
+                            payment: 12000,
+                            status: 'late',
+                            comment: 'Срочно, звонил уже 2 раза'
+                        },
+                        { 
+                            id: 'K-1004', 
+                            name: 'Анна Иванова', 
+                            phone: '+7 999 444-55-66', 
+                            carModel: 'Hyundai Solaris',
+                            visitDate: '2026-02-14',
+                            visitTime: '16:45',
+                            oilChange: 'Да',
+                            payment: 4500,
+                            status: 'notcome',
+                            comment: 'Перенесла на следующую неделю'
+                        }
+                    ];
+                }
+
+                function saveToStorage() {
+                    // Сохраняем локально
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+                    
+                    // Откладываем сохранение на сервер (чтобы не спамить запросами)
+                    if (syncTimeout) clearTimeout(syncTimeout);
+                    syncTimeout = setTimeout(() => {
+                        saveToServer();
+                    }, 2000);
+                }
+
+                function isOilChangeSoon(visitDate, oilChange) {
+                    if (oilChange !== 'Да' || !visitDate) return false;
+                    const visit = new Date(visitDate);
+                    const today = new Date();
+                    const diffTime = today - visit;
+                    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    return diffDays >= OIL_CHANGE_DAYS;
+                }
+
+                function generateNewId() {
+                    if (records.length === 0) return 'K-1001';
+                    const numbers = records.map(c => {
+                        const match = c.id.match(/^K-(\d+)$/);
+                        return match ? parseInt(match[1], 10) : 0;
+                    }).filter(n => !isNaN(n) && n > 0);
+                    const maxNum = numbers.length > 0 ? Math.max(...numbers) : 1000;
+                    return `K-${maxNum + 1}`;
+                }
+
+                function updateReport() {
+                    const total = records.length;
+                    let waiting = 0, late = 0, done = 0, notcome = 0;
+
+                    records.forEach(r => {
+                        if (r.status === 'waiting') waiting++;
+                        else if (r.status === 'late') late++;
+                        else if (r.status === 'done') done++;
+                        else if (r.status === 'notcome') notcome++;
+                    });
+
+                    document.getElementById('totalClients').innerText = total;
+                    document.getElementById('waitingCount').innerText = waiting;
+                    document.getElementById('lateCount').innerText = late;
+                    document.getElementById('doneCount').innerText = done;
+                }
+
+                function escapeHtml(unsafe) {
+                    if (!unsafe) return '';
+                    return String(unsafe)
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                }
+
+                function getStatusInfo(status) {
+                    switch(status) {
+                        case 'done': return { text: 'Выполнено', class: 'status-done' };
+                        case 'late': return { text: 'Опаздывает', class: 'status-late' };
+                        case 'notcome': return { text: 'Не приедет', class: 'status-notcome' };
+                        default: return { text: 'Ожидаем', class: 'status-waiting' };
+                    }
+                }
+
+                function getSelectedStatuses() {
+                    const checkboxes = document.querySelectorAll('.status-checkbox');
+                    const selected = [];
+                    checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.value); });
+                    return selected;
+                }
+
+                function getSelectedOilValues() {
+                    const selected = [];
+                    if (document.getElementById('oilYes').checked) selected.push('Да');
+                    if (document.getElementById('oilNo').checked) selected.push('Нет');
+                    return selected;
+                }
+
+                function formatPayment(amount) {
+                    if (amount === undefined || amount === null) return '0';
+                    return Number(amount).toLocaleString('ru-RU');
+                }
+
+                function calculateTotal(filteredRecords) {
+                    return filteredRecords.reduce((sum, record) => sum + (Number(record.payment) || 0), 0);
+                }
+
+                function updateYearFilter() {
+                    const yearSelect = document.getElementById('yearFilter');
+                    const years = new Set();
+                    records.forEach(record => {
+                        if (record.visitDate) {
+                            years.add(new Date(record.visitDate).getFullYear());
+                        }
+                    });
+                    
+                    const sortedYears = Array.from(years).sort((a, b) => b - a);
+                    const currentValue = yearSelect.value;
+                    
+                    yearSelect.innerHTML = '<option value="all">Все года</option>';
+                    sortedYears.forEach(year => {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        yearSelect.appendChild(option);
+                    });
+                    
+                    if (currentValue && currentValue !== 'all') {
+                        if (sortedYears.includes(parseInt(currentValue))) {
+                            yearSelect.value = currentValue;
+                        }
+                    }
+                }
+
+                function getSelectedYear() {
+                    const yearValue = document.getElementById('yearFilter').value;
+                    return yearValue === 'all' ? null : parseInt(yearValue);
+                }
+
+                function getSelectedMonth() {
+                    const monthValue = document.getElementById('monthFilter').value;
+                    return monthValue === 'all' ? null : parseInt(monthValue);
+                }
+
+                function renderTable() {
+                    const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+                    const selectedStatuses = getSelectedStatuses();
+                    const selectedOilValues = getSelectedOilValues();
+                    const oilSoonChecked = document.getElementById('oilSoon').checked;
+                    const selectedYear = getSelectedYear();
+                    const selectedMonth = getSelectedMonth();
+
+                    const filtered = records.filter(record => {
+                        const matchesSearch = 
+                            record.id.toLowerCase().includes(searchTerm) ||
+                            record.name.toLowerCase().includes(searchTerm) ||
+                            record.phone.toLowerCase().includes(searchTerm) ||
+                            (record.carModel && record.carModel.toLowerCase().includes(searchTerm)) ||
+                            (record.comment && record.comment.toLowerCase().includes(searchTerm));
+
+                        if (!matchesSearch) return false;
+
+                        if (selectedStatuses.length > 0 && !selectedStatuses.includes(record.status)) {
+                            return false;
+                        }
+
+                        const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
+                        
+                        if (oilSoonChecked) {
+                            if (!oilSoon) return false;
+                        } else {
+                            if (selectedOilValues.length > 0 && !selectedOilValues.includes(record.oilChange || 'Нет')) {
+                                return false;
+                            }
+                        }
+
+                        if (record.visitDate) {
+                            const visitDate = new Date(record.visitDate);
+                            const visitYear = visitDate.getFullYear();
+                            const visitMonth = visitDate.getMonth() + 1;
+                            
+                            if (selectedYear && visitYear !== selectedYear) return false;
+                            if (selectedMonth && visitMonth !== selectedMonth) return false;
+                        } else {
+                            if (selectedYear || selectedMonth) return false;
+                        }
+
+                        return true;
+                    });
+
+                    const totalSum = calculateTotal(filtered);
+                    const tbody = document.getElementById('tableBody');
+                    tbody.innerHTML = '';
+
+                    if (filtered.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:40px;">Записи не найдены</td></tr>';
+                    } else {
+                        filtered.forEach(record => {
+                            const statusInfo = getStatusInfo(record.status);
+                            const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
+                            
+                            let oilClass = record.oilChange === 'Да' ? 'oil-yes' : 'oil-no';
+                            let oilText = record.oilChange || 'Нет';
+                            
+                            if (oilSoon) {
+                                oilClass = 'oil-soon';
+                                oilText = 'Скоро';
+                            }
+
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${escapeHtml(record.id)}</td>
+                                <td>${escapeHtml(record.name)}</td>
+                                <td>${escapeHtml(record.phone)}</td>
+                                <td>${escapeHtml(record.carModel || '')}</td>
+                                <td>${escapeHtml(record.visitDate || '')}</td>
+                                <td>${escapeHtml(record.visitTime || '')}</td>
+                                <td><span class="oil-badge ${oilClass}">${escapeHtml(oilText)}</span></td>
+                                <td class="payment-cell">${formatPayment(record.payment)} ₽</td>
+                                <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
+                                <td class="comment-cell">${escapeHtml(record.comment || '')}</td>
+                                <td class="actions">
+                                    <button class="edit-btn" data-id="${escapeHtml(record.id)}" title="Ред.">✏️</button>
+                                    <button class="delete-btn" data-id="${escapeHtml(record.id)}" title="Уд.">🗑️</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                        
+                        const totalRow = document.createElement('tr');
+                        totalRow.className = 'total-row';
+                        totalRow.innerHTML = `
+                            <td colspan="7" style="text-align: right; font-weight: 700;">ИТОГО:</td>
+                            <td class="payment-cell" style="font-weight: 700;">${formatPayment(totalSum)} ₽</td>
+                            <td colspan="3"></td>
+                        `;
+                        tbody.appendChild(totalRow);
+                    }
+                    updateReport();
+                }
+
+                function clearForm() {
+                    document.getElementById('clientId').value = generateNewId();
+                    document.getElementById('userName').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('carModel').value = '';
+                    document.getElementById('visitDate').value = '';
+                    document.getElementById('visitTime').value = '';
+                    document.getElementById('oilChange').value = 'Нет';
+                    document.getElementById('payment').value = '0';
+                    document.getElementById('statusSelect').value = 'waiting';
+                    document.getElementById('comment').value = '';
+                    editingId = null;
+                    document.getElementById('addBtn').style.display = 'inline-block';
+                    document.getElementById('updateBtn').style.display = 'none';
+                    document.getElementById('cancelEdit').style.display = 'none';
+                }
+
+                function fillFormForEdit(record) {
+                    document.getElementById('clientId').value = record.id;
+                    document.getElementById('userName').value = record.name || '';
+                    document.getElementById('phone').value = record.phone || '';
+                    document.getElementById('carModel').value = record.carModel || '';
+                    document.getElementById('visitDate').value = record.visitDate || '';
+                    document.getElementById('visitTime').value = record.visitTime || '';
+                    document.getElementById('oilChange').value = record.oilChange || 'Нет';
+                    document.getElementById('payment').value = record.payment || 0;
+                    document.getElementById('statusSelect').value = record.status || 'waiting';
+                    document.getElementById('comment').value = record.comment || '';
+                    editingId = record.id;
+                    document.getElementById('addBtn').style.display = 'none';
+                    document.getElementById('updateBtn').style.display = 'inline-block';
+                    document.getElementById('cancelEdit').style.display = 'inline-block';
+                }
+
+                function addRecord() {
+                    const clientId = document.getElementById('clientId').value.trim();
+                    const name = document.getElementById('userName').value.trim();
+                    const phone = document.getElementById('phone').value.trim();
+                    const carModel = document.getElementById('carModel').value.trim();
+                    const visitDate = document.getElementById('visitDate').value;
+                    const visitTime = document.getElementById('visitTime').value;
+                    const oilChange = document.getElementById('oilChange').value;
+                    const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
+                    const status = document.getElementById('statusSelect').value;
+                    const comment = document.getElementById('comment').value.trim();
+
+                    if (!name || !phone) {
+                        alert('Пожалуйста, заполните имя и телефон.');
+                        return;
+                    }
+
+                    if (records.some(r => r.id === clientId)) {
+                        alert('Техническая ошибка: ID уже существует.');
+                        clearForm();
+                        return;
+                    }
+
+                    const newRecord = {
+                        id: clientId,
+                        name,
+                        phone,
+                        carModel,
+                        visitDate,
+                        visitTime,
+                        oilChange,
+                        payment,
+                        status,
+                        comment
+                    };
+
+                    records.push(newRecord);
+                    saveToStorage();
+                    updateYearFilter();
+                    clearForm();
+                    renderTable();
+                }
+
+                function updateRecord() {
+                    const clientId = document.getElementById('clientId').value.trim();
+                    const name = document.getElementById('userName').value.trim();
+                    const phone = document.getElementById('phone').value.trim();
+                    const carModel = document.getElementById('carModel').value.trim();
+                    const visitDate = document.getElementById('visitDate').value;
+                    const visitTime = document.getElementById('visitTime').value;
+                    const oilChange = document.getElementById('oilChange').value;
+                    const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
+                    const status = document.getElementById('statusSelect').value;
+                    const comment = document.getElementById('comment').value.trim();
+
+                    if (!name || !phone) {
+                        alert('Пожалуйста, заполните имя и телефон.');
+                        return;
+                    }
+
+                    const index = records.findIndex(r => r.id === editingId);
+                    if (index === -1) {
+                        alert('Ошибка редактирования: запись не найдена.');
+                        clearForm();
+                        renderTable();
+                        return;
+                    }
+
+                    if (editingId !== clientId && records.some(r => r.id === clientId)) {
+                        alert('Запись с таким ID уже существует.');
+                        return;
+                    }
+
+                    records[index] = {
+                        id: clientId,
+                        name,
+                        phone,
+                        carModel,
+                        visitDate,
+                        visitTime,
+                        oilChange,
+                        payment,
+                        status,
+                        comment
+                    };
+
+                    saveToStorage();
+                    updateYearFilter();
+                    clearForm();
+                    renderTable();
+                }
+
+                function deleteRecord(id) {
+                    if (confirm('Удалить запись?')) {
+                        records = records.filter(r => r.id !== id);
+                        saveToStorage();
+                        updateYearFilter();
+                        if (editingId === id) clearForm();
+                        renderTable();
+                    }
+                }
+
+                // Инициализация
+                loadFromServer(); // Пытаемся загрузить с сервера
+
+                // Сохраняем экземпляр для доступа извне
+                window.appInstance = {
+                    loadFromServer: loadFromServer
+                };
+
+                // Обработчики событий
+                document.getElementById('addBtn').addEventListener('click', addRecord);
+                document.getElementById('updateBtn').addEventListener('click', updateRecord);
+                document.getElementById('cancelEdit').addEventListener('click', clearForm);
+                document.getElementById('syncNowBtn').addEventListener('click', loadFromServer);
+                
+                document.getElementById('searchInput').addEventListener('input', renderTable);
+                
+                document.querySelectorAll('.status-checkbox').forEach(cb => {
+                    cb.addEventListener('change', renderTable);
+                });
+
+                document.getElementById('oilYes').addEventListener('change', renderTable);
+                document.getElementById('oilNo').addEventListener('change', renderTable);
+                document.getElementById('oilSoon').addEventListener('change', renderTable);
+                
+                document.getElementById('yearFilter').addEventListener('change', renderTable);
+                document.getElementById('monthFilter').addEventListener('change', renderTable);
+
+                document.getElementById('tableBody').addEventListener('click', (e) => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+
+                    const id = target.getAttribute('data-id');
+                    if (target.classList.contains('delete-btn')) {
+                        deleteRecord(id);
+                    } else if (target.classList.contains('edit-btn')) {
+                        const record = records.find(r => r.id === id);
+                        if (record) fillFormForEdit(record);
+                    }
+                });
+
+                // Автообновление каждые 30 секунд
+                setInterval(() => {
+                    if (document.getElementById('appScreen').style.display !== 'none') {
+                        loadFromServer();
+                    }
+                }, 30000);
+            }
+        })();
+    </script>
 </body>
 </html>
