@@ -7,5 +7,5 @@ const JSONBIN_CONFIG = {
 // Конфигурация Telegram - ИСПРАВЛЕНО!
 const TELEGRAM_CONFIG = {
     BOT_TOKEN: '6388621340:AAHMzOZntepScCOj32lGeikyZDPGJjaJS7o',
-    CHAT_ID: '966869280'  // ВАШ ПРАВИЛЬНЫЙ Chat ID
+    CHAT_ID: '-966869280'  // ВАШ ПРАВИЛЬНЫЙ Chat ID
 };
