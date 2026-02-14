@@ -1,14 +1,6 @@
-// Конфигурация для JSONbin.io
-// Получите ключи бесплатно на https://jsonbin.io/
-const CONFIG = {
-    // ЗАРЕГИСТРИРУЙТЕСЬ на jsonbin.io и получите эти ключи
-    API_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi',         // Вставьте ваш API ключ
-    BIN_ID: 'ВАШ_BIN_ID'              // Вставьте ID вашего бина (создайте новый bin)
+// Конфигурация JSONbin.io
+// Эти данные будут подставлены в основной код
+const JSONBIN_CONFIG = {
+    BIN_ID: '6990220aae596e708f29d5c7',
+    MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
 };
-
-// Инструкция по получению ключей:
-// 1. Зайдите на https://jsonbin.io/
-// 2. Зарегистрируйтесь (бесплатно)
-// 3. Создайте новый bin (можно пустой JSON массив [])
-// 4. Скопируйте API Key из настроек
-// 5. Скопируйте Bin ID из URL (после последнего слеша)
