@@ -7,5 +7,5 @@ const JSONBIN_CONFIG = {
 // Конфигурация Telegram - ОТПРАВКА В ГРУППУ
 const TELEGRAM_CONFIG = {
     BOT_TOKEN: '8513239665:AAEEnuIzebYvxnHebKsjyrFnDpiVIn-R2VE',  // Токен бота
-    CHAT_ID: '8513239665'  // ID группы (с минусом!)
+    CHAT_ID: '966869280'  // ID группы (с минусом!)
 };
