@@ -12,6 +12,6 @@ const TELEGRAM_CONFIG = {
 
 // Конфигурация авторизации
 const AUTH_CONFIG = {
-    USERNAME: 'admin',
-    PASSWORD: 'admin1'
+    USERNAME: 'adminn',
+    PASSWORD: 'adminn'
 };
