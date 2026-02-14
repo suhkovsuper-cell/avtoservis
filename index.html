@@ -91,6 +91,7 @@
             border-radius: 20px;
             font-size: 0.8rem;
             margin-left: 10px;
+            font-weight: normal;
         }
         
         .sync-success {
@@ -124,12 +125,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.9rem;
-            margin-left: 10px;
-        }
-        
-        .btn-sync {
-            background: #4299e1;
-            margin-right: 10px;
         }
         
         .container {
@@ -143,10 +138,9 @@
         h1 {
             color: #2c3e50;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             font-weight: 600;
             font-size: 1.8rem;
-            text-align: center;
         }
         /* Отчет - адаптация */
         .report-panel {
@@ -586,6 +580,8 @@
             }
         }
     </style>
+    <!-- Подключаем конфигурацию из отдельного файла -->
+    <script src="config.js"></script>
 </head>
 <body>
     <!-- Экран логина -->
@@ -612,10 +608,7 @@
                 🔧 Учет - Автосервис
                 <span id="syncStatus" class="sync-status sync-loading">🔄 Загрузка...</span>
             </h1>
-            <div>
-                <button class="btn-sync btn" id="syncNowBtn">🔄 Синхр.</button>
-                <button class="logout-btn" id="logoutBtn">Выйти</button>
-            </div>
+            <button class="logout-btn" id="logoutBtn">Выйти</button>
         </div>
 
         <!-- Отчет -->
@@ -800,20 +793,25 @@
 
 <script>
     (function() {
-        // ========== КОНФИГУРАЦИЯ JSONBIN.IO ==========
-        const JSONBIN_CONFIG = {
-            BIN_ID: '6990220aae596e708f29d5c7',
-            MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
-        };
+        // ========== ПРОВЕРКА КОНФИГУРАЦИИ ==========
+        if (typeof JSONBIN_CONFIG === 'undefined') {
+            alert('Ошибка: файл config.js не найден!');
+        }
 
         // ========== ЛОГИРОВАНИЕ ==========
         const LOGIN_SCREEN = document.getElementById('loginScreen');
         const APP_SCREEN = document.getElementById('appScreen');
         const LOGIN_BTN = document.getElementById('loginBtn');
         const LOGOUT_BTN = document.getElementById('logoutBtn');
-        const SYNC_NOW_BTN = document.getElementById('syncNowBtn');
         const SYNC_STATUS = document.getElementById('syncStatus');
         const LOGIN_ERROR = document.getElementById('loginError');
+        
+        function setSyncStatus(status, message) {
+            if (SYNC_STATUS) {
+                SYNC_STATUS.className = 'sync-status ' + status;
+                SYNC_STATUS.textContent = message;
+            }
+        }
         
         // Проверка авторизации
         function checkAuth() {
@@ -831,11 +829,6 @@
             if (!window.appInitialized) {
                 initApp();
                 window.appInitialized = true;
-            } else {
-                // Если уже инициализировано, просто загружаем данные
-                if (window.loadFromServer) {
-                    window.loadFromServer();
-                }
             }
         }
         
@@ -844,12 +837,11 @@
             APP_SCREEN.style.display = 'none';
         }
         
-        // Обработка входа
+        // Обработка входа (поля НЕ предзаполнены)
         LOGIN_BTN.addEventListener('click', function() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
             
-            // Проверка admin/admin (без предзаполнения)
             if (username === 'admin' && password === 'admin') {
                 sessionStorage.setItem('auth', 'true');
                 LOGIN_ERROR.textContent = '';
@@ -874,13 +866,14 @@
         let records = [];
         let syncTimeout = null;
 
-        function setSyncStatus(status, message) {
-            SYNC_STATUS.className = 'sync-status ' + status;
-            SYNC_STATUS.textContent = message;
-        }
-
         // Загрузка с JSONbin.io
         async function loadFromServer() {
+            if (!JSONBIN_CONFIG) {
+                setSyncStatus('sync-error', '❌ Нет конфига');
+                loadFromStorage();
+                return;
+            }
+            
             setSyncStatus('sync-loading', '🔄 Загрузка...');
             
             try {
@@ -900,8 +893,8 @@
                     setSyncStatus('sync-success', '✓ Синхронизировано');
                     return true;
                 } else if (response.status === 404) {
-                    // Бин не найден, создаем новый с пустыми данными
-                    records = [];
+                    // Бин не найден, создаем новый с начальными данными
+                    records = getInitialData();
                     await saveToServer();
                     updateYearFilter();
                     renderTable();
@@ -920,6 +913,11 @@
 
         // Сохранение на JSONbin.io
         async function saveToServer() {
+            if (!JSONBIN_CONFIG) {
+                setSyncStatus('sync-error', '❌ Нет конфига');
+                return false;
+            }
+            
             setSyncStatus('sync-loading', '🔄 Сохранение...');
             
             try {
@@ -962,6 +960,71 @@
             }
             updateYearFilter();
             renderTable();
+        }
+
+        // Начальные данные
+        function getInitialData() {
+            const today = new Date();
+            const threeMonthsAgo = new Date(today);
+            threeMonthsAgo.setMonth(today.getMonth() - 3);
+            
+            const elevenMonthsAgo = new Date(today);
+            elevenMonthsAgo.setMonth(today.getMonth() - 11);
+            
+            const formatDate = (date) => {
+                return date.toISOString().split('T')[0];
+            };
+
+            return [
+                { 
+                    id: 'K-1001', 
+                    name: 'Иван Петров', 
+                    phone: '+7 999 111-22-33', 
+                    carModel: 'Toyota Camry',
+                    visitDate: formatDate(threeMonthsAgo),
+                    visitTime: '10:30',
+                    oilChange: 'Да',
+                    payment: 5000,
+                    status: 'waiting',
+                    comment: 'Просил проверить кондиционер'
+                },
+                { 
+                    id: 'K-1002', 
+                    name: 'Елена Смирнова', 
+                    phone: '+7 999 222-33-44', 
+                    carModel: 'KIA Rio',
+                    visitDate: '2026-02-13',
+                    visitTime: '14:00',
+                    oilChange: 'Нет',
+                    payment: 3500,
+                    status: 'done',
+                    comment: 'Замена тормозных колодок'
+                },
+                { 
+                    id: 'K-1003', 
+                    name: 'Петр Сидоров', 
+                    phone: '+7 999 333-44-55', 
+                    carModel: 'BMW X5',
+                    visitDate: formatDate(elevenMonthsAgo),
+                    visitTime: '09:15',
+                    oilChange: 'Да',
+                    payment: 12000,
+                    status: 'late',
+                    comment: 'Срочно, звонил уже 2 раза'
+                },
+                { 
+                    id: 'K-1004', 
+                    name: 'Анна Иванова', 
+                    phone: '+7 999 444-55-66', 
+                    carModel: 'Hyundai Solaris',
+                    visitDate: '2026-02-14',
+                    visitTime: '16:45',
+                    oilChange: 'Да',
+                    payment: 4500,
+                    status: 'notcome',
+                    comment: 'Перенесла на следующую неделю'
+                }
+            ];
         }
 
         function saveToStorage() {
@@ -1351,16 +1414,12 @@
         function init() {
             // Загружаем данные с сервера
             loadFromServer();
-            
-            // Делаем функцию доступной глобально для кнопки синхронизации
-            window.loadFromServer = loadFromServer;
 
             document.getElementById('clientId').value = generateNewId();
             
             document.getElementById('addBtn').addEventListener('click', addRecord);
             document.getElementById('updateBtn').addEventListener('click', updateRecord);
             document.getElementById('cancelEdit').addEventListener('click', clearForm);
-            document.getElementById('syncNowBtn').addEventListener('click', loadFromServer);
             
             document.getElementById('searchInput').addEventListener('input', renderTable);
             
