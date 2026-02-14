@@ -33,6 +33,8 @@
             --btn-danger-hover: #e53e3e;
             --btn-info: #4299e1;
             --btn-info-hover: #3182ce;
+            --btn-success: #48bb78;
+            --btn-success-hover: #38a169;
             --sync-success-bg: #c6f6d5;
             --sync-success-text: #22543d;
             --sync-error-bg: #fed7d7;
@@ -76,6 +78,8 @@
             --btn-danger-hover: #9b2c2c;
             --btn-info: #3182ce;
             --btn-info-hover: #2c5282;
+            --btn-success: #2f855a;
+            --btn-success-hover: #276749;
             --sync-success-bg: #276749;
             --sync-success-text: #c6f6d5;
             --sync-error-bg: #742a2a;
@@ -173,6 +177,16 @@
             text-align: center;
             margin-top: 15px;
             font-size: 0.9rem;
+        }
+        
+        .user-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-left: 10px;
+            padding: 4px 8px;
+            background: var(--bg-container);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
         }
         
         .sync-status {
@@ -297,6 +311,25 @@
         
         .stats-toggle-btn:hover {
             background: var(--btn-info-hover);
+        }
+        
+        .export-btn {
+            background: var(--btn-success);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .export-btn:hover {
+            background: var(--btn-success-hover);
+        }
+        
+        .admin-only {
+            display: inline-block;
         }
         
         .container {
@@ -899,13 +932,17 @@
                     <span id="syncStatus" class="sync-status sync-loading">🔄 Загрузка...</span>
                     <span id="telegramStatus" class="telegram-status" onclick="testTelegram()" title="Нажмите для теста Telegram">📱 Проверка...</span>
                 </h1>
+                <span id="userInfo" class="user-info"></span>
                 <div class="theme-toggle" id="themeToggle">
                     <span id="themeLight" class="active">☀️</span>
                     <span id="themeDark">🌙</span>
                 </div>
             </div>
             <div>
-                <button class="stats-toggle-btn" id="toggleStatsBtn">📊 Показать статистику</button>
+                <span id="adminButtons">
+                    <button class="export-btn" id="exportBtn" style="display: none;">📥 Скачать отчет</button>
+                    <button class="stats-toggle-btn" id="toggleStatsBtn" style="display: none;">📊 Статистика</button>
+                </span>
                 <button class="logout-btn" id="logoutBtn">Выйти</button>
             </div>
         </div>
@@ -1165,6 +1202,11 @@
         const STATS_SECTION = document.getElementById('statsSection');
         const TOGGLE_STATS_BTN = document.getElementById('toggleStatsBtn');
         const CLOSE_STATS_BTN = document.getElementById('closeStatsBtn');
+        const EXPORT_BTN = document.getElementById('exportBtn');
+        const USER_INFO = document.getElementById('userInfo');
+        
+        let currentUser = null;
+        let currentUserRole = null;
         
         function setSyncStatus(status, message) {
             if (SYNC_STATUS) {
@@ -1184,6 +1226,22 @@
         function checkAuth() {
             const isAuthenticated = sessionStorage.getItem('auth') === 'true';
             if (isAuthenticated) {
+                const username = sessionStorage.getItem('username');
+                const role = sessionStorage.getItem('role');
+                if (username) {
+                    currentUser = username;
+                    currentUserRole = role;
+                    USER_INFO.textContent = `👤 ${username} (${role === 'admin' ? 'Админ' : 'Пользователь'})`;
+                    
+                    // Показываем кнопки только для admin
+                    if (role === 'admin') {
+                        TOGGLE_STATS_BTN.style.display = 'inline-block';
+                        EXPORT_BTN.style.display = 'inline-block';
+                    } else {
+                        TOGGLE_STATS_BTN.style.display = 'none';
+                        EXPORT_BTN.style.display = 'none';
+                    }
+                }
                 showApp();
             } else {
                 showLogin();
@@ -1217,6 +1275,20 @@
             if (user) {
                 sessionStorage.setItem('auth', 'true');
                 sessionStorage.setItem('username', username);
+                sessionStorage.setItem('role', user.role);
+                currentUser = username;
+                currentUserRole = user.role;
+                USER_INFO.textContent = `👤 ${username} (${user.role === 'admin' ? 'Админ' : 'Пользователь'})`;
+                
+                // Показываем кнопки только для admin
+                if (user.role === 'admin') {
+                    TOGGLE_STATS_BTN.style.display = 'inline-block';
+                    EXPORT_BTN.style.display = 'inline-block';
+                } else {
+                    TOGGLE_STATS_BTN.style.display = 'none';
+                    EXPORT_BTN.style.display = 'none';
+                }
+                
                 LOGIN_ERROR.textContent = '';
                 showApp();
             } else {
@@ -1227,28 +1299,66 @@
         LOGOUT_BTN.addEventListener('click', function() {
             sessionStorage.removeItem('auth');
             sessionStorage.removeItem('username');
+            sessionStorage.removeItem('role');
+            currentUser = null;
+            currentUserRole = null;
             showLogin();
         });
         
         // Проверка авторизации при загрузке
         checkAuth();
 
-        // Статистика
+        // Статистика (только для admin)
         TOGGLE_STATS_BTN.addEventListener('click', function() {
+            if (currentUserRole !== 'admin') {
+                alert('Доступ запрещен. Только для администраторов.');
+                return;
+            }
+            
             if (STATS_SECTION.style.display === 'none') {
                 updateStats();
                 STATS_SECTION.style.display = 'block';
                 TOGGLE_STATS_BTN.textContent = '📊 Скрыть статистику';
             } else {
                 STATS_SECTION.style.display = 'none';
-                TOGGLE_STATS_BTN.textContent = '📊 Показать статистику';
+                TOGGLE_STATS_BTN.textContent = '📊 Статистика';
             }
         });
         
         CLOSE_STATS_BTN.addEventListener('click', function() {
             STATS_SECTION.style.display = 'none';
-            TOGGLE_STATS_BTN.textContent = '📊 Показать статистику';
+            TOGGLE_STATS_BTN.textContent = '📊 Статистика';
         });
+
+        // Экспорт отчета (только для admin)
+        EXPORT_BTN.addEventListener('click', function() {
+            if (currentUserRole !== 'admin') {
+                alert('Доступ запрещен. Только для администраторов.');
+                return;
+            }
+            
+            exportReport();
+        });
+
+        // Функция экспорта отчета
+        function exportReport() {
+            const dataStr = JSON.stringify(records, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `autoservice_report_${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            // Показываем уведомление
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#48bb78; color:white; padding:10px 20px; border-radius:10px; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.1);';
+            toast.textContent = '✅ Отчет скачан';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
 
         // ========== ФУНКЦИИ ДЛЯ TELEGRAM ==========
         async function sendTelegramNotification(record) {
@@ -1258,7 +1368,7 @@
                 return;
             }
 
-            // Формируем сообщение
+            // Формируем сообщение с информацией о том, кто создал заявку
             const statusText = {
                 'waiting': 'Ожидаем',
                 'late': 'Опаздывает',
@@ -1268,6 +1378,7 @@
 
             const message = `
 🆕 НОВЫЙ КЛИЕНТ ДОБАВЛЕН!
+👤 Создал: ${currentUser || 'Неизвестно'} (${currentUserRole === 'admin' ? 'Админ' : 'Пользователь'})
 
 🔹 ID: ${record.id || 'Не указано'}
 👤 Имя: ${record.name || 'Не указано'}
@@ -1386,6 +1497,8 @@
 
         // Функция обновления статистики
         function updateStats() {
+            if (currentUserRole !== 'admin') return;
+            
             const monthlyStats = document.getElementById('monthlyStats');
             const totalDoneStats = document.getElementById('totalDoneStats');
             const monthlySumStats = document.getElementById('monthlySumStats');
@@ -1536,7 +1649,7 @@
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                     updateYearFilter();
                     renderTable();
-                    if (STATS_SECTION.style.display !== 'none') {
+                    if (STATS_SECTION.style.display !== 'none' && currentUserRole === 'admin') {
                         updateStats();
                     }
                     setSyncStatus('sync-success', '✓ Синхронизировано');
@@ -1644,7 +1757,8 @@
                     oilChange: 'Да',
                     payment: 5000,
                     status: 'waiting',
-                    comment: 'Просил проверить кондиционер'
+                    comment: 'Просил проверить кондиционер',
+                    createdBy: 'admin'
                 },
                 { 
                     id: 'K-20260213-1400', 
@@ -1656,7 +1770,8 @@
                     oilChange: 'Нет',
                     payment: 3500,
                     status: 'done',
-                    comment: 'Замена тормозных колодок'
+                    comment: 'Замена тормозных колодок',
+                    createdBy: 'мастер'
                 },
                 { 
                     id: formatDateTimeId(elevenMonthsAgo), 
@@ -1668,7 +1783,8 @@
                     oilChange: 'Да',
                     payment: 12000,
                     status: 'done',
-                    comment: 'Срочно, звонил уже 2 раза'
+                    comment: 'Срочно, звонил уже 2 раза',
+                    createdBy: 'менеджер'
                 },
                 { 
                     id: 'K-20260214-1645', 
@@ -1680,7 +1796,8 @@
                     oilChange: 'Да',
                     payment: 4500,
                     status: 'done',
-                    comment: 'Перенесла на следующую неделю'
+                    comment: 'Перенесла на следующую неделю',
+                    createdBy: 'директор'
                 }
             ];
         }
@@ -2006,7 +2123,9 @@
                 oilChange,
                 payment,
                 status,
-                comment
+                comment,
+                createdBy: currentUser || 'Неизвестно',
+                createdByRole: currentUserRole || 'user'
             };
 
             records.push(newRecord);
@@ -2050,6 +2169,7 @@
             }
 
             records[index] = {
+                ...records[index],
                 id: clientId,
                 name,
                 phone,
