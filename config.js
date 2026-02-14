@@ -2,7 +2,7 @@
 // Получите ключи бесплатно на https://jsonbin.io/
 const CONFIG = {
     // ЗАРЕГИСТРИРУЙТЕСЬ на jsonbin.io и получите эти ключи
-    API_KEY: 'ВАШ_API_КЛЮЧ',         // Вставьте ваш API ключ
+    API_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi',         // Вставьте ваш API ключ
     BIN_ID: 'ВАШ_BIN_ID'              // Вставьте ID вашего бина (создайте новый bin)
 };
 
