@@ -4,8 +4,8 @@ const JSONBIN_CONFIG = {
     MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
 };
 
-// Конфигурация Telegram
+// Конфигурация Telegram - ИСПРАВЛЕНО!
 const TELEGRAM_CONFIG = {
     BOT_TOKEN: '6388621340:AAHMzOZntepScCOj32lGeikyZDPGJjaJS7o',
-    CHAT_ID: '6388621340'  // Ваш личный Chat ID
+    CHAT_ID: '966869280'  // ВАШ ПРАВИЛЬНЫЙ Chat ID
 };
