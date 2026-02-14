@@ -4,8 +4,8 @@ const JSONBIN_CONFIG = {
     MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
 };
 
-// Конфигурация Telegram - отправка самому боту
+// Конфигурация Telegram - ОТПРАВКА В ГРУППУ
 const TELEGRAM_CONFIG = {
-    BOT_TOKEN: '8513239665:AAEEnuIzebYvxnHebKsjyrFnDpiVIn-R2VE',
-    CHAT_ID: '966869280'  // ID бота (для отправки самому себе)
+    BOT_TOKEN: '8513239665:AAEEnuIzebYvxnHebKsjyrFnDpiVIn-R2VE',  // Токен бота
+    CHAT_ID: '-2031094030'  // ID группы (с минусом!)
 };
