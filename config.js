@@ -10,14 +10,14 @@ const TELEGRAM_CONFIG = {
     CHAT_ID: '966869280'  // ВАШ ЛИЧНЫЙ ID
 };
 
-// Конфигурация авторизации (несколько пользователей)
+// Конфигурация авторизации с ролями
 const AUTH_CONFIG = {
     USERS: [
-        { username: 'admin', password: 'admin' },
-        { username: 'евгений', password: '123' },
-        { username: 'мастер', password: '123' },
-        { username: 'менеджер', password: '123' },
-        { username: 'директор', password: '123' },
-        { username: 'бухгалтер', password: '123' }
+        { username: 'admin', password: 'admin', role: 'admin' },
+        { username: 'евгений', password: '123', role: 'admin' },
+        { username: 'мастер', password: '123', role: 'user' },
+        { username: 'менеджер', password: '123', role: 'user' },
+        { username: 'директор', password: '123', role: 'admin' },
+        { username: 'бухгалтер', password: '123', role: 'user' }
     ]
 };
