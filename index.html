@@ -8,9 +8,81 @@
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        
+        /* Светлая тема (по умолчанию) */
+        :root {
+            --bg-body: #f4f7fc;
+            --bg-container: white;
+            --text-primary: #2c3e50;
+            --text-secondary: #4a5568;
+            --border-color: #e2e8f0;
+            --input-bg: white;
+            --input-border: #cbd5e0;
+            --table-header-bg: #f7fafc;
+            --table-row-hover: #f8fafd;
+            --shadow-color: rgba(0,0,0,0.1);
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --btn-primary: #667eea;
+            --btn-primary-hover: #5a67d8;
+            --btn-secondary: #48bb78;
+            --btn-secondary-hover: #38a169;
+            --btn-danger: #f56565;
+            --btn-danger-hover: #e53e3e;
+            --sync-success-bg: #c6f6d5;
+            --sync-success-text: #22543d;
+            --sync-error-bg: #fed7d7;
+            --sync-error-text: #742a2a;
+            --sync-loading-bg: #feebc8;
+            --sync-loading-text: #7b341e;
+            --telegram-bg: #e1f5fe;
+            --telegram-text: #01579b;
+            --footer-text: #718096;
+            --total-row-bg: #f0f4f8;
+            --checkbox-group-bg: #f8fafd;
+            --filter-bar-bg: white;
+            --form-section-bg: #f8fafd;
+        }
+
+        /* Темная тема */
+        [data-theme="dark"] {
+            --bg-body: #1a202c;
+            --bg-container: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --border-color: #4a5568;
+            --input-bg: #4a5568;
+            --input-border: #718096;
+            --table-header-bg: #4a5568;
+            --table-row-hover: #3f4a5a;
+            --shadow-color: rgba(0,0,0,0.3);
+            --gradient-start: #4c51bf;
+            --gradient-end: #6b46c1;
+            --btn-primary: #5a67d8;
+            --btn-primary-hover: #4c51bf;
+            --btn-secondary: #2f855a;
+            --btn-secondary-hover: #276749;
+            --btn-danger: #c53030;
+            --btn-danger-hover: #9b2c2c;
+            --sync-success-bg: #276749;
+            --sync-success-text: #c6f6d5;
+            --sync-error-bg: #742a2a;
+            --sync-error-text: #fed7d7;
+            --sync-loading-bg: #7b341e;
+            --sync-loading-text: #feebc8;
+            --telegram-bg: #2c5282;
+            --telegram-text: #e1f5fe;
+            --footer-text: #a0aec0;
+            --total-row-bg: #4a5568;
+            --checkbox-group-bg: #4a5568;
+            --filter-bar-bg: #2d3748;
+            --form-section-bg: #4a5568;
+        }
+
         body {
-            background: #f4f7fc;
+            background: var(--bg-body);
             margin: 0;
             padding: 10px;
             display: flex;
@@ -22,15 +94,15 @@
         .login-container {
             max-width: 400px;
             width: 100%;
-            background: white;
+            background: var(--bg-container);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px var(--shadow-color);
             padding: 30px;
             margin: auto;
         }
         
         .login-container h2 {
-            color: #2c3e50;
+            color: var(--text-primary);
             text-align: center;
             margin-bottom: 30px;
         }
@@ -43,28 +115,30 @@
             display: block;
             font-size: 0.9rem;
             font-weight: 600;
-            color: #4a5568;
+            color: var(--text-secondary);
             margin-bottom: 8px;
         }
         
         .login-form input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #cbd5e0;
+            border: 1px solid var(--input-border);
             border-radius: 10px;
             font-size: 1rem;
             transition: 0.2s;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
         
         .login-form input:focus {
-            border-color: #667eea;
+            border-color: var(--btn-primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
         
         .login-btn {
             width: 100%;
-            background: #667eea;
+            background: var(--btn-primary);
             color: white;
             border: none;
             padding: 14px;
@@ -75,11 +149,11 @@
         }
         
         .login-btn:hover {
-            background: #5a67d8;
+            background: var(--btn-primary-hover);
         }
         
         .error-message {
-            color: #f56565;
+            color: var(--btn-danger);
             text-align: center;
             margin-top: 15px;
             font-size: 0.9rem;
@@ -95,18 +169,18 @@
         }
         
         .sync-success {
-            background: #c6f6d5;
-            color: #22543d;
+            background: var(--sync-success-bg);
+            color: var(--sync-success-text);
         }
         
         .sync-error {
-            background: #fed7d7;
-            color: #742a2a;
+            background: var(--sync-error-bg);
+            color: var(--sync-error-text);
         }
         
         .sync-loading {
-            background: #feebc8;
-            color: #7b341e;
+            background: var(--sync-loading-bg);
+            color: var(--sync-loading-text);
         }
         
         .telegram-status {
@@ -115,8 +189,8 @@
             border-radius: 20px;
             font-size: 0.8rem;
             margin-left: 10px;
-            background: #e1f5fe;
-            color: #01579b;
+            background: var(--telegram-bg);
+            color: var(--telegram-text);
             cursor: pointer;
             transition: 0.2s;
         }
@@ -126,18 +200,18 @@
         }
         
         .telegram-success {
-            background: #c6f6d5;
-            color: #22543d;
+            background: var(--sync-success-bg);
+            color: var(--sync-success-text);
         }
         
         .telegram-error {
-            background: #fed7d7;
-            color: #742a2a;
+            background: var(--sync-error-bg);
+            color: var(--sync-error-text);
         }
         
         .telegram-warning {
-            background: #feebc8;
-            color: #7b341e;
+            background: var(--sync-loading-bg);
+            color: var(--sync-loading-text);
         }
         
         .header-with-logout {
@@ -146,10 +220,42 @@
             align-items: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        
+        .theme-toggle span {
+            padding: 5px 10px;
+            border-radius: 25px;
+            transition: 0.2s;
+        }
+        
+        .theme-toggle .active {
+            background: var(--btn-primary);
+            color: white;
         }
         
         .logout-btn {
-            background: #f56565;
+            background: var(--btn-danger);
             color: white;
             border: none;
             padding: 8px 15px;
@@ -158,16 +264,20 @@
             font-size: 0.9rem;
         }
         
+        .logout-btn:hover {
+            background: var(--btn-danger-hover);
+        }
+        
         .container {
             max-width: 1400px;
             width: 100%;
-            background: white;
+            background: var(--bg-container);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px var(--shadow-color);
             padding: 15px;
         }
         h1 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin-top: 0;
             margin-bottom: 0;
             font-weight: 600;
@@ -179,7 +289,7 @@
         }
         /* Отчет - адаптация */
         .report-panel {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             color: white;
             padding: 15px;
             border-radius: 15px;
@@ -206,16 +316,16 @@
         }
         /* Форма - адаптация */
         .form-section {
-            background: #f8fafd;
+            background: var(--form-section-bg);
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
         }
         .form-section h3 {
             margin-top: 0;
             margin-bottom: 15px;
-            color: #2d3748;
+            color: var(--text-primary);
             font-weight: 600;
             font-size: 1.2rem;
         }
@@ -231,7 +341,7 @@
             display: block;
             font-size: 0.8rem;
             font-weight: 600;
-            color: #4a5568;
+            color: var(--text-secondary);
             margin-bottom: 4px;
             text-transform: uppercase;
         }
@@ -240,11 +350,12 @@
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbd5e0;
+            border: 1px solid var(--input-border);
             border-radius: 10px;
             font-size: 1rem;
             transition: 0.2s;
-            background: white;
+            background: var(--input-bg);
+            color: var(--text-primary);
             font-family: inherit;
             -webkit-appearance: none;
             appearance: none;
@@ -264,16 +375,17 @@
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #667eea;
+            border-color: var(--btn-primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
         .form-group input[readonly] {
-            background: #f0f4f8;
+            background: var(--form-section-bg);
             cursor: not-allowed;
+            opacity: 0.7;
         }
         .btn {
-            background: #667eea;
+            background: var(--btn-primary);
             color: white;
             border: none;
             padding: 14px 20px;
@@ -288,29 +400,30 @@
             -webkit-tap-highlight-color: transparent;
         }
         .btn:hover {
-            background: #5a67d8;
+            background: var(--btn-primary-hover);
         }
         .btn:active {
             transform: scale(0.98);
         }
         .btn-secondary {
-            background: #48bb78;
+            background: var(--btn-secondary);
         }
-        .btn-secondary:active {
-            background: #38a169;
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
         }
         .btn-danger {
-            background: #f56565;
+            background: var(--btn-danger);
         }
-        .btn-danger:active {
-            background: #e53e3e;
+        .btn-danger:hover {
+            background: var(--btn-danger-hover);
         }
         .clear-btn {
-            background: #cbd5e0;
-            color: #2d3748;
+            background: var(--border-color);
+            color: var(--text-primary);
         }
-        .clear-btn:active {
-            background: #a0aec0;
+        .clear-btn:hover {
+            background: var(--text-secondary);
+            color: white;
         }
         .form-actions {
             display: flex;
@@ -324,11 +437,11 @@
             flex-direction: column;
             gap: 15px;
             margin: 20px 0;
-            background: white;
+            background: var(--filter-bar-bg);
             padding: 15px;
             border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            border: 1px solid var(--border-color);
         }
         .filter-row {
             display: flex;
@@ -338,10 +451,12 @@
         .search-box input {
             width: 100%;
             padding: 14px 15px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
             border-radius: 30px;
             font-size: 1rem;
             -webkit-appearance: none;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
         .filter-section {
             width: 100%;
@@ -350,7 +465,7 @@
             display: block;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #4a5568;
+            color: var(--text-secondary);
             margin-bottom: 8px;
             text-transform: uppercase;
         }
@@ -358,10 +473,10 @@
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            background: #f8fafd;
+            background: var(--checkbox-group-bg);
             padding: 12px;
             border-radius: 15px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
         }
         .checkbox-item {
             display: flex;
@@ -369,7 +484,7 @@
             gap: 6px;
             cursor: pointer;
             font-size: 0.9rem;
-            color: #2d3748;
+            color: var(--text-primary);
             flex: 1 1 calc(50% - 12px);
             min-width: 120px;
             -webkit-tap-highlight-color: transparent;
@@ -378,7 +493,7 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
-            accent-color: #667eea;
+            accent-color: var(--btn-primary);
         }
         .info-badge {
             display: inline-block;
@@ -386,7 +501,7 @@
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 600;
-            background: #667eea;
+            background: var(--btn-primary);
             color: white;
             margin-left: 5px;
             vertical-align: middle;
@@ -399,10 +514,11 @@
         .date-filter select {
             flex: 1 1 120px;
             padding: 12px;
-            border: 1px solid #cbd5e0;
+            border: 1px solid var(--border-color);
             border-radius: 30px;
             font-size: 0.95rem;
-            background: white;
+            background: var(--input-bg);
+            color: var(--text-primary);
             -webkit-appearance: none;
             appearance: none;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%234a5568%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
@@ -414,8 +530,8 @@
         .table-wrapper {
             overflow-x: auto;
             border-radius: 15px;
-            border: 1px solid #e2e8f0;
-            background: white;
+            border: 1px solid var(--border-color);
+            background: var(--bg-container);
             margin: 0 -5px;
             -webkit-overflow-scrolling: touch;
         }
@@ -425,32 +541,35 @@
             min-width: 1300px;
         }
         th {
-            background: #f7fafc;
-            color: #2d3748;
+            background: var(--table-header-bg);
+            color: var(--text-primary);
             font-weight: 600;
             font-size: 0.75rem;
             text-transform: uppercase;
             padding: 12px 8px;
             text-align: left;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid var(--border-color);
             white-space: nowrap;
         }
         td {
             padding: 10px 8px;
-            border-bottom: 1px solid #edf2f7;
-            color: #2d3748;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
             font-size: 0.85rem;
             vertical-align: top;
             white-space: nowrap;
         }
+        tr:hover td {
+            background: var(--table-row-hover);
+        }
         .total-row {
-            background: #f0f4f8;
+            background: var(--total-row-bg);
             font-weight: 700;
-            border-top: 2px solid #667eea;
+            border-top: 2px solid var(--btn-primary);
         }
         .total-row td {
             padding: 12px 8px;
-            background: #f0f4f8;
+            background: var(--total-row-bg);
         }
         .comment-cell {
             max-width: 150px;
@@ -520,23 +639,20 @@
             border-radius: 6px;
             transition: 0.1s;
             -webkit-tap-highlight-color: transparent;
+            color: var(--text-primary);
         }
-        .edit-btn {
-            color: #4299e1;
+        .edit-btn:hover {
+            background: var(--btn-primary);
+            color: white;
         }
-        .edit-btn:active {
-            background: #ebf8ff;
-        }
-        .delete-btn {
-            color: #f56565;
-        }
-        .delete-btn:active {
-            background: #fff5f5;
+        .delete-btn:hover {
+            background: var(--btn-danger);
+            color: white;
         }
         .footer-note {
             margin-top: 15px;
             font-size: 0.75rem;
-            color: #718096;
+            color: var(--footer-text);
             text-align: center;
         }
         
@@ -639,11 +755,17 @@
     <!-- Основное приложение (изначально скрыто) -->
     <div id="appScreen" style="display: none;" class="container">
         <div class="header-with-logout">
-            <h1>
-                🔧 Учет - Автосервис
-                <span id="syncStatus" class="sync-status sync-loading">🔄 Загрузка...</span>
-                <span id="telegramStatus" class="telegram-status" onclick="testTelegram()" title="Нажмите для теста Telegram">📱 Проверка...</span>
-            </h1>
+            <div class="header-left">
+                <h1>
+                    🔧 Учет - Автосервис
+                    <span id="syncStatus" class="sync-status sync-loading">🔄 Загрузка...</span>
+                    <span id="telegramStatus" class="telegram-status" onclick="testTelegram()" title="Нажмите для теста Telegram">📱 Проверка...</span>
+                </h1>
+                <div class="theme-toggle" id="themeToggle">
+                    <span id="themeLight" class="active">☀️</span>
+                    <span id="themeDark">🌙</span>
+                </div>
+            </div>
             <button class="logout-btn" id="logoutBtn">Выйти</button>
         </div>
 
@@ -671,10 +793,9 @@
         <div class="form-section">
             <h3>➕ Добавить / Редактировать запись</h3>
             <div class="form-row">
-                <div class="form-group">
-                    <label>ID (K-)</label>
-                    <input type="text" id="clientId" readonly placeholder="K-ГГГГММДД-ЧЧММ">
-                </div>
+                <!-- ID скрыт, но технически присутствует в форме -->
+                <input type="hidden" id="clientId" value="">
+                
                 <div class="form-group">
                     <label>Имя клиента</label>
                     <input type="text" id="userName" placeholder="Иван Петров" autocomplete="off">
@@ -804,7 +925,7 @@
             <table id="clientsTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <!-- Колонка ID скрыта -->
                         <th>Клиент</th>
                         <th>Телефон</th>
                         <th>Марка авто</th>
@@ -823,7 +944,7 @@
             </table>
         </div>
         <div class="footer-note">
-            * ID в формате K-ГГГГММДД-ЧЧММ (дата и время создания). Нажмите на статус Telegram для теста.
+            * Дата и время создания записи используются как ID. Нажмите на статус Telegram для теста.
         </div>
     </div>
 
@@ -832,6 +953,35 @@
         // ========== ПРОВЕРКА КОНФИГУРАЦИИ ==========
         if (typeof JSONBIN_CONFIG === 'undefined' || typeof TELEGRAM_CONFIG === 'undefined' || typeof AUTH_CONFIG === 'undefined') {
             alert('Ошибка: файл config.js не найден или поврежден!');
+        }
+
+        // ========== ТЕМНАЯ ТЕМА ==========
+        const themeToggle = document.getElementById('themeToggle');
+        const themeLight = document.getElementById('themeLight');
+        const themeDark = document.getElementById('themeDark');
+        
+        // Загрузка сохраненной темы
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButtons(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButtons(newTheme);
+        });
+        
+        function updateThemeButtons(theme) {
+            if (theme === 'light') {
+                themeLight.classList.add('active');
+                themeDark.classList.remove('active');
+            } else {
+                themeLight.classList.remove('active');
+                themeDark.classList.add('active');
+            }
         }
 
         // ========== ЛОГИРОВАНИЕ ==========
@@ -1025,7 +1175,7 @@
         let records = [];
         let syncTimeout = null;
 
-        // НОВАЯ ФУНКЦИЯ: генерация ID на основе даты и времени
+        // Функция генерации ID на основе даты и времени
         function generateDateTimeId() {
             const now = new Date();
             const year = now.getFullYear();
@@ -1230,8 +1380,6 @@
             return diffDays >= OIL_CHANGE_DAYS;
         }
 
-        // Функция generateNewId больше не нужна, используем generateDateTimeId
-        // Но оставим для совместимости
         function generateNewId() {
             return generateDateTimeId();
         }
@@ -1354,9 +1502,9 @@
             const selectedYear = getSelectedYear();
             const selectedMonth = getSelectedMonth();
 
-            const filtered = records.filter(record => {
+            // Сначала фильтруем
+            let filtered = records.filter(record => {
                 const matchesSearch = 
-                    record.id.toLowerCase().includes(searchTerm) ||
                     record.name.toLowerCase().includes(searchTerm) ||
                     record.phone.toLowerCase().includes(searchTerm) ||
                     (record.carModel && record.carModel.toLowerCase().includes(searchTerm)) ||
@@ -1397,13 +1545,26 @@
                 return true;
             });
 
+            // СОРТИРОВКА: сначала новые, потом старые по visitDate
+            filtered.sort((a, b) => {
+                if (!a.visitDate && !b.visitDate) return 0;
+                if (!a.visitDate) return 1; // записи без даты в конец
+                if (!b.visitDate) return -1;
+                
+                const dateA = new Date(a.visitDate);
+                const dateB = new Date(b.visitDate);
+                
+                // Сортировка по убыванию (сначала новые)
+                return dateB - dateA;
+            });
+
             const totalSum = calculateTotal(filtered);
 
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:40px;">Записи не найдены</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:40px;">Записи не найдены</td></tr>';
             } else {
                 filtered.forEach(record => {
                     const statusInfo = getStatusInfo(record.status);
@@ -1418,8 +1579,9 @@
                     }
 
                     const row = document.createElement('tr');
+                    // ID не отображаем, но храним в data-атрибуте для действий
+                    row.setAttribute('data-id', record.id);
                     row.innerHTML = `
-                        <td>${escapeHtml(record.id)}</td>
                         <td>${escapeHtml(record.name)}</td>
                         <td>${escapeHtml(record.phone)}</td>
                         <td>${escapeHtml(record.carModel || '')}</td>
@@ -1440,7 +1602,7 @@
                 const totalRow = document.createElement('tr');
                 totalRow.className = 'total-row';
                 totalRow.innerHTML = `
-                    <td colspan="7" style="text-align: right; font-weight: 700;">ИТОГО:</td>
+                    <td colspan="6" style="text-align: right; font-weight: 700;">ИТОГО:</td>
                     <td class="payment-cell" style="font-weight: 700;">${formatPayment(totalSum)} ₽</td>
                     <td colspan="3"></td>
                 `;
@@ -1450,7 +1612,7 @@
         }
 
         function clearForm() {
-            document.getElementById('clientId').value = generateDateTimeId(); // Используем новую функцию
+            document.getElementById('clientId').value = generateDateTimeId();
             document.getElementById('userName').value = '';
             document.getElementById('phone').value = '';
             document.getElementById('carModel').value = '';
@@ -1500,9 +1662,7 @@
                 return;
             }
 
-            // Проверка на уникальность ID (на всякий случай)
             if (records.some(r => r.id === clientId)) {
-                // Если вдруг совпало (маловероятно с датой-временем), генерируем новый
                 document.getElementById('clientId').value = generateDateTimeId() + '-1';
                 alert('Техническая ошибка: ID уже существует. Попробуйте снова.');
                 return;
@@ -1523,7 +1683,6 @@
 
             records.push(newRecord);
             
-            // Отправляем уведомление в Telegram
             sendTelegramNotification(newRecord);
             
             saveToStorage();
@@ -1592,10 +1751,8 @@
         }
 
         function init() {
-            // Загружаем данные с сервера
             loadFromServer();
 
-            // Устанавливаем ID на основе даты и времени
             document.getElementById('clientId').value = generateDateTimeId();
             
             document.getElementById('addBtn').addEventListener('click', addRecord);
@@ -1629,7 +1786,6 @@
                 }
             });
 
-            // Автосинхронизация каждые 30 секунд
             setInterval(() => {
                 if (document.getElementById('appScreen').style.display !== 'none') {
                     loadFromServer();
