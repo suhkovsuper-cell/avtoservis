@@ -7,5 +7,5 @@ const JSONBIN_CONFIG = {
 // Конфигурация Telegram - отправка самому боту
 const TELEGRAM_CONFIG = {
     BOT_TOKEN: '8513239665:AAEEnuIzebYvxnHebKsjyrFnDpiVIn-R2VE',
-    CHAT_ID: '-2031094030'  // ID бота (для отправки самому себе)
+    CHAT_ID: '8513239665'  // ID бота (для отправки самому себе)
 };
