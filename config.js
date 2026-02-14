@@ -4,8 +4,8 @@ const JSONBIN_CONFIG = {
     MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
 };
 
-// Конфигурация Telegram
+// Конфигурация Telegram - НОВЫЙ БОТ @Serviquest36_bot
 const TELEGRAM_CONFIG = {
-    BOT_TOKEN: '6388621340:AAHMzOZntepScCOj32lGeikyZDPGJjaJS7o',
-    CHAT_ID: '966869280'
+    BOT_TOKEN: '8513239665:AAEEnuIzebYvxnHebKsjyrFnDpiVIn-R2VE',  // Токен от @Serviquest36_bot
+    CHAT_ID: '-2031094030'  // ID группы (с минусом!)
 };
