@@ -31,6 +31,8 @@
             --btn-secondary-hover: #38a169;
             --btn-danger: #f56565;
             --btn-danger-hover: #e53e3e;
+            --btn-info: #4299e1;
+            --btn-info-hover: #3182ce;
             --sync-success-bg: #c6f6d5;
             --sync-success-text: #22543d;
             --sync-error-bg: #fed7d7;
@@ -44,6 +46,12 @@
             --checkbox-group-bg: #f8fafd;
             --filter-bar-bg: white;
             --form-section-bg: #f8fafd;
+            --stat-bg: #f8fafd;
+            --stat-header-bg: #667eea;
+            --stat-text: white;
+            --reminder-bg: #fff3cd;
+            --reminder-border: #ffeeba;
+            --reminder-text: #856404;
         }
 
         /* Темная тема */
@@ -66,6 +74,8 @@
             --btn-secondary-hover: #276749;
             --btn-danger: #c53030;
             --btn-danger-hover: #9b2c2c;
+            --btn-info: #3182ce;
+            --btn-info-hover: #2c5282;
             --sync-success-bg: #276749;
             --sync-success-text: #c6f6d5;
             --sync-error-bg: #742a2a;
@@ -79,6 +89,12 @@
             --checkbox-group-bg: #4a5568;
             --filter-bar-bg: #2d3748;
             --form-section-bg: #4a5568;
+            --stat-bg: #4a5568;
+            --stat-header-bg: #5a67d8;
+            --stat-text: white;
+            --reminder-bg: #7b341e;
+            --reminder-border: #9b2c2c;
+            --reminder-text: #feebc8;
         }
 
         body {
@@ -268,6 +284,21 @@
             background: var(--btn-danger-hover);
         }
         
+        .stats-toggle-btn {
+            background: var(--btn-info);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .stats-toggle-btn:hover {
+            background: var(--btn-info-hover);
+        }
+        
         .container {
             max-width: 1400px;
             width: 100%;
@@ -314,6 +345,110 @@
             letter-spacing: 1px;
             word-break: break-word;
         }
+        
+        /* Стили для статистики */
+        .stats-section {
+            background: var(--stat-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stats-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: var(--bg-container);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        
+        .stat-card h4 {
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        
+        .reminder-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .reminder-item {
+            background: var(--reminder-bg);
+            border: 1px solid var(--reminder-border);
+            color: var(--reminder-text);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .reminder-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .reminder-contact {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .reminder-contact button {
+            background: var(--btn-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .reminder-contact button:hover {
+            background: var(--btn-primary-hover);
+        }
+        
         /* Форма - адаптация */
         .form-section {
             background: var(--form-section-bg);
@@ -719,6 +854,9 @@
             .footer-note {
                 text-align: right;
             }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
         
         /* Для очень маленьких экранов */
@@ -766,7 +904,10 @@
                     <span id="themeDark">🌙</span>
                 </div>
             </div>
-            <button class="logout-btn" id="logoutBtn">Выйти</button>
+            <div>
+                <button class="stats-toggle-btn" id="toggleStatsBtn">📊 Показать статистику</button>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
+            </div>
         </div>
 
         <!-- Отчет -->
@@ -786,6 +927,36 @@
             <div class="report-item">
                 <span id="doneCount">0</span>
                 <label>Выполнено</label>
+            </div>
+        </div>
+
+        <!-- Статистика (изначально скрыта) -->
+        <div id="statsSection" class="stats-section" style="display: none;">
+            <div class="stats-header">
+                <h3>📊 Статистика выполненных работ</h3>
+                <button class="btn-secondary" id="closeStatsBtn">✖ Закрыть</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>По месяцам</h4>
+                    <div id="monthlyStats"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Всего выполнено</h4>
+                    <div id="totalDoneStats"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Сумма по месяцам</h4>
+                    <div id="monthlySumStats"></div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h4>🛢️ Напоминания о замене масла</h4>
+                <div id="oilReminders"></div>
             </div>
         </div>
 
@@ -883,7 +1054,7 @@
             </div>
             
             <div class="filter-row">
-                <!-- Фильтр по статусам -->
+                <!-- Фильтр по статусам (Выполнено снят флаг) -->
                 <div class="filter-section">
                     <label>Фильтр по статусам:</label>
                     <div class="checkbox-group">
@@ -894,7 +1065,7 @@
                             <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
                         </label>
                         <label class="checkbox-item">
-                            <input type="checkbox" class="status-checkbox" value="done" checked> Выполнено
+                            <input type="checkbox" class="status-checkbox" value="done"> Выполнено
                         </label>
                         <label class="checkbox-item">
                             <input type="checkbox" class="status-checkbox" value="notcome" checked> Не приедет
@@ -925,7 +1096,6 @@
             <table id="clientsTable">
                 <thead>
                     <tr>
-                        <!-- Колонка ID скрыта -->
                         <th>Клиент</th>
                         <th>Телефон</th>
                         <th>Марка авто</th>
@@ -992,6 +1162,9 @@
         const SYNC_STATUS = document.getElementById('syncStatus');
         const TELEGRAM_STATUS = document.getElementById('telegramStatus');
         const LOGIN_ERROR = document.getElementById('loginError');
+        const STATS_SECTION = document.getElementById('statsSection');
+        const TOGGLE_STATS_BTN = document.getElementById('toggleStatsBtn');
+        const CLOSE_STATS_BTN = document.getElementById('closeStatsBtn');
         
         function setSyncStatus(status, message) {
             if (SYNC_STATUS) {
@@ -1031,13 +1204,19 @@
             APP_SCREEN.style.display = 'none';
         }
         
-        // Обработка входа (используем данные из конфига)
+        // Обработка входа (проверка по списку пользователей)
         LOGIN_BTN.addEventListener('click', function() {
-            const username = document.getElementById('loginUsername').value;
+            const username = document.getElementById('loginUsername').value.toLowerCase().trim();
             const password = document.getElementById('loginPassword').value;
             
-            if (username === AUTH_CONFIG.USERNAME && password === AUTH_CONFIG.PASSWORD) {
+            // Проверяем по списку пользователей из конфига
+            const user = AUTH_CONFIG.USERS.find(u => 
+                u.username.toLowerCase() === username && u.password === password
+            );
+            
+            if (user) {
                 sessionStorage.setItem('auth', 'true');
+                sessionStorage.setItem('username', username);
                 LOGIN_ERROR.textContent = '';
                 showApp();
             } else {
@@ -1047,11 +1226,29 @@
         
         LOGOUT_BTN.addEventListener('click', function() {
             sessionStorage.removeItem('auth');
+            sessionStorage.removeItem('username');
             showLogin();
         });
         
         // Проверка авторизации при загрузке
         checkAuth();
+
+        // Статистика
+        TOGGLE_STATS_BTN.addEventListener('click', function() {
+            if (STATS_SECTION.style.display === 'none') {
+                updateStats();
+                STATS_SECTION.style.display = 'block';
+                TOGGLE_STATS_BTN.textContent = '📊 Скрыть статистику';
+            } else {
+                STATS_SECTION.style.display = 'none';
+                TOGGLE_STATS_BTN.textContent = '📊 Показать статистику';
+            }
+        });
+        
+        CLOSE_STATS_BTN.addEventListener('click', function() {
+            STATS_SECTION.style.display = 'none';
+            TOGGLE_STATS_BTN.textContent = '📊 Показать статистику';
+        });
 
         // ========== ФУНКЦИИ ДЛЯ TELEGRAM ==========
         async function sendTelegramNotification(record) {
@@ -1187,6 +1384,134 @@
             return `K-${year}${month}${day}-${hours}${minutes}`;
         }
 
+        // Функция обновления статистики
+        function updateStats() {
+            const monthlyStats = document.getElementById('monthlyStats');
+            const totalDoneStats = document.getElementById('totalDoneStats');
+            const monthlySumStats = document.getElementById('monthlySumStats');
+            const oilReminders = document.getElementById('oilReminders');
+            
+            // Фильтруем выполненные работы
+            const doneRecords = records.filter(r => r.status === 'done' && r.visitDate);
+            
+            // Группируем по месяцам
+            const monthlyData = {};
+            let totalDone = 0;
+            let totalSum = 0;
+            
+            doneRecords.forEach(record => {
+                const date = new Date(record.visitDate);
+                const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                const monthName = date.toLocaleString('ru-RU', { month: 'long', year: 'numeric' });
+                
+                if (!monthlyData[monthYear]) {
+                    monthlyData[monthYear] = {
+                        name: monthName,
+                        count: 0,
+                        sum: 0
+                    };
+                }
+                
+                monthlyData[monthYear].count++;
+                monthlyData[monthYear].sum += Number(record.payment) || 0;
+                totalDone++;
+                totalSum += Number(record.payment) || 0;
+            });
+            
+            // Сортируем по дате (сначала новые)
+            const sortedMonths = Object.keys(monthlyData).sort().reverse();
+            
+            // Отображаем статистику по месяцам
+            monthlyStats.innerHTML = '';
+            sortedMonths.forEach(monthKey => {
+                const data = monthlyData[monthKey];
+                const div = document.createElement('div');
+                div.className = 'stat-row';
+                div.innerHTML = `
+                    <span class="stat-label">${data.name}:</span>
+                    <span class="stat-value">${data.count} шт</span>
+                `;
+                monthlyStats.appendChild(div);
+            });
+            
+            // Отображаем общую статистику
+            totalDoneStats.innerHTML = `
+                <div class="stat-row">
+                    <span class="stat-label">Всего работ:</span>
+                    <span class="stat-value">${totalDone} шт</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Общая сумма:</span>
+                    <span class="stat-value">${totalSum.toLocaleString('ru-RU')} ₽</span>
+                </div>
+            `;
+            
+            // Отображаем суммы по месяцам
+            monthlySumStats.innerHTML = '';
+            sortedMonths.forEach(monthKey => {
+                const data = monthlyData[monthKey];
+                const div = document.createElement('div');
+                div.className = 'stat-row';
+                div.innerHTML = `
+                    <span class="stat-label">${data.name}:</span>
+                    <span class="stat-value">${data.sum.toLocaleString('ru-RU')} ₽</span>
+                `;
+                monthlySumStats.appendChild(div);
+            });
+            
+            // Напоминания о замене масла (клиенты со статусом "Выполнено" и маслом "Да", у которых прошло 330 дней)
+            const oilReminderRecords = records.filter(r => 
+                r.status === 'done' && 
+                r.oilChange === 'Да' && 
+                r.visitDate &&
+                r.phone
+            );
+            
+            oilReminders.innerHTML = '';
+            
+            if (oilReminderRecords.length === 0) {
+                oilReminders.innerHTML = '<p>Нет клиентов для напоминания</p>';
+            } else {
+                const list = document.createElement('div');
+                list.className = 'reminder-list';
+                
+                oilReminderRecords.forEach(record => {
+                    const daysSince = Math.floor((new Date() - new Date(record.visitDate)) / (1000 * 60 * 60 * 24));
+                    const daysUntil = OIL_CHANGE_DAYS - daysSince;
+                    
+                    if (daysUntil <= 30) { // Напоминаем за 30 дней до и после
+                        const item = document.createElement('div');
+                        item.className = 'reminder-item';
+                        
+                        let statusText = '';
+                        if (daysUntil > 0) {
+                            statusText = `⏳ через ${daysUntil} дней`;
+                        } else {
+                            statusText = `❗ прошло ${Math.abs(daysUntil)} дней`;
+                        }
+                        
+                        item.innerHTML = `
+                            <div>
+                                <strong>${escapeHtml(record.name)}</strong><br>
+                                ${escapeHtml(record.carModel)} - ${escapeHtml(record.phone)}<br>
+                                <small>${statusText}</small>
+                            </div>
+                            <div class="reminder-contact">
+                                <button onclick="window.location.href='tel:${escapeHtml(record.phone)}'">📞 Позвонить</button>
+                            </div>
+                        `;
+                        list.appendChild(item);
+                    }
+                });
+                
+                if (list.children.length === 0) {
+                    oilReminders.innerHTML = '<p>Нет клиентов для напоминания в ближайшее время</p>';
+                } else {
+                    oilReminders.appendChild(list);
+                }
+            }
+        }
+
         // Загрузка с JSONbin.io
         async function loadFromServer() {
             if (!JSONBIN_CONFIG) {
@@ -1211,6 +1536,9 @@
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                     updateYearFilter();
                     renderTable();
+                    if (STATS_SECTION.style.display !== 'none') {
+                        updateStats();
+                    }
                     setSyncStatus('sync-success', '✓ Синхронизировано');
                     return true;
                 } else if (response.status === 404) {
@@ -1339,7 +1667,7 @@
                     visitTime: '09:15',
                     oilChange: 'Да',
                     payment: 12000,
-                    status: 'late',
+                    status: 'done',
                     comment: 'Срочно, звонил уже 2 раза'
                 },
                 { 
@@ -1351,7 +1679,7 @@
                     visitTime: '16:45',
                     oilChange: 'Да',
                     payment: 4500,
-                    status: 'notcome',
+                    status: 'done',
                     comment: 'Перенесла на следующую неделю'
                 }
             ];
