@@ -1,2248 +1,698 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Учет - Автосервис</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        /* Светлая тема (по умолчанию) */
-        :root {
-            --bg-body: #f4f7fc;
-            --bg-container: white;
-            --text-primary: #2c3e50;
-            --text-secondary: #4a5568;
-            --border-color: #e2e8f0;
-            --input-bg: white;
-            --input-border: #cbd5e0;
-            --table-header-bg: #f7fafc;
-            --table-row-hover: #f8fafd;
-            --shadow-color: rgba(0,0,0,0.1);
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
-            --btn-primary: #667eea;
-            --btn-primary-hover: #5a67d8;
-            --btn-secondary: #48bb78;
-            --btn-secondary-hover: #38a169;
-            --btn-danger: #f56565;
-            --btn-danger-hover: #e53e3e;
-            --btn-info: #4299e1;
-            --btn-info-hover: #3182ce;
-            --btn-success: #48bb78;
-            --btn-success-hover: #38a169;
-            --sync-success-bg: #c6f6d5;
-            --sync-success-text: #22543d;
-            --sync-error-bg: #fed7d7;
-            --sync-error-text: #742a2a;
-            --sync-loading-bg: #feebc8;
-            --sync-loading-text: #7b341e;
-            --telegram-bg: #e1f5fe;
-            --telegram-text: #01579b;
-            --footer-text: #718096;
-            --total-row-bg: #f0f4f8;
-            --checkbox-group-bg: #f8fafd;
-            --filter-bar-bg: white;
-            --form-section-bg: #f8fafd;
-            --stat-bg: #f8fafd;
-            --stat-header-bg: #667eea;
-            --stat-text: white;
-            --reminder-bg: #fff3cd;
-            --reminder-border: #ffeeba;
-            --reminder-text: #856404;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>АвтоСеть — ВПН без границ</title>
+  <!-- Font Awesome 6 (иконки) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'FreeMono', monospace;
+    }
 
-        /* Темная тема */
-        [data-theme="dark"] {
-            --bg-body: #1a202c;
-            --bg-container: #2d3748;
-            --text-primary: #e2e8f0;
-            --text-secondary: #a0aec0;
-            --border-color: #4a5568;
-            --input-bg: #4a5568;
-            --input-border: #718096;
-            --table-header-bg: #4a5568;
-            --table-row-hover: #3f4a5a;
-            --shadow-color: rgba(0,0,0,0.3);
-            --gradient-start: #4c51bf;
-            --gradient-end: #6b46c1;
-            --btn-primary: #5a67d8;
-            --btn-primary-hover: #4c51bf;
-            --btn-secondary: #2f855a;
-            --btn-secondary-hover: #276749;
-            --btn-danger: #c53030;
-            --btn-danger-hover: #9b2c2c;
-            --btn-info: #3182ce;
-            --btn-info-hover: #2c5282;
-            --btn-success: #2f855a;
-            --btn-success-hover: #276749;
-            --sync-success-bg: #276749;
-            --sync-success-text: #c6f6d5;
-            --sync-error-bg: #742a2a;
-            --sync-error-text: #fed7d7;
-            --sync-loading-bg: #7b341e;
-            --sync-loading-text: #feebc8;
-            --telegram-bg: #2c5282;
-            --telegram-text: #e1f5fe;
-            --footer-text: #a0aec0;
-            --total-row-bg: #4a5568;
-            --checkbox-group-bg: #4a5568;
-            --filter-bar-bg: #2d3748;
-            --form-section-bg: #4a5568;
-            --stat-bg: #4a5568;
-            --stat-header-bg: #5a67d8;
-            --stat-text: white;
-            --reminder-bg: #7b341e;
-            --reminder-border: #9b2c2c;
-            --reminder-text: #feebc8;
-        }
+    body {
+      background: #f5f9fe;
+      color: #1e1e2f;
+      line-height: 1.5;
+    }
 
-        body {
-            background: var(--bg-body);
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        
-        /* Стили для экрана входа */
-        .login-container {
-            max-width: 400px;
-            width: 100%;
-            background: var(--bg-container);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            padding: 30px;
-            margin: auto;
-        }
-        
-        .login-container h2 {
-            color: var(--text-primary);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .login-form .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .login-form label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-        
-        .login-form input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--input-border);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: 0.2s;
-            background: var(--input-bg);
-            color: var(--text-primary);
-        }
-        
-        .login-form input:focus {
-            border-color: var(--btn-primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-        }
-        
-        .login-btn {
-            width: 100%;
-            background: var(--btn-primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .login-btn:hover {
-            background: var(--btn-primary-hover);
-        }
-        
-        .error-message {
-            color: var(--btn-danger);
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .user-info {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-left: 10px;
-            padding: 4px 8px;
-            background: var(--bg-container);
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .sync-status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-left: 10px;
-            font-weight: normal;
-        }
-        
-        .sync-success {
-            background: var(--sync-success-bg);
-            color: var(--sync-success-text);
-        }
-        
-        .sync-error {
-            background: var(--sync-error-bg);
-            color: var(--sync-error-text);
-        }
-        
-        .sync-loading {
-            background: var(--sync-loading-bg);
-            color: var(--sync-loading-text);
-        }
-        
-        .telegram-status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-left: 10px;
-            background: var(--telegram-bg);
-            color: var(--telegram-text);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        
-        .telegram-status:hover {
-            opacity: 0.8;
-        }
-        
-        .telegram-success {
-            background: var(--sync-success-bg);
-            color: var(--sync-success-text);
-        }
-        
-        .telegram-error {
-            background: var(--sync-error-bg);
-            color: var(--sync-error-text);
-        }
-        
-        .telegram-warning {
-            background: var(--sync-loading-bg);
-            color: var(--sync-loading-text);
-        }
-        
-        .header-with-logout {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .theme-toggle {
-            background: var(--bg-container);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 5px var(--shadow-color);
-        }
-        
-        .theme-toggle span {
-            padding: 5px 10px;
-            border-radius: 25px;
-            transition: 0.2s;
-        }
-        
-        .theme-toggle .active {
-            background: var(--btn-primary);
-            color: white;
-        }
-        
-        .logout-btn {
-            background: var(--btn-danger);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        .logout-btn:hover {
-            background: var(--btn-danger-hover);
-        }
-        
-        .stats-toggle-btn {
-            background: var(--btn-info);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-right: 10px;
-        }
-        
-        .stats-toggle-btn:hover {
-            background: var(--btn-info-hover);
-        }
-        
-        .export-btn {
-            background: var(--btn-success);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-right: 10px;
-        }
-        
-        .export-btn:hover {
-            background: var(--btn-success-hover);
-        }
-        
-        .admin-only {
-            display: inline-block;
-        }
-        
-        .container {
-            max-width: 1400px;
-            width: 100%;
-            background: var(--bg-container);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            padding: 15px;
-        }
-        h1 {
-            color: var(--text-primary);
-            margin-top: 0;
-            margin-bottom: 0;
-            font-weight: 600;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        /* Отчет - адаптация */
-        .report-panel {
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        .report-item {
-            text-align: center;
-        }
-        .report-item span {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-        .report-item label {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            word-break: break-word;
-        }
-        
-        /* Стили для статистики */
-        .stats-section {
-            background: var(--stat-bg);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .stats-header h3 {
-            margin: 0;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        
-        .stat-card {
-            background: var(--bg-container);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 5px var(--shadow-color);
-        }
-        
-        .stat-card h4 {
-            margin: 0 0 10px 0;
-            color: var(--text-primary);
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-        
-        .stat-label {
-            color: var(--text-secondary);
-        }
-        
-        .stat-value {
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-        
-        .reminder-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .reminder-item {
-            background: var(--reminder-bg);
-            border: 1px solid var(--reminder-border);
-            color: var(--reminder-text);
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .reminder-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .reminder-contact {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .reminder-contact button {
-            background: var(--btn-primary);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        .reminder-contact button:hover {
-            background: var(--btn-primary-hover);
-        }
-        
-        /* Форма - адаптация */
-        .form-section {
-            background: var(--form-section-bg);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-        .form-section h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .form-group {
-            width: 100%;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--input-border);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: 0.2s;
-            background: var(--input-bg);
-            color: var(--text-primary);
-            font-family: inherit;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--btn-primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-        }
-        .form-group input[readonly] {
-            background: var(--form-section-bg);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .btn {
-            background: var(--btn-primary);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
-            font-size: 1rem;
-            width: 100%;
-            margin-bottom: 8px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .btn:hover {
-            background: var(--btn-primary-hover);
-        }
-        .btn:active {
-            transform: scale(0.98);
-        }
-        .btn-secondary {
-            background: var(--btn-secondary);
-        }
-        .btn-secondary:hover {
-            background: var(--btn-secondary-hover);
-        }
-        .btn-danger {
-            background: var(--btn-danger);
-        }
-        .btn-danger:hover {
-            background: var(--btn-danger-hover);
-        }
-        .clear-btn {
-            background: var(--border-color);
-            color: var(--text-primary);
-        }
-        .clear-btn:hover {
-            background: var(--text-secondary);
-            color: white;
-        }
-        .form-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 15px;
-        }
-        /* Фильтры - адаптация */
-        .filter-bar {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 20px 0;
-            background: var(--filter-bar-bg);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            border: 1px solid var(--border-color);
-        }
-        .filter-row {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 14px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            font-size: 1rem;
-            -webkit-appearance: none;
-            background: var(--input-bg);
-            color: var(--text-primary);
-        }
-        .filter-section {
-            width: 100%;
-        }
-        .filter-section label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            background: var(--checkbox-group-bg);
-            padding: 12px;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            flex: 1 1 calc(50% - 12px);
-            min-width: 120px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--btn-primary);
-        }
-        .info-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: var(--btn-primary);
-            color: white;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        .date-filter {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .date-filter select {
-            flex: 1 1 120px;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            font-size: 0.95rem;
-            background: var(--input-bg);
-            color: var(--text-primary);
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%234a5568%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-container);
-            margin: 0 -5px;
-            -webkit-overflow-scrolling: touch;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1300px;
-        }
-        th {
-            background: var(--table-header-bg);
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 2px solid var(--border-color);
-            white-space: nowrap;
-        }
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            vertical-align: top;
-            white-space: nowrap;
-        }
-        tr:hover td {
-            background: var(--table-row-hover);
-        }
-        .total-row {
-            background: var(--total-row-bg);
-            font-weight: 700;
-            border-top: 2px solid var(--btn-primary);
-        }
-        .total-row td {
-            padding: 12px 8px;
-            background: var(--total-row-bg);
-        }
-        .comment-cell {
-            max-width: 150px;
-            white-space: normal;
-            word-wrap: break-word;
-            min-width: 120px;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-align: center;
-            white-space: nowrap;
-        }
-        .oil-badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .payment-cell {
-            text-align: right;
-            font-weight: 500;
-        }
-        .status-done {
-            background: #c6f6d5;
-            color: #22543d;
-        }
-        .status-late {
-            background: #fed7d7;
-            color: #742a2a;
-        }
-        .status-notcome {
-            background: #e2e8f0;
-            color: #2d3748;
-        }
-        .status-waiting {
-            background: #fefcbf;
-            color: #744210;
-        }
-        .oil-yes {
-            background: #c6f6d5;
-            color: #22543d;
-        }
-        .oil-no {
-            background: #e2e8f0;
-            color: #2d3748;
-        }
-        .oil-soon {
-            background: #fefcbf;
-            color: #744210;
-        }
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
-        .actions button {
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 6px;
-            border-radius: 6px;
-            transition: 0.1s;
-            -webkit-tap-highlight-color: transparent;
-            color: var(--text-primary);
-        }
-        .edit-btn:hover {
-            background: var(--btn-primary);
-            color: white;
-        }
-        .delete-btn:hover {
-            background: var(--btn-danger);
-            color: white;
-        }
-        .footer-note {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: var(--footer-text);
-            text-align: center;
-        }
-        
-        /* Медиа-запросы для разных размеров экрана */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            .container {
-                padding: 25px;
-            }
-            h1 {
-                font-size: 2rem;
-                text-align: left;
-            }
-            .report-panel {
-                grid-template-columns: repeat(4, 1fr);
-                padding: 20px;
-            }
-            .report-item span {
-                font-size: 2.2rem;
-            }
-            .form-row {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-            .form-group {
-                flex: 1 1 180px;
-                min-width: 150px;
-            }
-            .btn {
-                width: auto;
-                margin-bottom: 0;
-            }
-            .form-actions {
-                flex-direction: row;
-                justify-content: flex-end;
-            }
-            .filter-bar {
-                flex-direction: column;
-            }
-            .filter-row {
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: flex-end;
-            }
-            .search-box {
-                flex: 2 1 300px;
-            }
-            .filter-section {
-                flex: 1 1 300px;
-            }
-            .checkbox-item {
-                flex: 0 1 auto;
-                min-width: auto;
-            }
-            .date-filter {
-                flex-wrap: nowrap;
-            }
-            .table-wrapper {
-                margin: 0;
-            }
-            .footer-note {
-                text-align: right;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        /* Для очень маленьких экранов */
-        @media (max-width: 380px) {
-            .checkbox-item {
-                flex: 1 1 100%;
-            }
-            .report-panel {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-    <!-- Подключаем конфигурацию из отдельного файла -->
-    <script src="config.js"></script>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* хедер */
+    .hero {
+      background: linear-gradient(145deg, #0b1c3a 0%, #1b3a5c 100%);
+      color: white;
+      padding: 40px 0 50px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      box-shadow: 0 15px 30px rgba(0,20,50,0.2);
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      flex-wrap: wrap;
+    }
+
+    .logo i {
+      color: #ffd966;
+      font-size: 2.2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      max-width: 800px;
+    }
+
+    .hero .subhead {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .feature-tagline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+      font-size: 1rem;
+    }
+
+    .feature-tagline i {
+      color: #ffd966;
+      margin-right: 8px;
+    }
+
+    /* общие секции */
+    section {
+      padding: 50px 0;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title i {
+      color: #1e4a76;
+      background: #e1eef9;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 24px 18px;
+      box-shadow: 0 20px 30px -10px rgba(0, 35, 70, 0.08);
+      transition: all 0.2s;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 38px -10px rgba(20, 60, 120, 0.15);
+    }
+
+    .card i {
+      font-size: 2rem;
+      background: #e5f0fc;
+      padding: 12px;
+      border-radius: 16px;
+      color: #1e4a76;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card h3 i {
+      font-size: 1.6rem;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    .card p {
+      color: #3a4a5c;
+      font-size: 0.95rem;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .step-item {
+      background: white;
+      flex: 1 1 180px;
+      min-width: 160px;
+      border-radius: 24px;
+      padding: 24px 16px;
+      text-align: center;
+      box-shadow: 0 12px 22px -8px rgba(0,30,60,0.1);
+      border: 1px solid rgba(0,110,200,0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .step-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 28px -8px rgba(0,60,130,0.2);
+      border-color: #1e4a76;
+    }
+    
+    .step-item.active {
+      border: 2px solid #1e4a76;
+      background: #f0f8ff;
+    }
+
+    .step-number {
+      background: #0b2b4a;
+      color: white;
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .step-item i {
+      font-size: 2.2rem;
+      color: #1e4a76;
+      margin-bottom: 12px;
+    }
+
+    .step-item h4 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    
+    .step-item p {
+      font-size: 0.9rem;
+    }
+
+    /* форма для шагов - всегда видима */
+    .step-form-container {
+      max-width: 500px;
+      margin: 30px auto 0;
+      background: white;
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 20px 30px -10px rgba(0, 35, 70, 0.15);
+      border: 1px solid #cddae9;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1e2e3f;
+      font-size: 1rem;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 30px;
+      border: 1px solid #c0d0e2;
+      font-size: 1rem;
+      background: #f9fcff;
+      transition: all 0.2s;
+    }
+    
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #1e4a76;
+      box-shadow: 0 0 0 4px rgba(30,74,118,0.15);
+    }
+    
+    .submit-btn {
+      background: #1e4a76;
+      color: white;
+      border: none;
+      padding: 18px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.2s;
+      box-shadow: 0 8px 20px -5px #1e4a76;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .submit-btn:hover {
+      background: #123a5a;
+      transform: scale(1.02);
+    }
+    
+    .selected-step-info {
+      margin-bottom: 20px;
+      font-weight: 700;
+      background: #e1eef9;
+      padding: 15px 20px;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #0b2b4a;
+      border: 1px dashed #1e4a76;
+    }
+
+    .download-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 25px 0 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #1e1e2f;
+      text-decoration: none;
+      transition: 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+
+    .btn i {
+      font-size: 1.3rem;
+      min-width: 20px;
+    }
+
+    .btn:hover {
+      background: #f0f4fe;
+      border-color: #1e4a76;
+      transform: translateY(-2px);
+    }
+
+    /* футер / контакты */
+    .contact-section {
+      background: #e7f0fa;
+      border-radius: 40px 40px 0 0;
+      padding: 50px 0;
+      margin-top: 20px;
+    }
+
+    .contact-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      text-align: center;
+    }
+
+    .contact-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .contact-block h3 {
+      font-size: 2rem;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      color: #0b2b4a;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .social-links a {
+      background: #1e3a5a;
+      color: white;
+      width: 70px;
+      height: 70px;
+      border-radius: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      transition: 0.2s;
+      text-decoration: none;
+      box-shadow: 0 10px 20px -5px rgba(0,20,50,0.3);
+    }
+
+    .social-links a:hover {
+      background: #0b2b4a;
+      transform: scale(1.1) translateY(-3px);
+    }
+
+    .test-drive-note {
+      background: #c8dfff;
+      padding: 18px 25px;
+      border-radius: 60px;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid #1e4a7630;
+    }
+
+    /* Мобильная адаптация */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero .subhead {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .steps {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .step-item {
+        width: 100%;
+      }
+      
+      .download-buttons > div {
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 30px 0 40px;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      .feature-tagline {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .test-drive-note {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 0.95rem;
+      }
+      
+      .contact-block h3 {
+        font-size: 1.6rem;
+      }
+      
+      .social-links a {
+        width: 55px;
+        height: 55px;
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Экран логина -->
-    <div id="loginScreen" class="login-container">
-        <h2>🔐 Вход в систему</h2>
-        <div class="login-form">
-            <div class="form-group">
-                <label>Логин</label>
-                <input type="text" id="loginUsername" placeholder="Введите логин">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="loginPassword" placeholder="Введите пароль">
-            </div>
-            <button class="login-btn" id="loginBtn">Войти</button>
-            <div id="loginError" class="error-message"></div>
-        </div>
+  <!-- шапка -->
+  <div class="hero">
+    <div class="container hero-content">
+      <div class="logo">
+        <i class="fas fa-road"></i> 
+        <span>АвтоСеть — <i class="fa-solid fa-lock-open"></i> VPN</span>
+      </div>
+      <h1>Без подписок. Без рекламы. Навсегда.</h1>
+      <div class="subhead">Общайся. Работай. Смотри. Без границ.</div>
+      <div class="feature-tagline">
+        <span><i class="fa-regular fa-circle-check"></i> Instagram, YouTube, Telegram</span>
+        <span><i class="fa-regular fa-circle-check"></i> WhatsApp, нейросети, поиск</span>
+        <span><i class="fa-regular fa-gem"></i> Честные условия</span>
+      </div>
     </div>
+  </div>
 
-    <!-- Основное приложение (изначально скрыто) -->
-    <div id="appScreen" style="display: none;" class="container">
-        <div class="header-with-logout">
-            <div class="header-left">
-                <h1>
-                    🔧 Учет - Автосервис
-                    <span id="syncStatus" class="sync-status sync-loading">🔄 Загрузка...</span>
-                    <span id="telegramStatus" class="telegram-status" onclick="testTelegram()" title="Нажмите для теста Telegram">📱 Проверка...</span>
-                </h1>
-                <span id="userInfo" class="user-info"></span>
-                <div class="theme-toggle" id="themeToggle">
-                    <span id="themeLight" class="active">☀️</span>
-                    <span id="themeDark">🌙</span>
-                </div>
-            </div>
-            <div>
-                <span id="adminButtons">
-                    <button class="export-btn" id="exportBtn" style="display: none;">📥 Скачать отчет</button>
-                    <button class="stats-toggle-btn" id="toggleStatsBtn" style="display: none;">📊 Статистика</button>
-                </span>
-                <button class="logout-btn" id="logoutBtn">Выйти</button>
-            </div>
-        </div>
+  <div class="container">
+    <!-- О нас -->
+    <section>
+      <div class="section-title">
+        <i class="fa-solid fa-users-between-lines"></i>
+        <h2>О нас</h2>
+      </div>
+      <!-- Первый блок: Приветствие -->
+      <div class="card" style="padding: 30px; margin-bottom: 20px;">
+        <i class="fa-regular fa-hand-peace" style="font-size: 2.2rem;"></i>
+        <p style="font-size: 1.1rem; max-width: 800px;">Привет! Мы — команда энтузиастов, которым надоела навязчивая реклама и дорогие тарифы. Мы сделали этот сервис для себя и для вас, чтобы убрать все лишнее.</p>
+      </div>
+      <!-- Второй блок: Цель с обновленным текстом -->
+      <div class="card" style="padding: 30px;">
+        <i class="fa-regular fa-flag" style="font-size: 2.2rem;"></i>
+        <p style="font-size: 1.1rem; max-width: 800px;">Наша главная цель — дать вам возможность свободно общаться, работать и вести бизнес без территориальных ограничений. <strong style="color: #1e4a76; font-size: 1.2rem;">Гарантируем полную безопасность</strong> 🔒</p>
+      </div>
+    </section>
 
-        <!-- Отчет -->
-        <div class="report-panel">
-            <div class="report-item">
-                <span id="totalClients">0</span>
-                <label>Всего записей</label>
-            </div>
-            <div class="report-item">
-                <span id="waitingCount">0</span>
-                <label>Ожидаем</label>
-            </div>
-            <div class="report-item">
-                <span id="lateCount">0</span>
-                <label>Опаздывают</label>
-            </div>
-            <div class="report-item">
-                <span id="doneCount">0</span>
-                <label>Выполнено</label>
-            </div>
-        </div>
+    <!-- Что внутри / преимущества -->
+    <section>
+      <div class="section-title">
+        <i class="fa-solid fa-cube"></i>
+        <h2>Что у нас внутри</h2>
+      </div>
+      <div class="card-grid" id="featuresConfig">
+        <!-- Заполняется через JS -->
+      </div>
+    </section>
 
-        <!-- Статистика (изначально скрыта) -->
-        <div id="statsSection" class="stats-section" style="display: none;">
-            <div class="stats-header">
-                <h3>📊 Статистика выполненных работ</h3>
-                <button class="btn-secondary" id="closeStatsBtn">✖ Закрыть</button>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>По месяцам</h4>
-                    <div id="monthlyStats"></div>
-                </div>
-                
-                <div class="stat-card">
-                    <h4>Всего выполнено</h4>
-                    <div id="totalDoneStats"></div>
-                </div>
-                
-                <div class="stat-card">
-                    <h4>Сумма по месяцам</h4>
-                    <div id="monthlySumStats"></div>
-                </div>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <h4>🛢️ Напоминания о замене масла</h4>
-                <div id="oilReminders"></div>
-            </div>
+    <!-- Как это работает (3 шага) + раскрытая форма -->
+    <section style="background: #e2edfc; border-radius: 40px; padding: 40px 20px;">
+      <div class="section-title" style="margin-left: 10px;">
+        <i class="fa-solid fa-diagram-project"></i>
+        <h2>Как это работает за 3 шага</h2>
+      </div>
+      <div class="steps" id="stepsConfig">
+        <!-- Заполняется через JS -->
+      </div>
+      
+      <!-- Контейнер для формы - всегда открыт -->
+      <div id="stepFormContainer" class="step-form-container">
+        <div class="selected-step-info">
+          <i class="fa-regular fa-star" style="margin-right: 8px;"></i> Получите доступ за 1 минуту
         </div>
+        <form id="accessForm">
+          <div class="form-group">
+            <label for="email"><i class="fa-regular fa-envelope" style="margin-right: 6px;"></i> Ваш Email</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+          </div>
+          <div class="form-group">
+            <label for="device"><i class="fa-solid fa-device" style="margin-right: 6px;"></i> Устройство</label>
+            <select id="device" name="device" required>
+              <option value="" disabled selected>Выберите ваше устройство</option>
+              <option value="Windows">💻 Windows</option>
+              <option value="iPhone">📱 iPhone</option>
+              <option value="Android">📱 Android</option>
+            </select>
+          </div>
+          <button type="submit" class="submit-btn">
+            <i class="fa-regular fa-circle-check"></i> Получить доступ
+            <i class="fa-solid fa-arrow-right" style="font-size: 1rem;"></i>
+          </button>
+        </form>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #4a5b6b;">
+          <i class="fa-regular fa-clock"></i> Тест-драйв 3 часа. Без спама, только код доступа.
+        </p>
+      </div>
+      
+      <div class="test-drive-note">
+        <i class="fa-regular fa-clock"></i> Тест-драйв 3 часа. Все инструкции прилетят на почту.
+        <i class="fa-regular fa-calendar-check"></i> Оплатил один раз — пользуйся всегда
+      </div>
+    </section>
 
-        <!-- Форма добавления -->
-        <div class="form-section">
-            <h3>➕ Добавить / Редактировать запись</h3>
-            <div class="form-row">
-                <!-- ID скрыт, но технически присутствует в форме -->
-                <input type="hidden" id="clientId" value="">
-                
-                <div class="form-group">
-                    <label>Имя клиента</label>
-                    <input type="text" id="userName" placeholder="Иван Петров" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>Телефон</label>
-                    <input type="text" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>Марка авто</label>
-                    <input type="text" id="carModel" placeholder="Toyota Camry" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>Дата приезда</label>
-                    <input type="date" id="visitDate">
-                </div>
-                <div class="form-group">
-                    <label>Время приезда</label>
-                    <input type="time" id="visitTime">
-                </div>
-                <div class="form-group">
-                    <label>Замена масла</label>
-                    <select id="oilChange">
-                        <option value="Нет">Нет</option>
-                        <option value="Да">Да</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Оплата (₽)</label>
-                    <input type="number" id="payment" placeholder="5000" min="0" step="1" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Статус</label>
-                    <select id="statusSelect">
-                        <option value="waiting">Ожидаем</option>
-                        <option value="late">Опаздывает</option>
-                        <option value="done">Выполнено</option>
-                        <option value="notcome">Не приедет</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Комментарий</label>
-                    <textarea id="comment" placeholder="Дополнительная информация..."></textarea>
-                </div>
-            </div>
-            <!-- Кнопки действий -->
-            <div class="form-actions">
-                <button class="btn" id="addBtn">➕ Добавить</button>
-                <button class="btn-secondary" id="updateBtn" style="display: none;">✅ Обновить</button>
-                <button class="clear-btn btn" id="cancelEdit" style="display: none;">✖ Отмена</button>
-            </div>
-        </div>
+    <!-- Блок скачивания -->
+    <section>
+      <div class="section-title">
+        <i class="fa-solid fa-download"></i>
+        <h2>Скачать приложение</h2>
+      </div>
 
-        <!-- Фильтрация -->
-        <div class="filter-bar">
-            <div class="filter-row">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 Поиск...">
-                </div>
-                
-                <!-- Фильтр по году и месяцу -->
-                <div class="filter-section">
-                    <label>Фильтр по дате приезда:</label>
-                    <div class="date-filter">
-                        <select id="yearFilter">
-                            <option value="all">Все года</option>
-                        </select>
-                        <select id="monthFilter">
-                            <option value="all">Все месяцы</option>
-                            <option value="1">Январь</option>
-                            <option value="2">Февраль</option>
-                            <option value="3">Март</option>
-                            <option value="4">Апрель</option>
-                            <option value="5">Май</option>
-                            <option value="6">Июнь</option>
-                            <option value="7">Июль</option>
-                            <option value="8">Август</option>
-                            <option value="9">Сентябрь</option>
-                            <option value="10">Октябрь</option>
-                            <option value="11">Ноябрь</option>
-                            <option value="12">Декабрь</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="filter-row">
-                <!-- Фильтр по статусам (Выполнено и Не приедет сняты флаги) -->
-                <div class="filter-section">
-                    <label>Фильтр по статусам:</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" class="status-checkbox" value="waiting" checked> Ожидаем
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" class="status-checkbox" value="late" checked> Опаздывает
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" class="status-checkbox" value="done"> Выполнено
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" class="status-checkbox" value="notcome"> Не приедет
-                        </label>
-                    </div>
-                </div>
+      <div style="background: white; border-radius: 40px; padding: 40px 30px; margin-top: 20px;">
+        <div class="download-buttons" id="downloadButtonsConfig"></div>
+        <div style="text-align: center; margin-top: 25px; font-size: 1rem; color: #1e4a76; font-weight: 500;">
+          <i class="fa-regular fa-keyboard"></i> Введите код из письма и наслаждайся без границ
+        </div>
+      </div>
+    </section>
+  </div>
 
-                <!-- Фильтр по замене масла -->
-                <div class="filter-section">
-                    <label>Фильтр по замене масла <span class="info-badge">330 дней</span>:</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="oilYes" checked> Да
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="oilNo" checked> Нет
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" id="oilSoon"> Скоро замена
-                        </label>
-                    </div>
-                </div>
-            </div>
+  <!-- Контактная часть -->
+  <div class="contact-section">
+    <div class="container">
+      <div class="contact-flex">
+        <div class="contact-block">
+          <h3><i class="fa-regular fa-hand"></i> Присоединяйся к нам</h3>
+          <div class="social-links">
+            <a href="#" id="telegramLink" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#" id="vkLink" target="_blank"><i class="fa-brands fa-vk"></i></a>
+          </div>
         </div>
-
-        <!-- Таблица клиентов -->
-        <div class="table-wrapper">
-            <table id="clientsTable">
-                <thead>
-                    <tr>
-                        <th>Клиент</th>
-                        <th>Телефон</th>
-                        <th>Марка авто</th>
-                        <th>Дата</th>
-                        <th>Время</th>
-                        <th>Масло</th>
-                        <th>Оплата (₽)</th>
-                        <th>Статус</th>
-                        <th>Комментарий</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Данные будут вставлены через JS -->
-                </tbody>
-            </table>
-        </div>
-        <div class="footer-note">
-            * Дата и время создания записи используются как ID. Нажмите на статус Telegram для теста.
-        </div>
+      </div>
+      <div style="text-align: center; margin-top: 40px;">
+        <span style="background:#e1eaf2; color:#1e2e3f; padding: 10px 25px; border-radius: 50px; display: inline-block;">
+          <i class="fa-regular fa-heart" style="color: #c42e2e;"></i> Дорога в открытый интернет
+        </span>
+      </div>
     </div>
+  </div>
 
-<script>
-    (function() {
-        // ========== ПРОВЕРКА КОНФИГУРАЦИИ ==========
-        if (typeof JSONBIN_CONFIG === 'undefined' || typeof TELEGRAM_CONFIG === 'undefined' || typeof AUTH_CONFIG === 'undefined') {
-            alert('Ошибка: файл config.js не найден или поврежден!');
-        }
-
-        // ========== ТЕМНАЯ ТЕМА ==========
-        const themeToggle = document.getElementById('themeToggle');
-        const themeLight = document.getElementById('themeLight');
-        const themeDark = document.getElementById('themeDark');
+  <!-- Подключаем конфигурацию -->
+  <script src="config.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Загрузка кнопок скачивания
+      const downloadContainer = document.getElementById('downloadButtonsConfig');
+      if (downloadContainer) {
+        downloadContainer.innerHTML = SITE_CONFIG.downloadButtons.map(btn => 
+          `<div><a href="${btn.url}" class="btn ${btn.class}" target="_blank"><i class="${btn.icon}"></i> ${btn.text}</a></div>`
+        ).join('');
+      }
+      
+      // Загрузка карточек преимуществ
+      const featuresContainer = document.getElementById('featuresConfig');
+      if (featuresContainer) {
+        featuresContainer.innerHTML = SITE_CONFIG.features.map(f => 
+          `<div class="card"><i class="${f.icon}"></i><h3>${f.title}</h3><p>${f.description}</p></div>`
+        ).join('');
+      }
+      
+      // Загрузка шагов
+      const stepsContainer = document.getElementById('stepsConfig');
+      if (stepsContainer) {
+        stepsContainer.innerHTML = SITE_CONFIG.steps.map(step => 
+          `<div class="step-item"><div class="step-number">${step.number}</div><i class="${step.icon}"></i><h4>${step.title}</h4><p>${step.description}</p></div>`
+        ).join('');
+      }
+      
+      // Установка ссылок на соцсети
+      document.getElementById('telegramLink').href = SITE_CONFIG.telegramUrl;
+      document.getElementById('vkLink').href = SITE_CONFIG.vkUrl;
+      
+      // Обработка формы с отправкой в Telegram
+      const form = document.getElementById('accessForm');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        // Загрузка сохраненной темы
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeButtons(savedTheme);
+        const email = document.getElementById('email').value;
+        const device = document.getElementById('device').value;
+        const submitBtn = form.querySelector('.submit-btn');
+        const originalBtnText = submitBtn.innerHTML;
         
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButtons(newTheme);
-        });
-        
-        function updateThemeButtons(theme) {
-            if (theme === 'light') {
-                themeLight.classList.add('active');
-                themeDark.classList.remove('active');
-            } else {
-                themeLight.classList.remove('active');
-                themeDark.classList.add('active');
-            }
-        }
-
-        // ========== ЛОГИРОВАНИЕ ==========
-        const LOGIN_SCREEN = document.getElementById('loginScreen');
-        const APP_SCREEN = document.getElementById('appScreen');
-        const LOGIN_BTN = document.getElementById('loginBtn');
-        const LOGOUT_BTN = document.getElementById('logoutBtn');
-        const SYNC_STATUS = document.getElementById('syncStatus');
-        const TELEGRAM_STATUS = document.getElementById('telegramStatus');
-        const LOGIN_ERROR = document.getElementById('loginError');
-        const STATS_SECTION = document.getElementById('statsSection');
-        const TOGGLE_STATS_BTN = document.getElementById('toggleStatsBtn');
-        const CLOSE_STATS_BTN = document.getElementById('closeStatsBtn');
-        const EXPORT_BTN = document.getElementById('exportBtn');
-        const USER_INFO = document.getElementById('userInfo');
-        
-        let currentUser = null;
-        let currentUserRole = null;
-        
-        function setSyncStatus(status, message) {
-            if (SYNC_STATUS) {
-                SYNC_STATUS.className = 'sync-status ' + status;
-                SYNC_STATUS.textContent = message;
-            }
+        if (!email || !device) {
+          alert('Пожалуйста, заполните все поля');
+          return;
         }
         
-        function setTelegramStatus(status, message) {
-            if (TELEGRAM_STATUS) {
-                TELEGRAM_STATUS.className = 'telegram-status ' + status;
-                TELEGRAM_STATUS.textContent = message;
-            }
-        }
+        // Блокируем кнопку на время отправки
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Отправка...';
+        submitBtn.disabled = true;
         
-        // Проверка авторизации
-        function checkAuth() {
-            const isAuthenticated = sessionStorage.getItem('auth') === 'true';
-            if (isAuthenticated) {
-                const username = sessionStorage.getItem('username');
-                const role = sessionStorage.getItem('role');
-                if (username) {
-                    currentUser = username;
-                    currentUserRole = role;
-                    USER_INFO.textContent = `👤 ${username} (${role === 'admin' ? 'Админ' : 'Пользователь'})`;
-                    
-                    // Показываем кнопки только для admin
-                    if (role === 'admin') {
-                        TOGGLE_STATS_BTN.style.display = 'inline-block';
-                        EXPORT_BTN.style.display = 'inline-block';
-                    } else {
-                        TOGGLE_STATS_BTN.style.display = 'none';
-                        EXPORT_BTN.style.display = 'none';
-                    }
-                }
-                showApp();
-            } else {
-                showLogin();
-            }
+        try {
+          // Формируем сообщение для Telegram
+          const message = `🔔 Новая заявка на доступ!\n\n📧 Email: ${email}\n📱 Устройство: ${device}\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+          
+          // Отправляем в Telegram
+          const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CONFIG.CHAT_ID,
+              text: message,
+              parse_mode: 'HTML'
+            })
+          });
+          
+          const result = await response.json();
+          
+          if (result.ok) {
+            alert(`✅ Код доступа отправлен на ${email} для ${device}! Проверьте почту.`);
+            form.reset();
+          } else {
+            throw new Error('Ошибка отправки в Telegram');
+          }
+        } catch (error) {
+          console.error('Telegram error:', error);
+          alert('❌ Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+        } finally {
+          // Возвращаем кнопку в исходное состояние
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
         }
-        
-        function showApp() {
-            LOGIN_SCREEN.style.display = 'none';
-            APP_SCREEN.style.display = 'block';
-            if (!window.appInitialized) {
-                initApp();
-                window.appInitialized = true;
-            }
-        }
-        
-        function showLogin() {
-            LOGIN_SCREEN.style.display = 'block';
-            APP_SCREEN.style.display = 'none';
-        }
-        
-        // Обработка входа (проверка по списку пользователей)
-        LOGIN_BTN.addEventListener('click', function() {
-            const username = document.getElementById('loginUsername').value.toLowerCase().trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            // Проверяем по списку пользователей из конфига
-            const user = AUTH_CONFIG.USERS.find(u => 
-                u.username.toLowerCase() === username && u.password === password
-            );
-            
-            if (user) {
-                sessionStorage.setItem('auth', 'true');
-                sessionStorage.setItem('username', username);
-                sessionStorage.setItem('role', user.role);
-                currentUser = username;
-                currentUserRole = user.role;
-                USER_INFO.textContent = `👤 ${username} (${user.role === 'admin' ? 'Админ' : 'Пользователь'})`;
-                
-                // Показываем кнопки только для admin
-                if (user.role === 'admin') {
-                    TOGGLE_STATS_BTN.style.display = 'inline-block';
-                    EXPORT_BTN.style.display = 'inline-block';
-                } else {
-                    TOGGLE_STATS_BTN.style.display = 'none';
-                    EXPORT_BTN.style.display = 'none';
-                }
-                
-                LOGIN_ERROR.textContent = '';
-                showApp();
-            } else {
-                LOGIN_ERROR.textContent = 'Неверный логин или пароль';
-            }
-        });
-        
-        LOGOUT_BTN.addEventListener('click', function() {
-            sessionStorage.removeItem('auth');
-            sessionStorage.removeItem('username');
-            sessionStorage.removeItem('role');
-            currentUser = null;
-            currentUserRole = null;
-            showLogin();
-        });
-        
-        // Проверка авторизации при загрузке
-        checkAuth();
-
-        // Статистика (только для admin)
-        TOGGLE_STATS_BTN.addEventListener('click', function() {
-            if (currentUserRole !== 'admin') {
-                alert('Доступ запрещен. Только для администраторов.');
-                return;
-            }
-            
-            if (STATS_SECTION.style.display === 'none') {
-                updateStats();
-                STATS_SECTION.style.display = 'block';
-                TOGGLE_STATS_BTN.textContent = '📊 Скрыть статистику';
-            } else {
-                STATS_SECTION.style.display = 'none';
-                TOGGLE_STATS_BTN.textContent = '📊 Статистика';
-            }
-        });
-        
-        CLOSE_STATS_BTN.addEventListener('click', function() {
-            STATS_SECTION.style.display = 'none';
-            TOGGLE_STATS_BTN.textContent = '📊 Статистика';
-        });
-
-        // Экспорт отчета (только для admin)
-        EXPORT_BTN.addEventListener('click', function() {
-            if (currentUserRole !== 'admin') {
-                alert('Доступ запрещен. Только для администраторов.');
-                return;
-            }
-            
-            exportReport();
-        });
-
-        // Функция экспорта отчета
-        function exportReport() {
-            const dataStr = JSON.stringify(records, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `autoservice_report_${new Date().toISOString().slice(0,10)}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            // Показываем уведомление
-            const toast = document.createElement('div');
-            toast.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#48bb78; color:white; padding:10px 20px; border-radius:10px; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.1);';
-            toast.textContent = '✅ Отчет скачан';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        // ========== ФУНКЦИИ ДЛЯ TELEGRAM ==========
-        async function sendTelegramNotification(record) {
-            if (!TELEGRAM_CONFIG || !TELEGRAM_CONFIG.BOT_TOKEN || !TELEGRAM_CONFIG.CHAT_ID) {
-                console.log('Telegram не настроен');
-                setTelegramStatus('telegram-error', '📵 Не настроен');
-                return;
-            }
-
-            // Формируем сообщение с информацией о том, кто создал заявку
-            const statusText = {
-                'waiting': 'Ожидаем',
-                'late': 'Опаздывает',
-                'done': 'Выполнено',
-                'notcome': 'Не приедет'
-            }[record.status] || record.status;
-
-            const message = `
-🆕 НОВЫЙ КЛИЕНТ ДОБАВЛЕН!
-👤 Создал: ${currentUser || 'Неизвестно'} (${currentUserRole === 'admin' ? 'Админ' : 'Пользователь'})
-
-🔹 ID: ${record.id || 'Не указано'}
-👤 Имя: ${record.name || 'Не указано'}
-📞 Телефон: ${record.phone || 'Не указан'}
-🚗 Авто: ${record.carModel || 'Не указано'}
-📅 Дата: ${record.visitDate || 'Не указана'}
-⏰ Время: ${record.visitTime || 'Не указано'}
-🛢️ Масло: ${record.oilChange || 'Нет'}
-💰 Оплата: ${record.payment || 0} ₽
-📊 Статус: ${statusText}
-💬 Комментарий: ${record.comment || 'Нет'}
-            `.trim();
-
-            try {
-                console.log('Отправка в Telegram...');
-                setTelegramStatus('telegram-warning', '📤 Отправка...');
-                
-                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CONFIG.CHAT_ID,
-                        text: message
-                    })
-                });
-
-                const result = await response.json();
-                console.log('Ответ Telegram:', result);
-
-                if (response.ok && result.ok) {
-                    console.log('✅ Уведомление в Telegram отправлено');
-                    setTelegramStatus('telegram-success', '📱 Telegram OK');
-                    
-                    // Показываем уведомление на странице
-                    const toast = document.createElement('div');
-                    toast.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#48bb78; color:white; padding:10px 20px; border-radius:10px; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.1); animation:slideIn 0.3s;';
-                    toast.textContent = '✅ Уведомление отправлено в Telegram';
-                    document.body.appendChild(toast);
-                    setTimeout(() => toast.remove(), 3000);
-                    
-                    return true;
-                } else {
-                    console.error('❌ Ошибка отправки в Telegram:', result.description);
-                    
-                    let errorMessage = '⚠️ Ошибка Telegram';
-                    if (result.description === 'Forbidden: bot was blocked by the user') {
-                        errorMessage = '🔴 Бот заблокирован';
-                        alert('❌ Бот заблокирован! Разблокируйте бота @Serviquest36_bot');
-                    } else if (result.description === 'Bad Request: chat not found') {
-                        errorMessage = '🔴 Chat ID не найден';
-                        alert('❌ Chat ID не найден! Проверьте config.js');
-                    }
-                    
-                    setTelegramStatus('telegram-error', errorMessage);
-                    return false;
-                }
-            } catch (e) {
-                console.error('Ошибка при отправке в Telegram:', e);
-                setTelegramStatus('telegram-error', '⚠️ Ошибка сети');
-                return false;
-            }
-        }
-
-        // Тестовая функция для проверки Telegram
-        window.testTelegram = async function() {
-            setTelegramStatus('telegram-warning', '📤 Тест...');
-            
-            const testRecord = {
-                id: 'TEST-001',
-                name: 'ТЕСТОВЫЙ КЛИЕНТ',
-                phone: '+7 999 999-99-99',
-                carModel: 'Тест Авто',
-                visitDate: new Date().toISOString().split('T')[0],
-                visitTime: new Date().toLocaleTimeString().slice(0,5),
-                oilChange: 'Да',
-                payment: 1000,
-                status: 'waiting',
-                comment: 'Тестовое сообщение'
-            };
-            
-            const result = await sendTelegramNotification(testRecord);
-            
-            if (!result) {
-                alert(`
-❌ Telegram не работает!
-
-Что делать:
-1. Откройте Telegram
-2. Найдите бота @Serviquest36_bot
-3. Нажмите START или отправьте /start
-4. Попробуйте снова
-                `);
-            }
-        };
-
-        // ========== ОСНОВНОЙ ФУНКЦИОНАЛ ==========
-        const STORAGE_KEY = 'autoserviceData';
-        const OIL_CHANGE_DAYS = 330;
-        let editingId = null;
-        let records = [];
-        let syncTimeout = null;
-
-        // Функция генерации ID на основе даты и времени
-        function generateDateTimeId() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            
-            return `K-${year}${month}${day}-${hours}${minutes}`;
-        }
-
-        // Функция обновления статистики
-        function updateStats() {
-            if (currentUserRole !== 'admin') return;
-            
-            const monthlyStats = document.getElementById('monthlyStats');
-            const totalDoneStats = document.getElementById('totalDoneStats');
-            const monthlySumStats = document.getElementById('monthlySumStats');
-            const oilReminders = document.getElementById('oilReminders');
-            
-            // Фильтруем выполненные работы
-            const doneRecords = records.filter(r => r.status === 'done' && r.visitDate);
-            
-            // Группируем по месяцам
-            const monthlyData = {};
-            let totalDone = 0;
-            let totalSum = 0;
-            
-            doneRecords.forEach(record => {
-                const date = new Date(record.visitDate);
-                const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                const monthName = date.toLocaleString('ru-RU', { month: 'long', year: 'numeric' });
-                
-                if (!monthlyData[monthYear]) {
-                    monthlyData[monthYear] = {
-                        name: monthName,
-                        count: 0,
-                        sum: 0
-                    };
-                }
-                
-                monthlyData[monthYear].count++;
-                monthlyData[monthYear].sum += Number(record.payment) || 0;
-                totalDone++;
-                totalSum += Number(record.payment) || 0;
-            });
-            
-            // Сортируем по дате (сначала новые)
-            const sortedMonths = Object.keys(monthlyData).sort().reverse();
-            
-            // Отображаем статистику по месяцам
-            monthlyStats.innerHTML = '';
-            sortedMonths.forEach(monthKey => {
-                const data = monthlyData[monthKey];
-                const div = document.createElement('div');
-                div.className = 'stat-row';
-                div.innerHTML = `
-                    <span class="stat-label">${data.name}:</span>
-                    <span class="stat-value">${data.count} шт</span>
-                `;
-                monthlyStats.appendChild(div);
-            });
-            
-            // Отображаем общую статистику
-            totalDoneStats.innerHTML = `
-                <div class="stat-row">
-                    <span class="stat-label">Всего работ:</span>
-                    <span class="stat-value">${totalDone} шт</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Общая сумма:</span>
-                    <span class="stat-value">${totalSum.toLocaleString('ru-RU')} ₽</span>
-                </div>
-            `;
-            
-            // Отображаем суммы по месяцам
-            monthlySumStats.innerHTML = '';
-            sortedMonths.forEach(monthKey => {
-                const data = monthlyData[monthKey];
-                const div = document.createElement('div');
-                div.className = 'stat-row';
-                div.innerHTML = `
-                    <span class="stat-label">${data.name}:</span>
-                    <span class="stat-value">${data.sum.toLocaleString('ru-RU')} ₽</span>
-                `;
-                monthlySumStats.appendChild(div);
-            });
-            
-            // Напоминания о замене масла (клиенты со статусом "Выполнено" и маслом "Да", у которых прошло 330 дней)
-            const oilReminderRecords = records.filter(r => 
-                r.status === 'done' && 
-                r.oilChange === 'Да' && 
-                r.visitDate &&
-                r.phone
-            );
-            
-            oilReminders.innerHTML = '';
-            
-            if (oilReminderRecords.length === 0) {
-                oilReminders.innerHTML = '<p>Нет клиентов для напоминания</p>';
-            } else {
-                const list = document.createElement('div');
-                list.className = 'reminder-list';
-                
-                oilReminderRecords.forEach(record => {
-                    const daysSince = Math.floor((new Date() - new Date(record.visitDate)) / (1000 * 60 * 60 * 24));
-                    const daysUntil = OIL_CHANGE_DAYS - daysSince;
-                    
-                    if (daysUntil <= 30) { // Напоминаем за 30 дней до и после
-                        const item = document.createElement('div');
-                        item.className = 'reminder-item';
-                        
-                        let statusText = '';
-                        if (daysUntil > 0) {
-                            statusText = `⏳ через ${daysUntil} дней`;
-                        } else {
-                            statusText = `❗ прошло ${Math.abs(daysUntil)} дней`;
-                        }
-                        
-                        item.innerHTML = `
-                            <div>
-                                <strong>${escapeHtml(record.name)}</strong><br>
-                                ${escapeHtml(record.carModel)} - ${escapeHtml(record.phone)}<br>
-                                <small>${statusText}</small>
-                            </div>
-                            <div class="reminder-contact">
-                                <button onclick="window.location.href='tel:${escapeHtml(record.phone)}'">📞 Позвонить</button>
-                            </div>
-                        `;
-                        list.appendChild(item);
-                    }
-                });
-                
-                if (list.children.length === 0) {
-                    oilReminders.innerHTML = '<p>Нет клиентов для напоминания в ближайшее время</p>';
-                } else {
-                    oilReminders.appendChild(list);
-                }
-            }
-        }
-
-        // Загрузка с JSONbin.io
-        async function loadFromServer() {
-            if (!JSONBIN_CONFIG) {
-                setSyncStatus('sync-error', '❌ Нет конфига');
-                loadFromStorage();
-                return;
-            }
-            
-            setSyncStatus('sync-loading', '🔄 Загрузка...');
-            
-            try {
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_CONFIG.BIN_ID}/latest`, {
-                    headers: {
-                        'X-Master-Key': JSONBIN_CONFIG.MASTER_KEY
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    records = data.record || [];
-                    // Сохраняем локально как бэкап
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-                    updateYearFilter();
-                    renderTable();
-                    if (STATS_SECTION.style.display !== 'none' && currentUserRole === 'admin') {
-                        updateStats();
-                    }
-                    setSyncStatus('sync-success', '✓ Синхронизировано');
-                    return true;
-                } else if (response.status === 404) {
-                    // Бин не найден, создаем новый с начальными данными
-                    records = getInitialData();
-                    await saveToServer();
-                    updateYearFilter();
-                    renderTable();
-                    return true;
-                } else {
-                    throw new Error('Ошибка загрузки');
-                }
-            } catch (e) {
-                console.error('Load error:', e);
-                setSyncStatus('sync-error', '❌ Ошибка загрузки');
-                // Загружаем из localStorage как запасной вариант
-                loadFromStorage();
-                return false;
-            }
-        }
-
-        // Сохранение на JSONbin.io
-        async function saveToServer() {
-            if (!JSONBIN_CONFIG) {
-                setSyncStatus('sync-error', '❌ Нет конфига');
-                return false;
-            }
-            
-            setSyncStatus('sync-loading', '🔄 Сохранение...');
-            
-            try {
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_CONFIG.BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_CONFIG.MASTER_KEY
-                    },
-                    body: JSON.stringify(records)
-                });
-                
-                if (response.ok) {
-                    setSyncStatus('sync-success', '✓ Сохранено');
-                    // Сохраняем локально
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-                    return true;
-                } else {
-                    throw new Error('Ошибка сохранения');
-                }
-            } catch (e) {
-                console.error('Save error:', e);
-                setSyncStatus('sync-error', '❌ Ошибка сохранения');
-                return false;
-            }
-        }
-
-        // Загрузка из localStorage (резервный вариант)
-        function loadFromStorage() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try {
-                    records = JSON.parse(stored);
-                    setSyncStatus('sync-warning', '⚠️ Локальные данные');
-                } catch (e) {
-                    records = [];
-                }
-            } else {
-                records = [];
-            }
-            updateYearFilter();
-            renderTable();
-        }
-
-        // Начальные данные с обновленным форматом ID
-        function getInitialData() {
-            const today = new Date();
-            const threeMonthsAgo = new Date(today);
-            threeMonthsAgo.setMonth(today.getMonth() - 3);
-            
-            const elevenMonthsAgo = new Date(today);
-            elevenMonthsAgo.setMonth(today.getMonth() - 11);
-            
-            const formatDate = (date) => {
-                return date.toISOString().split('T')[0];
-            };
-
-            const formatDateTimeId = (date) => {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                return `K-${year}${month}${day}-${hours}${minutes}`;
-            };
-
-            return [
-                { 
-                    id: formatDateTimeId(threeMonthsAgo), 
-                    name: 'Иван Петров', 
-                    phone: '+7 999 111-22-33', 
-                    carModel: 'Toyota Camry',
-                    visitDate: formatDate(threeMonthsAgo),
-                    visitTime: '10:30',
-                    oilChange: 'Да',
-                    payment: 5000,
-                    status: 'waiting',
-                    comment: 'Просил проверить кондиционер',
-                    createdBy: 'admin'
-                },
-                { 
-                    id: 'K-20260213-1400', 
-                    name: 'Елена Смирнова', 
-                    phone: '+7 999 222-33-44', 
-                    carModel: 'KIA Rio',
-                    visitDate: '2026-02-13',
-                    visitTime: '14:00',
-                    oilChange: 'Нет',
-                    payment: 3500,
-                    status: 'done',
-                    comment: 'Замена тормозных колодок',
-                    createdBy: 'мастер'
-                },
-                { 
-                    id: formatDateTimeId(elevenMonthsAgo), 
-                    name: 'Петр Сидоров', 
-                    phone: '+7 999 333-44-55', 
-                    carModel: 'BMW X5',
-                    visitDate: formatDate(elevenMonthsAgo),
-                    visitTime: '09:15',
-                    oilChange: 'Да',
-                    payment: 12000,
-                    status: 'done',
-                    comment: 'Срочно, звонил уже 2 раза',
-                    createdBy: 'менеджер'
-                },
-                { 
-                    id: 'K-20260214-1645', 
-                    name: 'Анна Иванова', 
-                    phone: '+7 999 444-55-66', 
-                    carModel: 'Hyundai Solaris',
-                    visitDate: '2026-02-14',
-                    visitTime: '16:45',
-                    oilChange: 'Да',
-                    payment: 4500,
-                    status: 'done',
-                    comment: 'Перенесла на следующую неделю',
-                    createdBy: 'директор'
-                }
-            ];
-        }
-
-        function saveToStorage() {
-            // Сохраняем локально
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-            
-            // Откладываем сохранение на сервер (чтобы не спамить запросами)
-            if (syncTimeout) clearTimeout(syncTimeout);
-            syncTimeout = setTimeout(() => {
-                saveToServer();
-            }, 2000);
-        }
-
-        function isOilChangeSoon(visitDate, oilChange) {
-            if (oilChange !== 'Да' || !visitDate) return false;
-            
-            const visit = new Date(visitDate);
-            const today = new Date();
-            
-            const diffTime = today - visit;
-            const diffDays = diffTime / (1000 * 60 * 60 * 24);
-            
-            return diffDays >= OIL_CHANGE_DAYS;
-        }
-
-        function generateNewId() {
-            return generateDateTimeId();
-        }
-
-        function updateReport() {
-            const total = records.length;
-            let waiting = 0, late = 0, done = 0, notcome = 0;
-
-            records.forEach(r => {
-                if (r.status === 'waiting') waiting++;
-                else if (r.status === 'late') late++;
-                else if (r.status === 'done') done++;
-                else if (r.status === 'notcome') notcome++;
-            });
-
-            document.getElementById('totalClients').innerText = total;
-            document.getElementById('waitingCount').innerText = waiting;
-            document.getElementById('lateCount').innerText = late;
-            document.getElementById('doneCount').innerText = done;
-        }
-
-        function escapeHtml(unsafe) {
-            if (!unsafe) return '';
-            return String(unsafe)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        function getStatusInfo(status) {
-            switch(status) {
-                case 'done': return { text: 'Выполнено', class: 'status-done' };
-                case 'late': return { text: 'Опаздывает', class: 'status-late' };
-                case 'notcome': return { text: 'Не приедет', class: 'status-notcome' };
-                case 'waiting':
-                default: return { text: 'Ожидаем', class: 'status-waiting' };
-            }
-        }
-
-        function getSelectedStatuses() {
-            const checkboxes = document.querySelectorAll('.status-checkbox');
-            const selected = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    selected.push(cb.value);
-                }
-            });
-            return selected;
-        }
-
-        function getSelectedOilValues() {
-            const selected = [];
-            if (document.getElementById('oilYes').checked) selected.push('Да');
-            if (document.getElementById('oilNo').checked) selected.push('Нет');
-            return selected;
-        }
-
-        function formatPayment(amount) {
-            if (amount === undefined || amount === null || amount === '') return '0';
-            const num = Number(amount);
-            return num.toLocaleString('ru-RU');
-        }
-
-        function calculateTotal(filteredRecords) {
-            return filteredRecords.reduce((sum, record) => {
-                const payment = Number(record.payment) || 0;
-                return sum + payment;
-            }, 0);
-        }
-
-        function updateYearFilter() {
-            const yearSelect = document.getElementById('yearFilter');
-            const years = new Set();
-            
-            records.forEach(record => {
-                if (record.visitDate) {
-                    const year = new Date(record.visitDate).getFullYear();
-                    years.add(year);
-                }
-            });
-            
-            const sortedYears = Array.from(years).sort((a, b) => b - a);
-            
-            const currentValue = yearSelect.value;
-            
-            yearSelect.innerHTML = '<option value="all">Все года</option>';
-            sortedYears.forEach(year => {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            });
-            
-            if (currentValue && currentValue !== 'all') {
-                if (sortedYears.includes(parseInt(currentValue))) {
-                    yearSelect.value = currentValue;
-                } else {
-                    yearSelect.value = 'all';
-                }
-            }
-        }
-
-        function getSelectedYear() {
-            const yearValue = document.getElementById('yearFilter').value;
-            return yearValue === 'all' ? null : parseInt(yearValue);
-        }
-
-        function getSelectedMonth() {
-            const monthValue = document.getElementById('monthFilter').value;
-            return monthValue === 'all' ? null : parseInt(monthValue);
-        }
-
-        function renderTable() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            const selectedStatuses = getSelectedStatuses();
-            const selectedOilValues = getSelectedOilValues();
-            const oilSoonChecked = document.getElementById('oilSoon').checked;
-            const selectedYear = getSelectedYear();
-            const selectedMonth = getSelectedMonth();
-
-            // Сначала фильтруем
-            let filtered = records.filter(record => {
-                const matchesSearch = 
-                    record.name.toLowerCase().includes(searchTerm) ||
-                    record.phone.toLowerCase().includes(searchTerm) ||
-                    (record.carModel && record.carModel.toLowerCase().includes(searchTerm)) ||
-                    (record.comment && record.comment.toLowerCase().includes(searchTerm));
-
-                if (!matchesSearch) return false;
-
-                if (selectedStatuses.length > 0 && !selectedStatuses.includes(record.status)) {
-                    return false;
-                }
-
-                const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
-                
-                if (oilSoonChecked) {
-                    if (!oilSoon) return false;
-                } else {
-                    if (selectedOilValues.length > 0 && !selectedOilValues.includes(record.oilChange || 'Нет')) {
-                        return false;
-                    }
-                }
-
-                if (record.visitDate) {
-                    const visitDate = new Date(record.visitDate);
-                    const visitYear = visitDate.getFullYear();
-                    const visitMonth = visitDate.getMonth() + 1;
-                    
-                    if (selectedYear && visitYear !== selectedYear) {
-                        return false;
-                    }
-                    
-                    if (selectedMonth && visitMonth !== selectedMonth) {
-                        return false;
-                    }
-                } else {
-                    if (selectedYear || selectedMonth) return false;
-                }
-
-                return true;
-            });
-
-            // СОРТИРОВКА: сначала новые, потом старые по visitDate
-            filtered.sort((a, b) => {
-                if (!a.visitDate && !b.visitDate) return 0;
-                if (!a.visitDate) return 1; // записи без даты в конец
-                if (!b.visitDate) return -1;
-                
-                const dateA = new Date(a.visitDate);
-                const dateB = new Date(b.visitDate);
-                
-                // Сортировка по убыванию (сначала новые)
-                return dateB - dateA;
-            });
-
-            const totalSum = calculateTotal(filtered);
-
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:40px;">Записи не найдены</td></tr>';
-            } else {
-                filtered.forEach(record => {
-                    const statusInfo = getStatusInfo(record.status);
-                    const oilSoon = isOilChangeSoon(record.visitDate, record.oilChange);
-                    
-                    let oilClass = record.oilChange === 'Да' ? 'oil-yes' : 'oil-no';
-                    let oilText = record.oilChange || 'Нет';
-                    
-                    if (oilSoon) {
-                        oilClass = 'oil-soon';
-                        oilText = 'Скоро';
-                    }
-
-                    const row = document.createElement('tr');
-                    // ID не отображаем, но храним в data-атрибуте для действий
-                    row.setAttribute('data-id', record.id);
-                    row.innerHTML = `
-                        <td>${escapeHtml(record.name)}</td>
-                        <td>${escapeHtml(record.phone)}</td>
-                        <td>${escapeHtml(record.carModel || '')}</td>
-                        <td>${escapeHtml(record.visitDate || '')}</td>
-                        <td>${escapeHtml(record.visitTime || '')}</td>
-                        <td><span class="oil-badge ${oilClass}">${escapeHtml(oilText)}</span></td>
-                        <td class="payment-cell">${formatPayment(record.payment)} ₽</td>
-                        <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
-                        <td class="comment-cell">${escapeHtml(record.comment || '')}</td>
-                        <td class="actions">
-                            <button class="edit-btn" data-id="${escapeHtml(record.id)}" title="Ред.">✏️</button>
-                            <button class="delete-btn" data-id="${escapeHtml(record.id)}" title="Уд.">🗑️</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-                
-                const totalRow = document.createElement('tr');
-                totalRow.className = 'total-row';
-                totalRow.innerHTML = `
-                    <td colspan="6" style="text-align: right; font-weight: 700;">ИТОГО:</td>
-                    <td class="payment-cell" style="font-weight: 700;">${formatPayment(totalSum)} ₽</td>
-                    <td colspan="3"></td>
-                `;
-                tbody.appendChild(totalRow);
-            }
-            updateReport();
-        }
-
-        function clearForm() {
-            document.getElementById('clientId').value = generateDateTimeId();
-            document.getElementById('userName').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('carModel').value = '';
-            document.getElementById('visitDate').value = '';
-            document.getElementById('visitTime').value = '';
-            document.getElementById('oilChange').value = 'Нет';
-            document.getElementById('payment').value = '0';
-            document.getElementById('statusSelect').value = 'waiting';
-            document.getElementById('comment').value = '';
-            editingId = null;
-            document.getElementById('addBtn').style.display = 'inline-block';
-            document.getElementById('updateBtn').style.display = 'none';
-            document.getElementById('cancelEdit').style.display = 'none';
-        }
-
-        function fillFormForEdit(record) {
-            document.getElementById('clientId').value = record.id;
-            document.getElementById('userName').value = record.name || '';
-            document.getElementById('phone').value = record.phone || '';
-            document.getElementById('carModel').value = record.carModel || '';
-            document.getElementById('visitDate').value = record.visitDate || '';
-            document.getElementById('visitTime').value = record.visitTime || '';
-            document.getElementById('oilChange').value = record.oilChange || 'Нет';
-            document.getElementById('payment').value = record.payment || 0;
-            document.getElementById('statusSelect').value = record.status || 'waiting';
-            document.getElementById('comment').value = record.comment || '';
-            editingId = record.id;
-            document.getElementById('addBtn').style.display = 'none';
-            document.getElementById('updateBtn').style.display = 'inline-block';
-            document.getElementById('cancelEdit').style.display = 'inline-block';
-        }
-
-        function addRecord() {
-            const clientId = document.getElementById('clientId').value.trim();
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const carModel = document.getElementById('carModel').value.trim();
-            const visitDate = document.getElementById('visitDate').value;
-            const visitTime = document.getElementById('visitTime').value;
-            const oilChange = document.getElementById('oilChange').value;
-            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
-            const status = document.getElementById('statusSelect').value;
-            const comment = document.getElementById('comment').value.trim();
-
-            if (!name || !phone) {
-                alert('Пожалуйста, заполните имя и телефон.');
-                return;
-            }
-
-            if (records.some(r => r.id === clientId)) {
-                document.getElementById('clientId').value = generateDateTimeId() + '-1';
-                alert('Техническая ошибка: ID уже существует. Попробуйте снова.');
-                return;
-            }
-
-            const newRecord = {
-                id: clientId,
-                name,
-                phone,
-                carModel,
-                visitDate,
-                visitTime,
-                oilChange,
-                payment,
-                status,
-                comment,
-                createdBy: currentUser || 'Неизвестно',
-                createdByRole: currentUserRole || 'user'
-            };
-
-            records.push(newRecord);
-            
-            sendTelegramNotification(newRecord);
-            
-            saveToStorage();
-            updateYearFilter();
-            clearForm();
-            renderTable();
-        }
-
-        function updateRecord() {
-            const clientId = document.getElementById('clientId').value.trim();
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const carModel = document.getElementById('carModel').value.trim();
-            const visitDate = document.getElementById('visitDate').value;
-            const visitTime = document.getElementById('visitTime').value;
-            const oilChange = document.getElementById('oilChange').value;
-            const payment = document.getElementById('payment').value ? Number(document.getElementById('payment').value) : 0;
-            const status = document.getElementById('statusSelect').value;
-            const comment = document.getElementById('comment').value.trim();
-
-            if (!name || !phone) {
-                alert('Пожалуйста, заполните имя и телефон.');
-                return;
-            }
-
-            const index = records.findIndex(r => r.id === editingId);
-            if (index === -1) {
-                alert('Ошибка редактирования: запись не найдена.');
-                clearForm();
-                renderTable();
-                return;
-            }
-
-            if (editingId !== clientId && records.some(r => r.id === clientId)) {
-                alert('Запись с таким ID уже существует.');
-                return;
-            }
-
-            records[index] = {
-                ...records[index],
-                id: clientId,
-                name,
-                phone,
-                carModel,
-                visitDate,
-                visitTime,
-                oilChange,
-                payment,
-                status,
-                comment
-            };
-
-            saveToStorage();
-            updateYearFilter();
-            clearForm();
-            renderTable();
-        }
-
-        function deleteRecord(id) {
-            if (confirm('Удалить запись?')) {
-                records = records.filter(r => r.id !== id);
-                saveToStorage();
-                updateYearFilter();
-                if (editingId === id) clearForm();
-                renderTable();
-            }
-        }
-
-        function init() {
-            loadFromServer();
-
-            document.getElementById('clientId').value = generateDateTimeId();
-            
-            document.getElementById('addBtn').addEventListener('click', addRecord);
-            document.getElementById('updateBtn').addEventListener('click', updateRecord);
-            document.getElementById('cancelEdit').addEventListener('click', clearForm);
-            
-            document.getElementById('searchInput').addEventListener('input', renderTable);
-            
-            const statusCheckboxes = document.querySelectorAll('.status-checkbox');
-            statusCheckboxes.forEach(cb => {
-                cb.addEventListener('change', renderTable);
-            });
-
-            document.getElementById('oilYes').addEventListener('change', renderTable);
-            document.getElementById('oilNo').addEventListener('change', renderTable);
-            document.getElementById('oilSoon').addEventListener('change', renderTable);
-            
-            document.getElementById('yearFilter').addEventListener('change', renderTable);
-            document.getElementById('monthFilter').addEventListener('change', renderTable);
-
-            document.getElementById('tableBody').addEventListener('click', (e) => {
-                const target = e.target.closest('button');
-                if (!target) return;
-
-                const id = target.getAttribute('data-id');
-                if (target.classList.contains('delete-btn')) {
-                    deleteRecord(id);
-                } else if (target.classList.contains('edit-btn')) {
-                    const record = records.find(r => r.id === id);
-                    if (record) fillFormForEdit(record);
-                }
-            });
-
-            setInterval(() => {
-                if (document.getElementById('appScreen').style.display !== 'none') {
-                    loadFromServer();
-                }
-            }, 30000);
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    })();
-</script>
+      });
+    });
+  </script>
 </body>
 </html>
