@@ -16,19 +16,19 @@ const SITE_CONFIG = {
             icon: 'fa-brands fa-google-play', 
             text: 'Google Play', 
             class: '', 
-            url: '#'  // Замените на актуальную ссылку
+            url: 'https://vk.com/okhotaclub'  // Временная ссылка
         },
         { 
             icon: 'fa-brands fa-apple', 
             text: 'App Store', 
             class: '', 
-            url: '#'  // Замените на актуальную ссылку
+            url: 'https://vk.com/okhotaclub'  // Временная ссылка
         },
         { 
             icon: 'fa-solid fa-download', 
             text: 'Скачать для ПК', 
             class: '', 
-            url: '#'  // Замените на актуальную ссылку
+            url: 'https://vk.com/okhotaclub'  // Временная ссылка
         }
     ],
     
@@ -73,7 +73,7 @@ const SITE_CONFIG = {
         }
     ],
     
-    // Социальные сети
-    telegramUrl: 'https://vk.com/backsttage',  // Замените на актуальную ссылку
-    vkUrl: 'https://vk.com/backsttage'           // Замените на актуальную ссылку
+    // Социальные сети (ваши ссылки)
+    telegramUrl: 'https://t.me/arenda036',
+    vkUrl: 'https://vk.com/backsttage'
 };
