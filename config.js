@@ -1,8 +1,6 @@
-// Конфигурация JSONbin.io
-const JSONBIN_CONFIG = {
-    BIN_ID: '6990220aae596e708f29d5c7',
-    MASTER_KEY: '$2a$10$IpgKewWGXPB9KuNg9Vl7m.ygKQOa5d4CpJ7KNnPpA3tqEZR372ivi'
-};
+// ============================================
+// КОНФИГУРАЦИЯ САЙТА
+// ============================================
 
 // Конфигурация Telegram
 const TELEGRAM_CONFIG = {
@@ -10,14 +8,72 @@ const TELEGRAM_CONFIG = {
     CHAT_ID: '966869280'  // ВАШ ЛИЧНЫЙ ID
 };
 
-// Конфигурация авторизации с ролями
-const AUTH_CONFIG = {
-    USERS: [
-        { username: 'admin', password: 'admin', role: 'admin' },
-        { username: 'serg', password: '1233', role: 'user' },
-        { username: 'мастер', password: '1234', role: 'user' },
-        { username: 'менеджер', password: '1235', role: 'user' },
-        { username: 'директор', password: '1236', role: 'user' },
-        { username: 'бухгалтер', password: '1237', role: 'user' }
-    ]
+// Основная конфигурация сайта
+const SITE_CONFIG = {
+    // Кнопки скачивания
+    downloadButtons: [
+        { 
+            icon: 'fa-brands fa-google-play', 
+            text: 'Google Play', 
+            class: '', 
+            url: '#'  // Замените на актуальную ссылку
+        },
+        { 
+            icon: 'fa-brands fa-apple', 
+            text: 'App Store', 
+            class: '', 
+            url: '#'  // Замените на актуальную ссылку
+        },
+        { 
+            icon: 'fa-solid fa-download', 
+            text: 'Скачать для ПК', 
+            class: '', 
+            url: '#'  // Замените на актуальную ссылку
+        }
+    ],
+    
+    // Карточки преимуществ
+    features: [
+        {
+            icon: 'fa-brands fa-instagram',
+            title: 'Доступ к сервисам',
+            description: 'Instagram, YouTube, Telegram, WhatsApp, зарубежные поисковики и нейросети (ИИ).'
+        },
+        {
+            icon: 'fa-regular fa-circle-check',
+            title: 'Белый список',
+            description: 'Мы настроили доступ так, чтобы всё работало быстро и стабильно, без «тормозов».'
+        },
+        {
+            icon: 'fa-solid fa-globe',
+            title: 'Где можно пользоваться',
+            description: 'Android, iOS (iPhone/iPad), Windows. Одно устройство по одному коду.'
+        }
+    ],
+    
+    // Шаги получения доступа
+    steps: [
+        {
+            number: 1,
+            icon: 'fa-regular fa-key',
+            title: 'Получите код',
+            description: 'Заполните форму — мы пришлем код на email'
+        },
+        {
+            number: 2,
+            icon: 'fa-solid fa-laptop',
+            title: 'Выберите устройство',
+            description: 'Один код = одно устройство'
+        },
+        {
+            number: 3,
+            icon: 'fa-regular fa-circle-play',
+            title: 'Активируйте',
+            description: 'Скачайте приложение и вставьте код'
+        }
+    ],
+    
+    // Социальные сети
+    telegramUrl: 'https://vk.com/backsttage',  // Замените на актуальную ссылку
+    vkUrl: 'https://vk.com/backsttage'           // Замените на актуальную ссылку
 };
