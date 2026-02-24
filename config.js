@@ -74,6 +74,6 @@ const SITE_CONFIG = {
     ],
     
     // Социальные сети (ваши ссылки)
-    telegramUrl: 'https://t.me/arenda036',
-    vkUrl: 'https://vk.com/aftosetvpn'
+    telegramUrl: 'https://t.me/aftosetVPS',
+    vkUrl: 'https://vk.com/aftosetvps'
 };
